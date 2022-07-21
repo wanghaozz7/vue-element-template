@@ -235,6 +235,6 @@ export default {
 
 .custom-tree-container {
   width: 40vw;
-  padding: 2vh 2vw;
+  margin: 30px 30px;
 }
 </style>

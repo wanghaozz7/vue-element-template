@@ -1,14 +1,144 @@
 <template>
   <div>
-    Informationentry
+    <el-table :data="tableData" style="width: 100%;margin: 30px 30px;" :border="true" :highlight-current-row="true">
+
+      <el-table-column prop="item" label="加减分项目" width="180">
+      </el-table-column>
+      <el-table-column prop="content" label="检查内容" width="360">
+      </el-table-column>
+
+      <el-table-column prop="date" label="年级和班级" width="720">
+        <template slot-scope="scope" slot="header">
+          <!-- 年级 -->
+          <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
+            :clearable="true" style="margin-right: 10px;margin-left: 20px;">
+            <el-option v-for="item in option_grade" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- 班级 -->
+          <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
+            :clearable="true" style="margin-right: 20px;margin-left: 10px;">
+            <el-option v-for="item in option_class" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <!-- 学生 -->
+          <el-select v-model="selected_student" filterable allow-create default-first-option placeholder="学生"
+            :clearable="true">
+            <el-option v-for="item in option_student" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+      </el-table-column>
+
+
+
+    </el-table>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
   name: 'Informationentry',
   components: {
 
+  },
+  data() {
+    return {
+      tableData: [
+        {
+          item: '行为规范方面',
+          content: '发型、校服、校卡、首饰'
+        },
+        {
+          item: '品行方面',
+          content: '课间操表现、眼保健操表现'
+        },
+        {
+          item: '卫生方面',
+          content: '个人卫生、乱丢乱抛、边走边吃、11111111111111111111111111111111111111111111111111111111111111111111111'
+        },
+        {
+          item: '纪律方面',
+          content: '早读纪律、自习课纪律'
+        },
+        {
+          item: '学习方面',
+          content: '课堂表现、作业情况、考风表现'
+        },
+        {
+          item: '参与班级自治方面',
+          content: '参与学校、年纪互动'
+        },
+        {
+          item: '公德方面',
+          content: '尊敬师长、团结同学'
+        }
+      ],
+
+      selected_grade: '',
+      selected_class: '',
+      selected_student: '',
+      option_grade: [{
+        value: '初一',
+        label: '初一'
+      }, {
+        value: '初二',
+        label: '初二'
+      }, {
+        value: '初三',
+        label: '初三'
+      }, {
+        value: '高一',
+        label: '高一'
+      }, {
+        value: '高二',
+        label: '高二'
+      }, {
+        value: '高三',
+        label: '高三'
+      }],
+      option_class: [{
+        value: '1',
+        label: '1'
+      }, {
+        value: '2',
+        label: '2'
+      }, {
+        value: '3',
+        label: '3'
+      }, {
+        value: '4',
+        label: '4'
+      }, {
+        value: '5',
+        label: '5'
+      }, {
+        value: '6',
+        label: '6'
+      }],
+      option_student: [{
+        value: '王小虎',
+        label: '王小虎'
+      }, {
+        value: '张三',
+        label: '张三'
+      }, {
+        value: '李四',
+        label: '李四'
+      }, {
+        value: '王五',
+        label: '王五'
+      }, {
+        value: '赵钱孙',
+        label: '赵钱孙'
+      }, {
+        value: '张大锤',
+        label: '张大锤'
+      }, {
+        value: '小明',
+        label: '小明'
+      }],
+    }
   }
 };
 </script>
