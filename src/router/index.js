@@ -90,8 +90,9 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/moral',
     component: Layout,
+    redirect: '/moraleducation',
     children: [
       {
         path: 'moraleducation',
@@ -102,8 +103,9 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/info',
     component: Layout,
+    redirect: '/informationentry',
     children: [
       {
         path: 'informationentry',

@@ -1,32 +1,67 @@
 <template>
   <div>
-    <div class="custom-tree-container">
-      <div class="block">
-        <el-tree :data="data" show-checkbox node-key="id" expand-on-click-node="false">
+    <el-col>
+      <div class="custom-tree-container">
+        <el-input placeholder="输入关键字进行过滤" v-model="filterText">
+        </el-input>
+        <el-tree :data="data" show-checkbox node-key="id" :default-expand-all="false" :expand-on-click-node="false"
+          class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
+          style="margin-top: 5px;">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
             <span>
-              <el-button type="text" size="mini" @click="() => append(data)">
-                Append
-              </el-button>
-              <el-button type="text" size="mini" @click="() => remove(node, data)">
-                Delete
-              </el-button>
+              <!-- 添加 -->
+              <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder">
+                <el-input v-model="item" placeholder="新添加的指标"></el-input>
+                <div style="text-align: right; margin-top: 5px;">
+                  <el-button size="mini" type="text" @click="add_cancel(data)"><i class="el-icon-close"></i>
+                  </el-button>
+                  <el-button type="primary" size="mini" @click="add_item(data)"><i class="el-icon-check"></i>
+                  </el-button>
+                </div>
+                <el-button type="text" slot="reference" class="node-function"><i class="el-icon-plus"></i></el-button>
+              </el-popover>
+              <!-- 删除 -->
+              <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
+                <p>确认删除？</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="mini" type="text" @click="delete_cancel(data)"><i class="el-icon-close"></i>
+                  </el-button>
+                  <el-button type="primary" size="mini" @click="delete_item(node, data)"><i class="el-icon-check"></i>
+                  </el-button>
+                </div>
+                <el-button type="text" slot="reference" class="node-function"><i class="el-icon-minus"></i></el-button>
+              </el-popover>
+              <!--重命名-->
+              <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
+                <el-input v-model="item" placeholder="修改后的指标"></el-input>
+                <div style="text-align: right; margin-top: 5px">
+                  <el-button size="mini" type="text" @click="rename_cancel(data)"><i class="el-icon-close"></i>
+                  </el-button>
+                  <el-button type="primary" size="mini" @click="rename_item(data)"><i class="el-icon-check"></i>
+                  </el-button>
+                </div>
+                <el-button type="text" slot="reference" class="node-function">rename</el-button>
+              </el-popover>
             </span>
           </span>
         </el-tree>
       </div>
-    </div>
+    </el-col>
   </div>
-
 </template>
 
 <script>
-let id = 1000;
+let id = 29;
 export default {
   name: 'Moraleducation',
   components: {
 
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
+    }
   },
   data() {
     const data = [{
@@ -126,35 +161,59 @@ export default {
     }];
     return {
       data: JSON.parse(JSON.stringify(data)),
-      data: JSON.parse(JSON.stringify(data))
+      data: JSON.parse(JSON.stringify(data)),
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      filterText: '',
+      add_visible: [],
+      delete_visible: [],
+      rename_visible: [],
+      item: ''
     }
   },
-
   methods: {
     append(data) {
-      const newChild = { id: id++, label: 'testtest', children: [] };
+      const newChild = { id: id++, label: this.item, children: [] };
       if (!data.children) {
         this.$set(data, 'children', []);
       }
       data.children.push(newChild);
     },
-
     remove(node, data) {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex(d => d.id === data.id);
       children.splice(index, 1);
     },
-
-    renderContent(h, { node, data, store }) {
-      return (
-        <span class="custom-tree-node">
-          <span>{node.label}</span>
-          <span>
-            <el-button size="mini" type="text" on-click={() => this.append(data)}>Append</el-button>
-            <el-button size="mini" type="text" on-click={() => this.remove(node, data)}>Delete</el-button>
-          </span>
-        </span>);
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    },
+    add_item(data) {
+      this.$set(this.add_visible, data.id, false);
+      this.append(data);
+    },
+    add_cancel(data) {
+      this.$set(this.add_visible, data.id, false);
+    },
+    delete_item(node, data) {
+      this.$set(this.delete_visible, data.id, false);
+      this.remove(node, data);
+    },
+    delete_cancel(data) {
+      this.$set(this.delete_visible, data.id, false);
+    },
+    clean_holder() {
+      this.item = '';
+    },
+    rename_item(data) {
+      this.$set(this.rename_visible, data.id, false);
+      data.label = this.item;
+    },
+    rename_cancel(data) {
+      this.$set(this.rename_visible, data.id, false);
     }
   }
 };
@@ -170,7 +229,12 @@ export default {
   padding-right: 8px;
 }
 
-div.custom-tree-container {
-  width: 30vw;
+.node-function {
+  padding-left: 5px;
+}
+
+.custom-tree-container {
+  width: 40vw;
+  padding: 2vh 2vw;
 }
 </style>
