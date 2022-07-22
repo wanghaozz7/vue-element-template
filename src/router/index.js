@@ -203,6 +203,91 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/exercises',
+    component: Layout,
+    redirect: '/exercises/breakattendance',
+    meta: { title: 'Exercises', icon: 'form' },
+    children: [
+      {
+        path: 'breakattendance',
+        name: 'Breakattendance',
+        component: () => import('@/views/exercises/breakattendance'),
+        meta: { title: 'Break Attendance', icon: 'form' }
+      },
+      {
+        path: 'breakquality',
+        name: 'Breakquality',
+        component: () => import('@/views/exercises/breakquality'),
+        meta: { title: 'Break Quality', icon: 'form' }
+      },
+      {
+        path: 'eyeexercises',
+        name: 'Eyeexercises',
+        component: () => import('@/views/exercises/eyeexercises'),
+        meta: { title: 'Eye Exercises', icon: 'form' }
+      },
+      {
+        path: 'headmaster',
+        name: 'Headmaster',
+        component: () => import('@/views/exercises/headmaster'),
+        meta: { title: 'Head Master', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/dormitory',
+    component: Layout,
+    redirect: '/dormitory/dormitorydiscipline',
+    meta: { title: 'Dormitory', icon: 'form' },
+    children: [
+      {
+        path: 'dormitorydiscipline',
+        name: 'Dormitorydiscipline',
+        component: () => import('@/views/dormitory/dormitorydiscipline'),
+        meta: { title: 'Dormitory Discipline', icon: 'form' }
+      },
+      {
+        path: 'interior',
+        name: 'Interior',
+        component: () => import('@/views/dormitory/interior'),
+        meta: { title: 'Interior', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/environment',
+    component: Layout,
+    redirect: '/environment',
+    meta: { title: 'Environment', icon: 'form' },
+    children: [
+      {
+        path: 'public',
+        name: 'Public',
+        component: () => import('@/views/environment/public'),
+        meta: { title: 'Public', icon: 'form' }
+      },
+      {
+        path: 'rountine',
+        name: 'Rountine',
+        component: () => import('@/views/environment/routine'),
+        meta: { title: 'Rountine', icon: 'form' }
+      },
+      {
+        path: 'garbage',
+        name: 'Garbage',
+        component: () => import('@/views/environment/garbage'),
+        meta: { title: 'Garbage', icon: 'form' }
+      },
+      {
+        path: 'academicbuilding',
+        name: 'Academicbuilding',
+        component: () => import('@/views/environment/academicbuilding'),
+        meta: { title: 'Academic Building', icon: 'form' }
+      }
+
+    ]
+  },
+  {
     path: '/nested',
     component: Layout,
     redirect: '/nested/menu1',
