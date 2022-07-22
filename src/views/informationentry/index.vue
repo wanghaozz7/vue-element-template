@@ -39,29 +39,19 @@
         </template>
         <!-- 表内 -->
         <template slot-scope="{row}">
+          <!-- 加法器 -->
           <el-row :gutter="5" style="margin-left: 20px;">
-
             <el-col :span="8" :push="1">
-
               <el-input-number v-model="row.score" :min="-10" :max="10" label="描述文字">
               </el-input-number>
-
-
-
             </el-col>
             <el-col :span="13" :push="1">
               <!-- 备注 -->
               <el-input v-model="row.remark" placeholder="备注"></el-input>
             </el-col>
           </el-row>
-
-
-
         </template>
       </el-table-column>
-
-
-
     </el-table>
   </div>
 </template> 
@@ -75,6 +65,7 @@ export default {
   data() {
     return {
       tableData: [
+        // table数据
         {
           idx: 0,
           item: '行为规范方面',
@@ -187,37 +178,6 @@ export default {
       }, {
         value: '小明',
         label: '小明'
-      }],
-      item_score: [{//分值范围
-        value: '1',
-        label: '1',
-      }, {
-        value: '2',
-        label: '2'
-      }, {
-        value: '3',
-        label: '3'
-      }, {
-        value: '4',
-        label: '4'
-      }, {
-        value: '5',
-        label: '5'
-      }, {
-        value: '6',
-        label: '6'
-      }, {
-        value: '7',
-        label: '7'
-      }, {
-        value: '8',
-        label: '8'
-      }, {
-        value: '9',
-        label: '9'
-      }, {
-        value: '10',
-        label: '10'
       }]
     }
   }
