@@ -92,7 +92,7 @@ export const constantRoutes = [
   {
     path: '/moral',
     component: Layout,
-    redirect: '/moraleducation',
+    redirect: '/moral/moraleducation',
     children: [
       {
         path: 'moraleducation',
@@ -105,13 +105,100 @@ export const constantRoutes = [
   {
     path: '/info',
     component: Layout,
-    redirect: '/informationentry',
+    redirect: '/info/informationentry',
     children: [
       {
         path: 'informationentry',
         name: 'InformationEntry',
         component: () => import('@/views/informationentry'),
         meta: { title: 'Information Entry', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/discipline',
+    component: Layout,
+    redirect: '/discipline/attendance',
+    meta: { title: 'Discipline', icon: 'form' },
+    children: [
+      {
+        path: 'attendance',
+        name: 'Attendance',
+        component: () => import('@/views/discipline/attendance'),
+        meta: { title: 'Attendance', icon: 'form' }
+      },
+      {
+        path: 'daily',
+        name: 'Daily',
+        component: () => import('@/views/discipline/daily'),
+        meta: { title: 'Daily', icon: 'form' }
+      },
+      {
+        path: 'dining',
+        name: 'Dining',
+        component: () => import('@/views/discipline/dining'),
+        meta: { title: 'Dining', icon: 'form' }
+      },
+      {
+        path: 'flagraising',
+        name: 'Flagraising',
+        component: () => import('@/views/discipline/flagraising'),
+        meta: { title: 'Flag Raising', icon: 'form' }
+      },
+      {
+        path: 'late',
+        name: 'Late',
+        component: () => import('@/views/discipline/late'),
+        meta: { title: 'Late', icon: 'form' }
+      },
+      {
+        path: 'psychology',
+        name: 'Psychology',
+        component: () => import('@/views/discipline/psychology'),
+        meta: { title: 'Psychology', icon: 'form' }
+      },
+      {
+        path: 'punishment',
+        name: 'Punishment',
+        component: () => import('@/views/discipline/punishment'),
+        meta: { title: 'Punishment', icon: 'form' }
+      },
+      {
+        path: 'record',
+        name: 'Record',
+        component: () => import('@/views/discipline/record'),
+        meta: { title: 'Record', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/appearance',
+    component: Layout,
+    redirect: '/appearance/normal/dress',
+    meta: { title: 'Appearance', icon: 'form' },
+    children: [
+      {
+        path: 'normal',
+        name: 'Normal',
+        component: () => import('@/views/appearance/normal'),
+        meta: { title: 'Normal', icon: 'form' },
+        children: [{
+          path: 'dress',
+          name: 'Dress',
+          component: () => import('@/views/appearance/normal/dress'),
+          meta: { title: 'Dress', icon: 'form' }
+        },
+        {
+          path: 'hairstyle',
+          name: 'Hairstyle',
+          component: () => import('@/views/appearance/normal/hairstyle'),
+          meta: { title: 'HairStyle', icon: 'form' }
+        }, {
+          path: 'uniform',
+          name: 'Uniform',
+          component: () => import('@/views/appearance/normal/uniform'),
+          meta: { title: 'Uniform', icon: 'form' }
+        }]
       }
     ]
   },
