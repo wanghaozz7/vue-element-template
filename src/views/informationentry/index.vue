@@ -1,13 +1,11 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 1261px;margin: 30px 30px;" :border="true" :highlight-current-row="true">
-
-      <el-table-column prop="item" label="加减分项目" width="180px">
+    <el-table :data="tableData" style="width: 80vw;margin: 30px 30px;" :border="true" :highlight-current-row="true">
+      <el-table-column prop="item" label="加减分项目" min-width="20%">
       </el-table-column>
-      <el-table-column prop="content" label="检查内容" width="360px">
+      <el-table-column prop="content" label="检查内容" min-width="30%">
       </el-table-column>
-
-      <el-table-column prop="date" label="年级和班级" width="720px">
+      <el-table-column prop="date" label="年级和班级" min-width="50%">
         <!-- 表头 -->
         <template slot-scope="scope" slot="header">
           <el-row :gutter="25" style="margin-left: 10px;">
