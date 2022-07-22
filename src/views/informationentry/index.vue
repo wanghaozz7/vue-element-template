@@ -10,42 +10,50 @@
       <el-table-column prop="date" label="年级和班级" width="720">
         <!-- 表头 -->
         <template slot-scope="scope" slot="header">
-          <!-- 年级 -->
-          <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
-            :clearable="true" style="margin-right: 10px;margin-left: 20px;">
-            <el-option v-for="item in option_grade" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-          <!-- 班级 -->
-          <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
-            :clearable="true" style="margin-right: 20px;margin-left: 10px;">
-            <el-option v-for="item in option_class" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-          <!-- 学生 -->
-          <el-select v-model="selected_student" filterable allow-create default-first-option placeholder="学生"
-            :clearable="true">
-            <el-option v-for="item in option_student" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <el-row :gutter="25" style="margin-left: 10px;">
+            <el-col :span="7" :push="1">
+              <!-- 年级 -->
+              <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
+                :clearable="true">
+                <el-option v-for="item in option_grade" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="7" :push="1">
+              <!-- 班级 -->
+              <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
+                :clearable="true">
+                <el-option v-for="item in option_class" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="7" :push="1">
+              <!-- 学生 -->
+              <el-select v-model="selected_student" filterable allow-create default-first-option placeholder="学生"
+                :clearable="true">
+                <el-option v-for="item in option_student" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+          </el-row>
         </template>
         <!-- 表内 -->
         <template slot-scope="{row}">
-          <el-row :gutter="20">
-            <el-col :span="6">
+          <el-row :gutter="5" style="margin-left: 20px;">
+            <el-col :span="5" :push="1">
               <!-- 加减分开关 -->
               <el-switch v-model="row.judge" active-color="#ff4949 " inactive-color="#13ce66" active-text="减分"
-                inactive-text="加分" style="margin-top: 10px;margin-left: 20px;">
+                inactive-text="加分" style="margin-top: 10px;">
               </el-switch>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="4" :push="1">
               <!-- 分值 -->
               <el-select v-model="row.score" filterable allow-create default-first-option placeholder="分值">
                 <el-option v-for="item in item_score" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="14">
+            <el-col :span="12" :push="1">
               <!-- 备注 -->
               <el-input v-model="row.remark" placeholder="备注"></el-input>
             </el-col>
