@@ -90,6 +90,22 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/score',
+    component: Layout,
+    redirect: '/socre',
+    children: [
+      {
+        path: 'scoreall',
+        name: 'Scoreall',
+        component: () => import('@/views/score'),
+        meta: { title: 'Score', icon: 'form' },
+        children:[
+          
+        ]
+      }
+    ]
+  },
+  {
     path: '/moral',
     component: Layout,
     redirect: '/moral/moraleducation',
@@ -182,6 +198,7 @@ export const constantRoutes = [
         name: 'Normal',
         component: () => import('@/views/appearance/normal'),
         meta: { title: 'Normal', icon: 'form' },
+        redirect: '/appearance/normal/dress',
         children: [{
           path: 'dress',
           name: 'Dress',
