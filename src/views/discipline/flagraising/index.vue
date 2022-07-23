@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '就餐违纪',
-          content: '学生是否就餐违纪',
+          item: '升旗仪式',
+          content: '升旗仪式是否遵守纪律',
           score: 0,
           remark: '',
         }

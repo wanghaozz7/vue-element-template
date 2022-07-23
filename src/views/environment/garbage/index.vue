@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '垃圾分类',
+          content: '学生投放的垃圾是否按要求分类',
           score: 0,
           remark: '',
         }

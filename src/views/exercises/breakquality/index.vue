@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '课间质量',
+          content: '课间质量评比',
           score: 0,
           remark: '',
         }

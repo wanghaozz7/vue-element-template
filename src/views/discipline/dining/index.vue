@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '就餐违纪',
-          content: '学生是否就餐违纪',
+          item: '就餐违纪、外卖违纪',
+          content: '学生就餐是否违纪，取、吃外卖是否合规',
           score: 0,
           remark: '',
         }

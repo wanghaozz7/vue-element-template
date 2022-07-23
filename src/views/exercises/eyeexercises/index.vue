@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '眼保健操',
+          content: '学生是否完成眼保健操',
           score: 0,
           remark: '',
         }

@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '课间班主任出勤',
+          content: '课间活动班主任是否出勤',
           score: 0,
           remark: '',
         }

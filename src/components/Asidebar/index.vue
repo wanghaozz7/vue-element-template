@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu class="el-menu-vertical-demo" background-color="#304156" text-color="#fff" active-text-color="#ffd04b"
-      style="height: calc(100vh - 50px);" @open="handleOpen" @close="handleClose" router>
+      style="height: calc(100vh - 50px);" router>
       <el-submenu v-for="item in bar_item" :index=item.idx>
         <template slot="title">
           <span>{{ item.title }}</span>
@@ -27,12 +27,6 @@ export default {
 
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
   },
   props: {
     bar_item: {

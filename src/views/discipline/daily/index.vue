@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '日常违纪',
-          content: '学生是否违纪',
+          item: '日常违纪、学生安全检查',
+          content: '日常是否违纪、学生是否通过安全检查',
           score: 0,
           remark: '',
         }

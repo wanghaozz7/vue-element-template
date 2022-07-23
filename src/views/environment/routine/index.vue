@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '常规卫生',
+          content: '学生是否完成属于自己的常规卫生任务',
           score: 0,
           remark: '',
         }

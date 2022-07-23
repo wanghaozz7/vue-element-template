@@ -16,8 +16,8 @@ export default {
       tableData: [
         {
           idx: 0,
-          item: '出勤',
-          content: '学生是否出勤',
+          item: '宿舍内务',
+          content: '宿舍内务是否达到标准',
           score: 0,
           remark: '',
         }
