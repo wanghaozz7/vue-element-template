@@ -6,7 +6,15 @@
         <template slot="title">
           <span>{{ item.title }}</span>
         </template>
-        <el-menu-item v-for="child in item.children" :index=child.idx>{{ child.title }}</el-menu-item>
+        <!-- 二级指标继续扩展 -->
+        <el-menu-item v-if="item.idx !== '2'" v-for="child in item.children" :index=child.idx>{{ child.title }}
+        </el-menu-item>
+        <el-submenu v-else v-for="child in item.children" :index="child.idx">
+          <template slot="title">
+            <span> {{ child.title }}</span>
+          </template>
+          <el-menu-item v-for="grandson in child.children" :index="grandson.idx">{{ grandson.title }}</el-menu-item>
+        </el-submenu>
       </el-submenu>
     </el-menu>
   </div>
@@ -37,35 +45,35 @@ export default {
             children: [
               {
                 title: '升旗仪式',
-                idx: '1-1',
+                idx: '/score/discipline/flagraising',
                 children: []
               }, {
                 title: '出勤',
-                idx: '/discipline/attendance',
+                idx: '/score/discipline/attendance',
                 children: []
               }, {
                 title: '日常违纪、学生安全检查',
-                idx: '1-3',
+                idx: '/score/discipline/daily',
                 children: []
               }, {
                 title: '交心里委员晴雨表',
-                idx: '1-4',
+                idx: '/score/discipline/psychology',
                 children: []
               }, {
                 title: '学生检查晚修纪律',
-                idx: '1-5',
+                idx: '/score/discipline/late',
                 children: []
               }, {
                 title: '就餐违纪、外卖违纪',
-                idx: '1-6',
+                idx: '/score/discipline/dining',
                 children: []
               }, {
                 title: '接受处分',
-                idx: '1-7',
+                idx: '/score/discipline/punishment',
                 children: []
               }, {
                 title: '课堂班务日志上交',
-                idx: '1-8',
+                idx: '/discipline/record',
                 children: []
               }
             ]
@@ -75,21 +83,21 @@ export default {
             children: [
               {
                 title: '发型、校服、校卡、首饰',
-                idx: '2-1',
+                idx: '/score/appearance',
                 children: [
                   {
                     title: '发型',
-                    idx: '2-1-1',
+                    idx: '/score/appearance/normal/hairstyle',
                     children: []
                   },
                   {
                     title: '校服',
-                    idx: '2-1-2',
+                    idx: '/score/appearance/normal/uniform',
                     children: []
                   },
                   {
                     title: '装扮',
-                    idx: '2-1-3',
+                    idx: '/score/appearance/normal/dress',
                     children: []
                   }
                 ]
@@ -101,19 +109,19 @@ export default {
             children: [
               {
                 title: '课间学生出勤',
-                idx: '3-1',
+                idx: '/score/exercises/breakattendance',
                 children: []
               }, {
                 title: '课间班主任出勤',
-                idx: '3-2',
+                idx: '/score/exercises/headmaster',
                 children: []
               }, {
                 title: '课间质量',
-                idx: '3-3',
+                idx: '/score/exercises/breakquality',
                 children: []
               }, {
                 title: '眼保健操',
-                idx: '3-4',
+                idx: '/score/exercises/eyeexercises',
                 children: []
               }
             ]
@@ -123,11 +131,11 @@ export default {
             children: [
               {
                 title: '纪律',
-                idx: '4-1',
+                idx: '/score/dormitory/dormitorydiscipline',
                 children: []
               }, {
                 title: '内务',
-                idx: '4-2',
+                idx: '/score/dormitory/interiro',
                 children: []
               }
             ]
@@ -137,19 +145,19 @@ export default {
             children: [
               {
                 title: '公共卫生',
-                idx: '5-1',
+                idx: '/score/environment/public',
                 children: []
               }, {
                 title: '常规卫生',
-                idx: '5-2',
+                idx: '/score/environment/routine',
                 children: []
               }, {
                 title: '教学楼卫生',
-                idx: '5-3',
+                idx: '/score/environment/academicbuilding',
                 children: []
               }, {
                 title: '垃圾分类',
-                idx: '5-4',
+                idx: '/score/environment/garbage',
                 children: []
               }
             ]
