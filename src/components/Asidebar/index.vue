@@ -45,35 +45,35 @@ export default {
             children: [
               {
                 title: '升旗仪式',
-                idx: '/score/discipline/flagraising',
+                idx: '/score/index/discipline/flagraising',
                 children: []
               }, {
                 title: '出勤',
-                idx: '/score/discipline/attendance',
+                idx: '/score/index/discipline/attendance',
                 children: []
               }, {
                 title: '日常违纪、学生安全检查',
-                idx: '/score/discipline/daily',
+                idx: '/score/index/discipline/daily',
                 children: []
               }, {
                 title: '交心里委员晴雨表',
-                idx: '/score/discipline/psychology',
+                idx: '/score/index/discipline/psychology',
                 children: []
               }, {
                 title: '学生检查晚修纪律',
-                idx: '/score/discipline/late',
+                idx: '/score/index/discipline/late',
                 children: []
               }, {
                 title: '就餐违纪、外卖违纪',
-                idx: '/score/discipline/dining',
+                idx: '/score/index/discipline/dining',
                 children: []
               }, {
                 title: '接受处分',
-                idx: '/score/discipline/punishment',
+                idx: '/score/index/discipline/punishment',
                 children: []
               }, {
                 title: '课堂班务日志上交',
-                idx: '/discipline/record',
+                idx: '/score/index/discipline/record',
                 children: []
               }
             ]
@@ -83,21 +83,21 @@ export default {
             children: [
               {
                 title: '发型、校服、校卡、首饰',
-                idx: '/score/appearance',
+                idx: '/score/index/appearance',
                 children: [
                   {
                     title: '发型',
-                    idx: '/score/appearance/normal/hairstyle',
+                    idx: '/score/index/appearance/normal/hairstyle',
                     children: []
                   },
                   {
                     title: '校服',
-                    idx: '/score/appearance/normal/uniform',
+                    idx: '/score/index/appearance/normal/uniform',
                     children: []
                   },
                   {
                     title: '装扮',
-                    idx: '/score/appearance/normal/dress',
+                    idx: '/score/index/appearance/normal/dress',
                     children: []
                   }
                 ]
@@ -109,19 +109,19 @@ export default {
             children: [
               {
                 title: '课间学生出勤',
-                idx: '/score/exercises/breakattendance',
+                idx: '/score/index/exercises/breakattendance',
                 children: []
               }, {
                 title: '课间班主任出勤',
-                idx: '/score/exercises/headmaster',
+                idx: '/score/index/exercises/headmaster',
                 children: []
               }, {
                 title: '课间质量',
-                idx: '/score/exercises/breakquality',
+                idx: '/score/index/exercises/breakquality',
                 children: []
               }, {
                 title: '眼保健操',
-                idx: '/score/exercises/eyeexercises',
+                idx: '/score/index/exercises/eyeexercises',
                 children: []
               }
             ]
@@ -131,11 +131,11 @@ export default {
             children: [
               {
                 title: '纪律',
-                idx: '/score/dormitory/dormitorydiscipline',
+                idx: '/score/index/dormitory/dormitorydiscipline',
                 children: []
               }, {
                 title: '内务',
-                idx: '/score/dormitory/interiro',
+                idx: '/score/index/dormitory/interiro',
                 children: []
               }
             ]
@@ -145,19 +145,19 @@ export default {
             children: [
               {
                 title: '公共卫生',
-                idx: '/score/environment/public',
+                idx: '/score/index/environment/public',
                 children: []
               }, {
                 title: '常规卫生',
-                idx: '/score/environment/routine',
+                idx: '/score/index/environment/routine',
                 children: []
               }, {
                 title: '教学楼卫生',
-                idx: '/score/environment/academicbuilding',
+                idx: '/score/index/environment/academicbuilding',
                 children: []
               }, {
                 title: '垃圾分类',
-                idx: '/score/environment/garbage',
+                idx: '/score/index/environment/garbage',
                 children: []
               }
             ]

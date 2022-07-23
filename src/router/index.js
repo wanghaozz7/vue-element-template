@@ -93,178 +93,187 @@ export const constantRoutes = [
     path: '/score',
     component: Layout,
     meta: { title: 'Score', icon: 'form' },
-    redirect: '/score/discipline',
+    redirect: '/score/index/discipline',
     children: [
       {
         hidden: true,
-        path: 'discipline',
-        name: 'Discipline',
-        component: () => import('@/views/discipline'),
-        meta: { title: 'Discipline', icon: 'form' },
-        redirect: '/score/discipline/attendance',
+        path: 'index',
+        component: () => import('@/views/score'),
+        meta: { title: 'Score', icon: 'form' },
+        redirect: '/score/index/discipline/attendance',
         children: [
           {
-            path: 'attendance',
-            name: 'Attendacne',
-            component: () => import('@/views/discipline/attendance'),
-            meta: { title: 'Attendance', icon: 'form' }
-          },
-          {
-            path: 'daily',
-            name: 'Daily',
-            component: () => import('@/views/discipline/daily'),
-            meta: { title: 'Daily', icon: 'form' }
-          }, {
-            path: 'dining',
-            name: 'Dining',
-            component: () => import('@/views/discipline/dining'),
-            meta: { title: 'Dining', icon: 'form' }
-          }, {
-            path: 'late',
-            name: 'Late',
-            component: () => import('@/views/discipline/late'),
-            meta: { title: 'Late', icon: 'form' }
-          }, {
-            path: 'flagraising',
-            name: 'Flagraising',
-            component: () => import('@/views/discipline/flagraising'),
-            meta: { title: 'Flagraising', icon: 'form' }
-          }, {
-            path: 'psychology',
-            name: 'Psychology',
-            component: () => import('@/views/discipline/psychology'),
-            meta: { title: 'Psychology', icon: 'form' }
-          }, {
-            path: 'punishment',
-            name: 'Punishment',
-            component: () => import('@/views/discipline/punishment'),
-            meta: { title: 'Punishment', icon: 'form' }
-          }, {
-            path: 'record',
-            name: 'Record',
-            component: () => import('@/views/discipline/record'),
-            meta: { title: 'Record', icon: 'form' }
-          }
-        ]
-      },
-      {
-        hidden: true,
-        path: 'appearance',
-        name: 'Appearance',
-        component: () => import('@/views/appearance'),
-        meta: { title: 'Appearance', icon: 'form' },
-        children: [
-          {
-            path: 'normal',
-            name: 'Normal',
-            component: () => import('@/views/appearance/normal'),
-            meta: { title: 'Normal', icon: 'form' },
+            hidden: true,
+            path: 'discipline',
+            name: 'Discipline',
+            component: () => import('@/views/discipline'),
+            meta: { title: 'Discipline', icon: 'form' },
+            redirect: '/score/index/discipline/attendance',
             children: [
               {
-                path: 'dress',
-                name: 'Dress',
-                component: () => import('@/views/appearance/normal/dress'),
-                meta: { title: 'Dress', icon: 'form' }
+                path: 'attendance',
+                name: 'Attendacne',
+                component: () => import('@/views/discipline/attendance'),
+                meta: { title: 'Attendance', icon: 'form' }
               },
               {
-                path: 'hairstyle',
-                name: 'Hairstyle',
-                component: () => import('@/views/appearance/normal/hairstyle'),
-                meta: { title: 'Hairstyle', icon: 'form' }
-              },
-              {
-                path: 'uniform',
-                name: 'Uniform',
-                component: () => import('@/views/appearance/normal/uniform'),
-                meta: { title: 'uniform', icon: 'form' }
+                path: 'daily',
+                name: 'Daily',
+                component: () => import('@/views/discipline/daily'),
+                meta: { title: 'Daily', icon: 'form' }
+              }, {
+                path: 'dining',
+                name: 'Dining',
+                component: () => import('@/views/discipline/dining'),
+                meta: { title: 'Dining', icon: 'form' }
+              }, {
+                path: 'late',
+                name: 'Late',
+                component: () => import('@/views/discipline/late'),
+                meta: { title: 'Late', icon: 'form' }
+              }, {
+                path: 'flagraising',
+                name: 'Flagraising',
+                component: () => import('@/views/discipline/flagraising'),
+                meta: { title: 'Flagraising', icon: 'form' }
+              }, {
+                path: 'psychology',
+                name: 'Psychology',
+                component: () => import('@/views/discipline/psychology'),
+                meta: { title: 'Psychology', icon: 'form' }
+              }, {
+                path: 'punishment',
+                name: 'Punishment',
+                component: () => import('@/views/discipline/punishment'),
+                meta: { title: 'Punishment', icon: 'form' }
+              }, {
+                path: 'record',
+                name: 'Record',
+                component: () => import('@/views/discipline/record'),
+                meta: { title: 'Record', icon: 'form' }
               }
             ]
-          }
-        ]
-      },
-      {
-        hidden: true,
-        path: 'dormitory',
-        name: 'Dormitory',
-        component: () => import('@/views/dormitory'),
-        meta: { title: 'Dormitory', icon: 'form' },
-        children: [
-          {
-            path: 'dormitorydiscipline',
-            name: 'DormitoryDiscipline',
-            component: () => import('@/views/dormitory/dormitorydiscipline'),
-            meta: { title: 'DormitoryDiscipline', icon: 'form' }
           },
           {
-            path: 'interiro',
-            name: 'Interiro',
-            component: () => import('@/views/dormitory/interior'),
-            meta: { title: 'Interiro', icon: 'form' }
-          }
-        ]
-      },
-      {
-        hidden: true,
-        path: 'environment',
-        name: 'Environment',
-        component: () => import('@/views/environment'),
-        meta: { title: 'Environment', icon: 'form' },
-        children: [
-          {
-            path: 'academicbuilding',
-            name: 'AcademicBuilding',
-            component: () => import('@/views/environment/academicbuilding'),
-            meta: { title: 'AcademicBuilding', icon: 'form' }
+            hidden: true,
+            path: 'appearance',
+            name: 'Appearance',
+            component: () => import('@/views/appearance'),
+            meta: { title: 'Appearance', icon: 'form' },
+            children: [
+              {
+                path: 'normal',
+                name: 'Normal',
+                component: () => import('@/views/appearance/normal'),
+                meta: { title: 'Normal', icon: 'form' },
+                children: [
+                  {
+                    path: 'dress',
+                    name: 'Dress',
+                    component: () => import('@/views/appearance/normal/dress'),
+                    meta: { title: 'Dress', icon: 'form' }
+                  },
+                  {
+                    path: 'hairstyle',
+                    name: 'Hairstyle',
+                    component: () => import('@/views/appearance/normal/hairstyle'),
+                    meta: { title: 'Hairstyle', icon: 'form' }
+                  },
+                  {
+                    path: 'uniform',
+                    name: 'Uniform',
+                    component: () => import('@/views/appearance/normal/uniform'),
+                    meta: { title: 'uniform', icon: 'form' }
+                  }
+                ]
+              }
+            ]
           },
           {
-            path: 'garbage',
-            name: 'Garbage',
-            component: () => import('@/views/environment/garbage'),
-            meta: { title: 'Garbage', icon: 'form' }
+            hidden: true,
+            path: 'dormitory',
+            name: 'Dormitory',
+            component: () => import('@/views/dormitory'),
+            meta: { title: 'Dormitory', icon: 'form' },
+            children: [
+              {
+                path: 'dormitorydiscipline',
+                name: 'DormitoryDiscipline',
+                component: () => import('@/views/dormitory/dormitorydiscipline'),
+                meta: { title: 'DormitoryDiscipline', icon: 'form' }
+              },
+              {
+                path: 'interiro',
+                name: 'Interiro',
+                component: () => import('@/views/dormitory/interior'),
+                meta: { title: 'Interiro', icon: 'form' }
+              }
+            ]
           },
           {
-            path: 'public',
-            name: 'Public',
-            component: () => import('@/views/environment/public'),
-            meta: { title: 'Garbage', icon: 'form' }
+            hidden: true,
+            path: 'environment',
+            name: 'Environment',
+            component: () => import('@/views/environment'),
+            meta: { title: 'Environment', icon: 'form' },
+            children: [
+              {
+                path: 'academicbuilding',
+                name: 'AcademicBuilding',
+                component: () => import('@/views/environment/academicbuilding'),
+                meta: { title: 'AcademicBuilding', icon: 'form' }
+              },
+              {
+                path: 'garbage',
+                name: 'Garbage',
+                component: () => import('@/views/environment/garbage'),
+                meta: { title: 'Garbage', icon: 'form' }
+              },
+              {
+                path: 'public',
+                name: 'Public',
+                component: () => import('@/views/environment/public'),
+                meta: { title: 'Garbage', icon: 'form' }
+              },
+              {
+                path: 'routine',
+                name: 'Routine',
+                component: () => import('@/views/environment/routine'),
+                meta: { title: 'Routine', icon: 'form' }
+              }
+            ]
           },
           {
-            path: 'routine',
-            name: 'Routine',
-            component: () => import('@/views/environment/routine'),
-            meta: { title: 'Routine', icon: 'form' }
-          }
-        ]
-      },
-      {
-        hidden: true,
-        path: 'exercises',
-        name: 'Exercises',
-        component: () => import('@/views/exercises'),
-        meta: { title: 'Exercises', icon: 'form' },
-        children: [
-          {
-            path: 'breakattendance',
-            name: 'BreakAttendance',
-            component: () => import('@/views/exercises/breakattendance'),
-            meta: { title: 'BreakAttendance', icon: 'form' }
-          },
-          {
-            path: 'breakquality',
-            name: 'BreakQuality',
-            component: () => import('@/views/exercises/breakquality'),
-            meta: { title: 'BreakQuality', icon: 'form' }
-          }, {
-            path: 'eyeexercises',
-            name: 'EyeExercises',
-            component: () => import('@/views/exercises/eyeexercises'),
-            meta: { title: 'EyeExercises', icon: 'form' }
-          },
-          {
-            path: 'headmaster',
-            name: 'HeadMaster',
-            component: () => import('@/views/exercises/headmaster'),
-            meta: { title: 'HeadMaster', icon: 'form' }
+            hidden: true,
+            path: 'exercises',
+            name: 'Exercises',
+            component: () => import('@/views/exercises'),
+            meta: { title: 'Exercises', icon: 'form' },
+            children: [
+              {
+                path: 'breakattendance',
+                name: 'BreakAttendance',
+                component: () => import('@/views/exercises/breakattendance'),
+                meta: { title: 'BreakAttendance', icon: 'form' }
+              },
+              {
+                path: 'breakquality',
+                name: 'BreakQuality',
+                component: () => import('@/views/exercises/breakquality'),
+                meta: { title: 'BreakQuality', icon: 'form' }
+              }, {
+                path: 'eyeexercises',
+                name: 'EyeExercises',
+                component: () => import('@/views/exercises/eyeexercises'),
+                meta: { title: 'EyeExercises', icon: 'form' }
+              },
+              {
+                path: 'headmaster',
+                name: 'HeadMaster',
+                component: () => import('@/views/exercises/headmaster'),
+                meta: { title: 'HeadMaster', icon: 'form' }
+              }
+            ]
           }
         ]
       }
