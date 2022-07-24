@@ -4,6 +4,22 @@
       <div class="custom-tree-container">
         <el-input placeholder="输入关键字进行过滤" v-model="filterText">
         </el-input>
+        <div style="height: 6vh;position: relative;">
+          <span
+            style="margin-top: 20px;height: 40px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: bolder;position: absolute;left:10px;">德育量化指标</span>
+          <span style="position: absolute;right:10px;margin-top: 10px;">
+            <el-popover placement="bottom" width="300" v-model="root_visible" @hide="clean_holder">
+              <el-input v-model="item" placeholder="新添加的指标"></el-input>
+              <div style="text-align: right; margin-top: 5px;">
+                <el-button size="mini" type="text" @click="root_cancel(data)"><i class="el-icon-close"></i>
+                </el-button>
+                <el-button type="primary" size="mini" @click="root_item(data)"><i class="el-icon-check"></i>
+                </el-button>
+              </div>
+              <el-button type="text" slot="reference" class="node-function">添加一级指标</el-button>
+            </el-popover>
+          </span>
+        </div>
         <el-tree :data="data" show-checkbox node-key="id" :default-expand-all="false" :expand-on-click-node="false"
           class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
           style="margin-top: 5px;">
@@ -53,12 +69,8 @@
 </template>
 
 <script>
-let id = 29;
 export default {
   name: 'Moraleducation',
-  components: {
-
-  },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
@@ -66,133 +78,6 @@ export default {
   },
   data() {
     const data = this.$store.state.target.target;
-    console.log(data);
-
-    // [
-    //   {
-    //   id: 1,
-    //   label: '学风纪律',
-    //   level: 1,
-    //   children: [{
-    //     id: 8,
-    //     label: '升旗仪式',
-    //     level: 2
-    //   }, {
-    //     id: 9,
-    //     label: '出勤',
-    //     level: 2
-    //   }, {
-    //     id: 10,
-    //     label: '日常违纪、学生安全违纪',
-    //     level: 2
-    //   }, {
-    //     id: 11,
-    //     label: '就餐违纪、外卖违纪',
-    //     level: 2
-    //   }, {
-    //     id: 12,
-    //     label: '行李乱摆放',
-    //     level: 2
-    //   }, {
-    //     id: 13,
-    //     label: '学生检查晚修纪律',
-    //     level: 2
-    //   }, {
-    //     id: 14,
-    //     label: '接受处分',
-    //     level: 2
-    //   }, {
-    //     id: 15,
-    //     label: '课堂班务日志上交',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 2,
-    //   label: '仪容仪表',
-    //   level: 1,
-    //   children: [{
-    //     id: 16,
-    //     label: '发型、校服、校卡、首饰',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 3,
-    //   label: '两操',
-    //   level: 1,
-    //   children: [{
-    //     id: 17,
-    //     label: '课间学生出勤',
-    //     level: 2
-    //   }, {
-    //     id: 18,
-    //     label: '课间班主任出勤',
-    //     level: 2
-    //   }, {
-    //     id: 19,
-    //     label: '课间质量',
-    //     level: 2
-    //   }, {
-    //     id: 20,
-    //     label: '眼保健操',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 4,
-    //   label: '宿舍检查',
-    //   level: 1,
-    //   children: [{
-    //     id: 21,
-    //     label: '纪律',
-    //     level: 2
-    //   }, {
-    //     id: 22,
-    //     label: '内务',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 5,
-    //   label: '环境卫生',
-    //   level: 1,
-    //   children: [{
-    //     id: 23,
-    //     label: '公共卫生',
-    //     level: 2
-    //   }, {
-    //     id: 24,
-    //     label: '常规卫生（学生会检查）',
-    //     level: 2
-    //   }, {
-    //     id: 25,
-    //     label: '教学楼日常卫生检查',
-    //     level: 2
-    //   }, {
-    //     id: 26,
-    //     label: '垃圾分类',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 6,
-    //   label: '行政检查',
-    //   level: 1,
-    //   children: [{
-    //     id: 27,
-    //     label: '晚修等级评价',
-    //     level: 2
-    //   }, {
-    //     id: 28,
-    //     label: '早读等级评价',
-    //     level: 2
-    //   }]
-    // }, {
-    //   id: 7,
-    //   label: '年级评估',
-    //   level: 1,
-    //   children: [{
-    //     id: 29,
-    //     label: '年纪安排检查、考试违纪、手机违纪、考勤、年纪活动、课堂状态、仪容仪表',
-    //     level: 2
-    //   }]
-    // }];
     return {
       data: JSON.parse(JSON.stringify(data)),
       data: JSON.parse(JSON.stringify(data)),
@@ -204,18 +89,27 @@ export default {
       add_visible: [],
       delete_visible: [],
       rename_visible: [],
+      root_visible: false,
       item: ''
     }
   },
   methods: {
-    append(data) {
-      const newChild = { id: id++, label: this.item, children: [] };
+    append(data) {//在树中添加节点
+      const id = this.$store.state.count;
+      const newChild = { id: id, label: this.item, children: [] };
       if (!data.children) {
         this.$set(data, 'children', []);
       }
       data.children.push(newChild);
     },
-    remove(node, data) {
+    append_root() {
+      const id = this.$store.state.count;
+      const newChild = { id: id, label: this.item, children: [] };
+      this.data.push(newChild);
+      console.log('append_root');
+      console.log(this.data);
+    },
+    remove(node, data) {//在树中删除节点
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex(d => d.id === data.id);
@@ -225,28 +119,56 @@ export default {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    add_item(data) {
-      this.$set(this.add_visible, data.id, false);
+    add_item(data) {//确认添加
+
       this.append(data);
-    },
-    add_cancel(data) {
+      const info = {
+        id: data.id,
+        level: data.level,
+        item: this.item
+      }
+      this.$store.commit('add_node', info);
       this.$set(this.add_visible, data.id, false);
     },
-    delete_item(node, data) {
-      this.$set(this.delete_visible, data.id, false);
-      this.remove(node, data);
+    add_cancel(data) {//取消添加
+      this.$set(this.add_visible, data.id, false);
     },
-    delete_cancel(data) {
+    root_item() {
+      this.append_root();
+      this.$store.commit('add_root', this.item);
+      this.root_visible = false;
+    },
+    root_cancel() {
+      this.root_visible = false;
+    },
+    delete_item(node, data) {//确认删除
+
+      this.remove(node, data);
+      const info = {
+        id: data.id,
+        level: data.level,
+        item: this.item
+      }
+      this.$store.commit('delete_node', info);
+      this.$set(this.delete_visible, data.id, false);
+    },
+    delete_cancel(data) {//取消删除
       this.$set(this.delete_visible, data.id, false);
     },
     clean_holder() {
       this.item = '';
     },
-    rename_item(data) {
+    rename_item(data) {//确认重命名
       this.$set(this.rename_visible, data.id, false);
       data.label = this.item;
+      const info = {
+        id: data.id,
+        level: data.level,
+        item: this.item
+      }
+      this.$store.commit('rename_node', info);
     },
-    rename_cancel(data) {
+    rename_cancel(data) {//取消重命名
       this.$set(this.rename_visible, data.id, false);
     }
   }
