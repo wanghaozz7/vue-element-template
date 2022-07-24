@@ -20,7 +20,7 @@
             </el-popover>
           </span>
         </div>
-        <el-tree :data="data" show-checkbox node-key="id" :default-expand-all="false" :expand-on-click-node="false"
+        <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
           class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
           style="margin-top: 5px;">
           <span class="custom-tree-node" slot-scope="{ node, data }">
