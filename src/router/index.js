@@ -158,6 +158,7 @@ export const constantRoutes = [
             hidden: true,
             path: 'appearance',
             name: 'Appearance',
+            redirect: '/score/index/appearance/normal',
             component: () => import('@/views/appearance'),
             meta: { title: 'Appearance', icon: 'form' },
             children: [
@@ -166,6 +167,7 @@ export const constantRoutes = [
                 name: 'Normal',
                 component: () => import('@/views/appearance/normal'),
                 meta: { title: 'Normal', icon: 'form' },
+                redirect: '/score/index/appearance/normal/dress',
                 children: [
                   {
                     path: 'dress',
@@ -195,6 +197,7 @@ export const constantRoutes = [
             name: 'Dormitory',
             component: () => import('@/views/dormitory'),
             meta: { title: 'Dormitory', icon: 'form' },
+            redirect: '/score/index/dormitory/dormitorydiscipline',
             children: [
               {
                 path: 'dormitorydiscipline',
@@ -216,6 +219,7 @@ export const constantRoutes = [
             name: 'Environment',
             component: () => import('@/views/environment'),
             meta: { title: 'Environment', icon: 'form' },
+            redirect: '/score/index/environment/academicbuilding',
             children: [
               {
                 path: 'academicbuilding',
@@ -249,6 +253,7 @@ export const constantRoutes = [
             name: 'Exercises',
             component: () => import('@/views/exercises'),
             meta: { title: 'Exercises', icon: 'form' },
+            redirect: '/score/index/exercises/breakattendance',
             children: [
               {
                 path: 'breakattendance',
