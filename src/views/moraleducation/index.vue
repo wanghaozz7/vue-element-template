@@ -125,7 +125,8 @@ export default {
       const info = {
         id: data.id,
         level: data.level,
-        item: this.item
+        label: this.item,
+        content:'无',
       }
       this.$store.commit('add_node', info);
       this.$set(this.add_visible, data.id, false);

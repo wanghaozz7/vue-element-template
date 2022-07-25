@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 80vw;margin: 30px 30px;" :border="true" :highlight-current-row="true">
-      <el-table-column prop="item" label="加减分项目" min-width="20%">
+      <el-table-column prop="label" label="加减分项目" min-width="20%">
       </el-table-column>
       <el-table-column prop="content" label="检查内容" min-width="30%">
       </el-table-column>
-      <el-table-column prop="date" label="年级和班级" min-width="50%">
+      <el-table-column prop="data" label="年级和班级" min-width="50%">
         <!-- 表头 -->
         <template slot-scope="scope" slot="header">
           <el-row :gutter="25" style="margin-left: 10px;">
@@ -67,49 +67,49 @@ export default {
         return [
           {
             idx: 0,
-            item: '行为规范方面',
+            label: '行为规范方面',
             content: '发型、校服、校卡、首饰',
             score: 0,
             remark: '',
           },
           {
             idx: 1,
-            item: '品行方面',
+            label: '品行方面',
             content: '课间操表现、眼保健操表现',
             score: 0,
             remark: '',
           },
           {
             idx: 2,
-            item: '卫生方面',
+            label: '卫生方面',
             content: '个人卫生、乱丢乱抛、边走边吃、11111111111111111111111111111111111111111111111111111111111111111111111',
             score: 0,
             remark: '',
           },
           {
             idx: 3,
-            item: '纪律方面',
+            label: '纪律方面',
             content: '早读纪律、自习课纪律',
             score: 0,
             remark: '',
           },
           {
             idx: 4,
-            item: '学习方面',
+            label: '学习方面',
             content: '课堂表现、作业情况、考风表现',
             score: 0,
             remark: '',
           },
           {
             idx: 5,
-            item: '参与班级自治方面',
+            label: '参与班级自治方面',
             content: '参与学校、年纪互动',
             score: 0,
             remark: '',
           },
           {
             idx: 6,
-            item: '公德方面',
+            label: '公德方面',
             content: '尊敬师长、团结同学',
             score: 0,
             remark: '',
