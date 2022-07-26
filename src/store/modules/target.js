@@ -31,7 +31,7 @@ const state = {
         children: []
       }, {
         id: 12,
-        label: '叫心里委员晴雨表',
+        label: '交心里委员晴雨表',
         level: 2,
         content: '是否按时、合规上交晴雨表给心里委员',
         children: []
