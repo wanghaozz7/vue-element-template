@@ -63,7 +63,7 @@
       </el-tree>
     </div>
     <div class="tree-table">
-      <TreeTable></TreeTable>
+      <TreeTable :tableData="table_data"></TreeTable>
     </div>
   </div>
 </template>
@@ -81,7 +81,60 @@ export default {
     }
   },
   data() {
-    const data = this.$store.state.target.target;
+    let data = this.$store.state.target.target;
+    let table_data = [];
+    let tree_count = [];
+    for (let t1 of data) {
+      let target1 = t1.label;
+      let col_1 = 0;
+      let col_2 = [];
+      let idx = 0;
+      if (t1.children.length !== 0) {
+        for (let t2 of t1.children) {
+          let target2 = t2.label;
+          if (t2.children.length !== 0) {
+            col_1 += t2.children.length;
+            col_2[idx++] = t2.children.length;
+            tree_count.push({
+              col_1,
+              col_2
+            });
+            for (let t3 of t2.children) {
+              let target3 = t3.label;
+              let table_item = {
+                target1,
+                target2,
+                target3
+              };
+              table_data.push(table_item);
+            }
+          } else {
+            col_1 = t1.children.length;
+            col_2[idx++] = 1;
+            tree_count.push({
+              col_1,
+              col_2
+            });
+            let table_item = {
+              target1,
+              target2,
+              target3: ''
+            };
+            table_data.push(table_item);
+          }
+        }
+      } else {
+        let table_item = {
+          target1,
+          target2: '',
+          target3: ''
+        };
+        table_data.push(table_item);
+      }
+
+    }
+    console.log(tree_count);
+
     return {
       data: JSON.parse(JSON.stringify(data)),
       data: JSON.parse(JSON.stringify(data)),
@@ -94,7 +147,9 @@ export default {
       delete_visible: [],
       rename_visible: [],
       root_visible: false,
-      item: ''
+      item: '',
+      table_data,
+      tree_count
     }
   },
   methods: {
