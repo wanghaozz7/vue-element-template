@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import M from 'minimatch';
+
 export default {
   name: 'TreeTable',
   props: {
@@ -126,19 +128,19 @@ export default {
         return [
           {
             col_1: 8,
-            col_2: -1
+            col_2: [1, 1, 1, 1, 1, 1, 1, 1]
           }, {
             col_1: 3,
-            col_2: 3
+            col_2: [3]
           }, {
             col_1: 4,
-            col_2: -1
+            col_2: [1, 1, 1, 1]
           }, {
             col_1: 2,
-            col_2: -1
+            col_2: [1, 1]
           }, {
             col_1: 4,
-            col_2: -1
+            col_2: [1, 1, 1, 1]
           }]
       }
     }
@@ -161,7 +163,7 @@ export default {
         }
       } else if (columnIndex === 1) {//二级指标
         if (rowIndex === this.treeCount[0].col_1) {
-          return [this.treeCount[1].col_2, 1]
+          return [this.treeCount[1].col_2[0], 1]
         }
         else if (rowIndex === this.treeCount[0].col_1 + 1 || rowIndex === this.treeCount[0].col_1 + 2) {
           return [0, 0];

@@ -87,18 +87,14 @@ export default {
     for (let t1 of data) {
       let target1 = t1.label;
       let col_1 = 0;
-      let col_2 = [];
-      let idx = 0;
+      let col_2 = []
       if (t1.children.length !== 0) {
+        let idx = 0;
         for (let t2 of t1.children) {
           let target2 = t2.label;
           if (t2.children.length !== 0) {
             col_1 += t2.children.length;
             col_2[idx++] = t2.children.length;
-            tree_count.push({
-              col_1,
-              col_2
-            });
             for (let t3 of t2.children) {
               let target3 = t3.label;
               let table_item = {
@@ -109,12 +105,8 @@ export default {
               table_data.push(table_item);
             }
           } else {
-            col_1 = t1.children.length;
+            col_1 += 1;
             col_2[idx++] = 1;
-            tree_count.push({
-              col_1,
-              col_2
-            });
             let table_item = {
               target1,
               target2,
@@ -131,7 +123,11 @@ export default {
         };
         table_data.push(table_item);
       }
-
+      let item = {
+        col_1,
+        col_2
+      }
+      tree_count.push(item);
     }
     console.log(tree_count);
 
