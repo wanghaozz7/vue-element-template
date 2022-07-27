@@ -1,11 +1,14 @@
 <template>
   <div>
-    <el-menu class="el-menu-vertical-demo" background-color="#304156" text-color="#fff" active-text-color="#ffd04b"
-      style="height: calc(100vh - 50px);" @select="handleSelect" default-active="出勤">
+    <el-menu class="el-menu-vertical-demo" background-color="#acacac" text-color="#084b8e" active-text-color="#ffd04b"
+      style="height: calc(100vh - 50px);margin-left: 10px;width: 12vw;" @select="handleSelect" default-active="出勤">
       <!-- 一级指标 -->
       <el-submenu v-for="item_1 in bar_item" :index="item_1.label">
         <template slot="title">
-          <span>{{ item_1.label }}</span>
+          <span>
+
+            {{ item_1.label }}
+          </span>
         </template>
         <div v-for="item_2 in item_1.children">
           <!-- 二级指标 -->

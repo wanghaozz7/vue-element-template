@@ -34,7 +34,8 @@
                 <el-button type="primary" size="mini" @click="add_item(data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-plus"></i></el-button>
+              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
+              </el-button>
             </el-popover>
             <!-- 删除 -->
             <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
@@ -45,7 +46,8 @@
                 <el-button type="primary" size="mini" @click="delete_item(node, data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-minus"></i></el-button>
+              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-remove-outline"></i>
+              </el-button>
             </el-popover>
             <!--重命名-->
             <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
@@ -56,7 +58,7 @@
                 <el-button type="primary" size="mini" @click="rename_item(data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
-              <el-button type="text" slot="reference" class="node-function">rename</el-button>
+              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i></el-button>
             </el-popover>
           </span>
         </span>
@@ -244,7 +246,7 @@ export default {
 }
 
 .custom-tree-container {
-  width: calc(45vw - 210px);
+  width: 30vw;
   margin: 2vh 1vw;
   float: left;
 }

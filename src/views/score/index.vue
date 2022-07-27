@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container style="height: calc(100vh - 50px);">
-      <el-aside style="height: calc(100vh - 50px);" width="230px">
+      <el-aside style="height: calc(100vh - 50px);">
         <AsideBar :bar_item="target" @func="change_active"></AsideBar>
       </el-aside>
       <el-main>

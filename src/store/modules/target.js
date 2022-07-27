@@ -197,7 +197,7 @@ const mutations = {
     Vue.set(state.target[0], 'label', '修改后的数据');
   },
   add_node: (state, info) => {//添加指标
-    if (info.level === 1) {//添加一级指标
+    if (info.level === 1) {//添加二级指标
       for (let item of state.target) {
         if (item.id === info.id) {
           state.count++;
@@ -213,7 +213,7 @@ const mutations = {
           return;
         }
       }
-    } else {//添加二级指标
+    } else if (info.level === 2) {//添加三级指标
       for (let item of state.target) {
         for (let child of item.children) {
           if (child.id === info.id) {
@@ -255,7 +255,7 @@ const mutations = {
           return;
         }
       }
-    } else {//删除二级指标
+    } else if (info.level === 2) {//删除二级指标
       for (let item of state.target) {
         for (let idx in item.children) {
           if (item.children[idx].id === info.id) {
@@ -265,10 +265,24 @@ const mutations = {
           }
         }
       }
+    } else {//删除三级指标
+      for (let item of state.target) {
+        for (let child of item.children) {
+          if (child.children.length !== 0) {
+            for (let idx in child.children) {
+              if (child.children[idx].id === info.id) {
+                child.children.splice(idx, 1);
+                console.log(state.target);
+                return;
+              }
+            }
+          }
+        }
+      }
     }
   },
   rename_node: (state, info) => {//重命名指标
-    if (info.level === 1) {//添加一级指标
+    if (info.level === 1) {//重命名一级指标
       for (let item of state.target) {
         if (item.id === info.id) {
           item.label = info.item;
@@ -276,13 +290,25 @@ const mutations = {
           return;
         }
       }
-    } else {//添加二级指标
+    } else if (info.level === 2) {//重命名二级指标
       for (let item of state.target) {
         for (let child of item.children) {
           if (child.id === info.id) {
             child.label = info.item;
             console.log(child);
             return;
+          }
+        }
+      }
+    } else {
+      for (let item of state.target) {
+        for (let child of item.children) {
+          for (let gradeson of child.children) {
+            if (gradeson.id === info.id) {
+              gradeson.label = info.item;
+              console.log(gradeson);
+              return;
+            }
           }
         }
       }
