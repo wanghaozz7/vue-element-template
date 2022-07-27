@@ -63,7 +63,7 @@
       </el-tree>
     </div>
     <div class="tree-table">
-      <TreeTable :tableData="table_data"></TreeTable>
+      <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
     </div>
   </div>
 </template>
@@ -129,8 +129,6 @@ export default {
       }
       tree_count.push(item);
     }
-    console.log(tree_count);
-
     return {
       data: JSON.parse(JSON.stringify(data)),
       data: JSON.parse(JSON.stringify(data)),
