@@ -3,9 +3,7 @@
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="(item, index) in target" :key="item.id" :label="item.label" :name="item.label">
         <el-button round v-for="(button, idx) in item.children" @click="buttonClick(index, idx)" :autofocus="idx === 0">
-          {{
-              button.label
-          }}
+          {{ button.label }}
         </el-button>
       </el-tab-pane>
     </el-tabs>
@@ -45,10 +43,10 @@
           </el-row>
         </template>
         <!-- 表体 -->
-        <template slot-scope="{row, $index }">
+        <template slot-scope="{row, $index}">
           <el-row>
             <el-col :span="10" :push="1" style="display: flex;align-items: center;height: 40px;">
-              <span>分值:{{ current_score[$index] }}</span>
+              <span>{{ text_content }}{{ current_score[$index] }}</span>
             </el-col>
             <el-col :span="12">
               <el-input-number v-model="row.score" :min="-10" :max="10" label="描述文字">
@@ -80,7 +78,7 @@ export default {
     return {
       activeName: '学风纪律',
       target,
-      tableData: [],
+      tableData: target[0].children[0].children,
       selected_grade: '',
       selected_class: '',
       selected_student: '',
@@ -90,31 +88,42 @@ export default {
       school,
       first: 0,
       second: 0,
-      current_score: [1, 2, 3]
+      current_score: ['暂无', '暂无', '暂无'],
+      text_content: '分值:'
     };
   },
   methods: {
-    buttonClick(index, idx) {
+    buttonClick(index, idx) {//选择二级指标
       this.tableData = this.target[index].children[idx].children;
       this.first = index;
       this.second = idx;
-      console.log(this.first);
-      console.log(this.second);
-
     },
     grade_change(value) {//更新年级
       //更新数据
-      if (value === '') {
-
+      if (value === '') {//清空
+        this.text_content = '得分:';
+        for (let idx in this.current_score) this.$set(this.current_score, idx, '暂无');//将所有项清空
+      } else {//计算年级总得分
+        this.text_content = value + '级总分值:';
+        for (let item of this.school) {
+          if (item.label !== value) continue;//选择年级
+          let sum = [];
+          for (let c of item.classes) {
+            for (let student of c.students) {
+              let tmp = student.target[this.first][this.second];
+              for (let idx in tmp) {
+                while (sum.length <= idx) sum.push(0);//装填初始值
+                sum[idx] += tmp[idx];
+              }
+            }
+          }
+          this.current_score = sum;
+          break;
+        }
       }
 
-
-
-
-
-
       //更新选择框
-      if (value === '') {//取消选择
+      if (value === '') {//清空选择
         this.selected_class = '';
         this.option_class = [];
         this.selected_student = '';
@@ -145,14 +154,46 @@ export default {
       //更新数据
       if (value === '') {//只保留年级
         if (this.selected_grade !== '') {//计算总年级得分
-
+          this.text_content = this.selected_grade + '级总分值:';
+          for (let item of this.school) {
+            if (item.label !== value) continue;//选择年级
+            let sum = [];
+            for (let c of item.classes) {
+              for (let student of c.students) {
+                let tmp = student.target[this.first][this.second];
+                for (let idx in tmp) {
+                  while (sum.length <= idx) sum.push(0);//装填初始值
+                  sum[idx] += tmp[idx];
+                }
+              }
+            }
+            this.current_score = sum;
+            break;
+          }
         } else {//置空
 
         }
       } else {//保留了年级和班级
         if (this.selected_grade !== '') {//计算某个年级的某班总得分
-
-        } else {//计算所有年级的某班总得分
+          this.text_content = this.selected_grade + value + '总得分:';
+          for (let item of this.school) {//年级
+            if (item.label !== this.selected_grade) continue;
+            for (let c of item.classes) {//班级
+              if (c.idx !== value) continue;
+              let sum = [];
+              for (let student of c.students) {
+                let tmp = student.target[this.first][this.second];
+                for (let idx in tmp) {
+                  while (sum.length <= idx) sum.push(0);//装填初始值
+                  sum[idx] += tmp[idx];
+                }
+              }
+              this.current_score = sum;
+              break;
+            }
+            break;
+          }
+        } else {//只有班级(无效数据)
 
         }
       }
@@ -161,7 +202,7 @@ export default {
 
 
       //更新选择框
-      if (value === '') {//取消选择
+      if (value === '') {//清空选择
         this.selected_class = '';
         this.selected_student = '';
         this.option_student = [];
@@ -186,32 +227,53 @@ export default {
     },
     student_change(value) {//更新学生
       //更新数据
-
-
-
-
-      for (let item of this.school) {
-        if (this.selected_grade !== '' && item.label !== this.selected_grade) continue;
-        console.log('school');
-        for (let c of item.classes) {
-          if (this.selected_class !== '' && c.idx !== this.selected_class) continue;
-          console.log('classes');
-
-          for (let student of c.students) {
-            if (student.name !== value) continue;
-            console.log('students');
-
-            this.current_score = [];
-            let tmp = student.target[this.first][this.second];
-            for (let score of tmp) {
-              this.current_score.push(score);
-              console.log('tmp');
-
+      if (value === '') {//清空选择
+        if (this.selected_grade !== '' && this.selected_class !== '') {//显示某个班的总得分
+          this.text_content = this.selected_grade + this.selected_class + '总得分:';
+          for (let item of this.school) {//年级
+            if (item.label !== this.selected_grade) continue;
+            for (let c of item.classes) {//班级
+              if (c.idx !== value) continue;
+              let sum = [];
+              for (let student of c.students) {
+                let tmp = student.target[this.first][this.second];
+                for (let idx in tmp) {
+                  while (sum.length <= idx) sum.push(0);//装填初始值
+                  sum[idx] += tmp[idx];
+                }
+              }
+              this.current_score = sum;
+              break;
             }
-            return;
+            break;
+          }
+        }
+      } else {//重置选择
+        this.text_content = '分值:';
+        for (let item of this.school) {
+          if (this.selected_grade !== '' && item.label !== this.selected_grade) continue;
+          console.log('school');
+          for (let c of item.classes) {
+            if (this.selected_class !== '' && c.idx !== this.selected_class) continue;
+            console.log('classes');
+
+            for (let student of c.students) {
+              if (student.name !== value) continue;
+              console.log('students');
+
+              this.current_score = [];
+              let tmp = student.target[this.first][this.second];
+              for (let score of tmp) {
+                this.current_score.push(score);
+                console.log('tmp');
+              }
+              return;
+            }
           }
         }
       }
+
+
     }
   }
 };
