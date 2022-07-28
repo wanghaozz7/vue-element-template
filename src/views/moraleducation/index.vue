@@ -58,15 +58,23 @@
                 <el-button type="primary" size="mini" @click="rename_item(data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i></el-button>
+              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i>
+              </el-button>
             </el-popover>
           </span>
         </span>
       </el-tree>
     </div>
-    <div class="tree-table">
-      <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
-    </div>
+    <el-button type="text" @click="handle_click" style="margin: 2vh 1vw;" :loading="isloading">
+      预览<i class="el-icon-notebook-2"></i>
+    </el-button>
+    <el-dialog :visible.sync="dialogTableVisible" @open="isloading = false" top="5vh">
+      <div class="tree-table">
+        <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -132,8 +140,7 @@ export default {
       tree_count.push(item);
     }
     return {
-      data: JSON.parse(JSON.stringify(data)),
-      data: JSON.parse(JSON.stringify(data)),
+      data,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -145,7 +152,9 @@ export default {
       root_visible: false,
       item: '',
       table_data,
-      tree_count
+      tree_count,
+      dialogTableVisible: false,
+      isloading: false
     }
   },
   methods: {
@@ -157,7 +166,7 @@ export default {
       }
       data.children.push(newChild);
     },
-    append_root() {
+    append_root() {//添加一级指标
       const id = this.$store.state.count;
       const newChild = { id: id, label: this.item, children: [] };
       this.data.push(newChild);
@@ -226,6 +235,10 @@ export default {
     },
     rename_cancel(data) {//取消重命名
       this.$set(this.rename_visible, data.id, false);
+    },
+    handle_click() {
+      this.dialogTableVisible = true;
+      this.isloading = true;
     }
   }
 };
@@ -246,14 +259,16 @@ export default {
 }
 
 .custom-tree-container {
-  width: 30vw;
+  width: 50vw;
   margin: 2vh 1vw;
   float: left;
 }
 
 .tree-table {
-  float: left;
+
   width: 47vw;
   margin: 2vh 1vw;
+  height: 75vh;
+
 }
 </style>

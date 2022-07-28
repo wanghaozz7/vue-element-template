@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" :span-method="arraySpanMethod" border style="width: 100%;" height="85vh">
+    <el-table :data="tableData" :span-method="arraySpanMethod" border style="width: 100%;" height="75vh">
       <el-table-column prop="target1" label="一级指标" width="180">
       </el-table-column>
       <el-table-column prop="target2" label="二级指标">
