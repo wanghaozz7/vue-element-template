@@ -104,6 +104,19 @@ export const constantRoutes = [
 
   },
   {
+    path: '/mark',
+    component: Layout,
+    redirect: '/mark/index',
+    children: [
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/mark'),
+        meta: { title: 'Mark', icon: 'form' }
+      }
+    ]
+  },
+  {
     path: '/moral',
     component: Layout,
     redirect: '/moral/moraleducation',
@@ -129,179 +142,6 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/discipline',
-  //   component: Layout,
-  //   redirect: '/discipline/attendance',
-  //   meta: { title: 'Discipline', icon: 'form' },
-  //   children: [
-  //     {
-  //       path: 'attendance',
-  //       name: 'Attendance',
-  //       component: () => import('@/views/discipline/attendance'),
-  //       meta: { title: 'Attendance', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'daily',
-  //       name: 'Daily',
-  //       component: () => import('@/views/discipline/daily'),
-  //       meta: { title: 'Daily', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'dining',
-  //       name: 'Dining',
-  //       component: () => import('@/views/discipline/dining'),
-  //       meta: { title: 'Dining', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'flagraising',
-  //       name: 'Flagraising',
-  //       component: () => import('@/views/discipline/flagraising'),
-  //       meta: { title: 'Flag Raising', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'late',
-  //       name: 'Late',
-  //       component: () => import('@/views/discipline/late'),
-  //       meta: { title: 'Late', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'psychology',
-  //       name: 'Psychology',
-  //       component: () => import('@/views/discipline/psychology'),
-  //       meta: { title: 'Psychology', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'punishment',
-  //       name: 'Punishment',
-  //       component: () => import('@/views/discipline/punishment'),
-  //       meta: { title: 'Punishment', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'record',
-  //       name: 'Record',
-  //       component: () => import('@/views/discipline/record'),
-  //       meta: { title: 'Record', icon: 'form' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/appearance',
-  //   component: Layout,
-  //   redirect: '/appearance/normal/dress',
-  //   meta: { title: 'Appearance', icon: 'form' },
-  //   children: [
-  //     {
-  //       path: 'normal',
-  //       name: 'Normal',
-  //       component: () => import('@/views/appearance/normal'),
-  //       meta: { title: 'Normal', icon: 'form' },
-  //       redirect: '/appearance/normal/dress',
-  //       children: [{
-  //         path: 'dress',
-  //         name: 'Dress',
-  //         component: () => import('@/views/appearance/normal/dress'),
-  //         meta: { title: 'Dress', icon: 'form' }
-  //       },
-  //       {
-  //         path: 'hairstyle',
-  //         name: 'Hairstyle',
-  //         component: () => import('@/views/appearance/normal/hairstyle'),
-  //         meta: { title: 'HairStyle', icon: 'form' }
-  //       }, {
-  //         path: 'uniform',
-  //         name: 'Uniform',
-  //         component: () => import('@/views/appearance/normal/uniform'),
-  //         meta: { title: 'Uniform', icon: 'form' }
-  //       }]
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/exercises',
-  //   component: Layout,
-  //   redirect: '/exercises/breakattendance',
-  //   meta: { title: 'Exercises', icon: 'form' },
-  //   children: [
-  //     {
-  //       path: 'breakattendance',
-  //       name: 'Breakattendance',
-  //       component: () => import('@/views/exercises/breakattendance'),
-  //       meta: { title: 'Break Attendance', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'breakquality',
-  //       name: 'Breakquality',
-  //       component: () => import('@/views/exercises/breakquality'),
-  //       meta: { title: 'Break Quality', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'eyeexercises',
-  //       name: 'Eyeexercises',
-  //       component: () => import('@/views/exercises/eyeexercises'),
-  //       meta: { title: 'Eye Exercises', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'headmaster',
-  //       name: 'Headmaster',
-  //       component: () => import('@/views/exercises/headmaster'),
-  //       meta: { title: 'Head Master', icon: 'form' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/dormitory',
-  //   component: Layout,
-  //   redirect: '/dormitory/dormitorydiscipline',
-  //   meta: { title: 'Dormitory', icon: 'form' },
-  //   children: [
-  //     {
-  //       path: 'dormitorydiscipline',
-  //       name: 'Dormitorydiscipline',
-  //       component: () => import('@/views/dormitory/dormitorydiscipline'),
-  //       meta: { title: 'Dormitory Discipline', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'interior',
-  //       name: 'Interior',
-  //       component: () => import('@/views/dormitory/interior'),
-  //       meta: { title: 'Interior', icon: 'form' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/environment',
-  //   component: Layout,
-  //   redirect: '/environment',
-  //   meta: { title: 'Environment', icon: 'form' },
-  //   children: [
-  //     {
-  //       path: 'public',
-  //       name: 'Public',
-  //       component: () => import('@/views/environment/public'),
-  //       meta: { title: 'Public', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'rountine',
-  //       name: 'Rountine',
-  //       component: () => import('@/views/environment/routine'),
-  //       meta: { title: 'Rountine', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'garbage',
-  //       name: 'Garbage',
-  //       component: () => import('@/views/environment/garbage'),
-  //       meta: { title: 'Garbage', icon: 'form' }
-  //     },
-  //     {
-  //       path: 'academicbuilding',
-  //       name: 'Academicbuilding',
-  //       component: () => import('@/views/environment/academicbuilding'),
-  //       meta: { title: 'Academic Building', icon: 'form' }
-  //     }
-
-  //   ]
-  // },
   {
     path: '/nested',
     component: Layout,

@@ -5,6 +5,6 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   target: state => state.target.target,
-  flag: state => state.target.flag
+  data: state => state.school.data
 }
 export default getters

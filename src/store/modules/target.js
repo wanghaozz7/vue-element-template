@@ -9,50 +9,94 @@ const state = {
         id: 8,
         label: '升旗仪式',
         level: 2,
-        content: '升旗仪式是否遵守纪律',
-        children: []
+        children: [{
+          id: 30,
+          label: '升旗仪式三级指标1',
+          level: 3,
+          content: '升旗仪式三级指标1检查内容'
+        },
+        {
+          id: 31,
+          label: '升旗仪式三级指标2',
+          level: 3,
+          content: '升旗仪式三级指标2检查内容'
+        },
+        {
+          id: 32,
+          label: '升旗仪式三级指标3',
+          level: 3,
+          content: '升旗仪式三级指标3检查内容'
+        }]
       }, {
         id: 9,
         label: '出勤',
         level: 2,
-        content: '学生是否出勤',
-        children: []
+        children: [{
+          id: 33,
+          label: '出勤三级指标',
+          level: 3,
+          content: '出勤三级指标检查内容'
+        }]
       }, {
         id: 10,
         label: '日常违纪、学生安全违纪',
         level: 2,
-        content: '日常是否违纪、学生是否通过安全检查',
-        children: []
+        children: [{
+          id: 34,
+          label: '日常违纪三级指标',
+          level: 3,
+          content: '日常违纪三级指标检查内容'
+        }]
       }, {
         id: 11,
         label: '就餐违纪、外卖违纪',
         level: 2,
-        content: '学生就餐是否违纪，取、吃外卖是否合规',
-        children: []
+        children: [{
+          id: 35,
+          label: '就餐违纪三级指标',
+          level: 3,
+          content: '就餐违纪三级指标检查内容'
+        }]
       }, {
         id: 12,
         label: '交心里委员晴雨表',
         level: 2,
-        content: '是否按时、合规上交晴雨表给心里委员',
-        children: []
+        children: [{
+          id: 36,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 13,
         label: '学生检查晚修纪律',
         level: 2,
-        content: '学生晚修是否遵守纪律',
-        children: []
+        children: [{
+          id: 37,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 14,
         label: '接受处分',
         level: 2,
-        content: '学生是否接受过处分',
-        children: []
+        children: [{
+          id: 38,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 15,
         label: '课堂班务日志上交',
         level: 2,
-        content: '日志是否按时上交',
-        children: []
+        children: [{
+          id: 39,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }]
     }, {
       id: 2,
@@ -94,26 +138,42 @@ const state = {
         id: 17,
         label: '课间学生出勤',
         level: 2,
-        content: '课间活动学生是否出勤',
-        children: []
+        children: [{
+          id: 40,
+          label: '课间学生出勤三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 18,
         label: '课间班主任出勤',
         level: 2,
-        content: '课间活动班主任是否出勤',
-        children: []
+        children: [{
+          id: 41,
+          label: '课间班主任出勤三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 19,
         label: '课间质量',
         level: 2,
-        content: '课间质量评比',
-        children: []
+        children: [{
+          id: 42,
+          label: '课间质量三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 20,
         label: '眼保健操',
         level: 2,
-        content: '学生是否完成眼保健操',
-        children: []
+        children: [{
+          id: 43,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }]
     }, {
       id: 4,
@@ -123,14 +183,22 @@ const state = {
         id: 21,
         label: '纪律',
         level: 2,
-        content: '宿舍纪律是否满足要求',
-        children: []
+        children: [{
+          id: 44,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 22,
         label: '内务',
         level: 2,
-        content: '宿舍内务是否达到标准',
-        children: []
+        children: [{
+          id: 45,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }]
     }, {
       id: 5,
@@ -140,56 +208,46 @@ const state = {
         id: 23,
         label: '公共卫生',
         level: 2,
-        content: '公共卫生部分是否有序参与',
-        children: []
+        children: [{
+          id: 46,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 24,
         label: '常规卫生（学生会检查）',
         level: 2,
-        content: '学生是否完成属于自己的常规卫生任务',
-        children: []
+        children: [{
+          id: 47,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 25,
         label: '教学楼日常卫生检查',
         level: 2,
-        content: '学生是否完成要求的教学楼部分卫生',
-        children: []
+        children: [{
+          id: 48,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }, {
         id: 26,
         label: '垃圾分类',
         level: 2,
-        content: '学生投放的垃圾是否按要求分类',
-        children: []
+        children: [{
+          id: 49,
+          label: '三级指标',
+          level: 3,
+          content: '三级指标检查内容'
+        }]
       }]
-    },
-    //  {
-    //   id: 6,
-    //   label: '行政检查',
-    //   level: 1,
-    //   children: [{
-    //     id: 27,
-    //     label: '晚修等级评价',
-    //     level: 2,
-    //     children: []
-    //   }, {
-    //     id: 28,
-    //     label: '早读等级评价',
-    //     level: 2,
-    //     children: []
-    //   }]
-    // }, {
-    //   id: 7,
-    //   label: '年级评估',
-    //   level: 1,
-    //   children: [{
-    //     id: 29,
-    //     label: '年纪安排检查、考试违纪、手机违纪、考勤、年纪活动、课堂状态、仪容仪表',
-    //     level: 2,
-    //     children: []
-    //   }]
-    // }
+    }
   ],
-  count: 29
+  count: 49
 }
 const mutations = {
   SET_TARGET: (state) => {

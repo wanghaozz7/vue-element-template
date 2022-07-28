@@ -5,6 +5,7 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 import target from './modules/target'
+import school from './modules/school'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    target
+    target,
+    school
   },
   getters
 })
