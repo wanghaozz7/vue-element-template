@@ -20,18 +20,42 @@
         </span>
       </div>
       <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
-        class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree" style="margin-top: 5px;">
+        class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
+        style="margin-top: 5px;height: auto;">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
-            <!-- 添加 -->
+            <!-- 添加二级指标 -->
             <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
-              v-if="node.level <= 2">
-              <el-input v-model="item" placeholder="新添加的指标"></el-input>
+              v-if="node.level === 1">
+              <el-input v-model="item" placeholder="二级指标"></el-input>
               <div style="text-align: right; margin-top: 5px;">
                 <el-button size="mini" type="text" @click="add_cancel(data)"><i class="el-icon-close"></i>
                 </el-button>
                 <el-button type="primary" size="mini" @click="add_item(data)"><i class="el-icon-check"></i>
+                </el-button>
+              </div>
+              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
+              </el-button>
+            </el-popover>
+            <!-- 添加三级指标 -->
+            <el-popover placement="bottom" width="500" v-model="third_visible[data.id]" @hide="clean_holder"
+              v-else-if="node.level === 2">
+              <el-input v-model="info.label" placeholder="三级指标"></el-input>
+              <el-input v-model="info.content" placeholder="检查内容"></el-input>
+              <el-radio-group v-model="info.allow">
+                <el-radio label="add">仅加分</el-radio>
+                <el-radio label="sub">仅减分</el-radio>
+                <el-radio label="all">都可以</el-radio>
+              </el-radio-group>
+              <el-select v-model="info.step">
+                <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
+              </el-select>
+              <el-input v-model="info.default_value" placeholder="初始值"></el-input>
+              <div style="text-align: right; margin-top: 5px;">
+                <el-button size="mini" type="text" @click="third_cancel(data)"><i class="el-icon-close"></i>
+                </el-button>
+                <el-button type="primary" size="mini" @click="third_confirm(data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
@@ -73,8 +97,6 @@
         <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
 
@@ -150,72 +172,70 @@ export default {
       add_visible: [],
       delete_visible: [],
       rename_visible: [],
+      third_visible: [],
       root_visible: false,
       item: '',
       table_data,
       tree_count,
       dialogTableVisible: false,
-      isloading: false
+      isloading: false,
+      info: {
+        label: '',
+        content: '',
+        default_value: 0,
+        step: 1,
+        allow: ''
+      }
     }
   },
   methods: {
-    append(data) {//在树中添加节点
-      console.log(data.level);
-
-      const id = this.$store.state.count;
-      const newChild = { id: id, label: this.item, children: [] };
-      if (!data.children) {
-        this.$set(data, 'children', []);
-      }
-      data.children.push(newChild);
-    },
-    append_root(data) {//添加一级指标
-      const id = this.$store.state.count;
-      const newChild = { id: id + 1, label: this.item, children: [] };
-      // data.push(newChild);
-    },
-    remove(node, data) {//在树中删除节点
-      const parent = node.parent;
-      const children = parent.data.children || parent.data;
-      const index = children.findIndex(d => d.id === data.id);
-      children.splice(index, 1);
-    },
-    filterNode(value, data) {
+    filterNode(value, data) {//过滤节点
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    add_item(data) {//确认添加
-      console.log('add_item');
-      // this.append(data);
-      const info = {
-        id: data.id,
-        level: data.level,
-        label: this.item,
-        content: '无',
-      }
-      this.$store.commit('add_node', info);
-      this.$set(this.add_visible, data.id, false);
-    },
-    add_cancel(data) {//取消添加
-      this.$set(this.add_visible, data.id, false);
-    },
-    root_item(data) {
-
-      // this.append_root(data);
+    root_item(data) {//添加一级指标
       this.$store.commit('add_root', this.item);
       this.root_visible = false;
     },
-    root_cancel(data) {
+    root_cancel(data) {//取消添加一级指标
       this.root_visible = false;
     },
+    add_item(data) {//添加二级指标
+      console.log('add_item');
+      const info = {
+        id: data.id,
+        level: 1,
+        label: this.item,
+      }
+      store.commit('add_node', info);
+      this.$set(this.add_visible, data.id, false);
+    },
+    add_cancel(data) {//取消添加二级指标
+      this.$set(this.add_visible, data.id, false);
+    },
+    third_confirm(data) {//添加三级指标
+      const info = {
+        id: data.id,
+        level: 2,
+        label: this.info.label,
+        content: this.info.content,
+        default_value: this.info.default_value,
+        step: this.info.step,
+        allow: this.info.allow
+      }
+      store.commit('add_node', info);
+      this.$set(this.third_visible, data.id, false);
+    },
+    third_cancel(data) {
+      this.$set(this.third_visible, data.id, false);
+    },
     delete_item(node, data) {//确认删除
-      this.remove(node, data);
       const info = {
         id: data.id,
         level: data.level,
         item: this.item
       }
-      this.$store.commit('delete_node', info);
+      store.commit('delete_node', info);
       this.$set(this.delete_visible, data.id, false);
     },
     delete_cancel(data) {//取消删除
@@ -226,13 +246,12 @@ export default {
     },
     rename_item(data) {//确认重命名
       this.$set(this.rename_visible, data.id, false);
-      data.label = this.item;
       const info = {
         id: data.id,
         level: data.level,
         item: this.item
       }
-      this.$store.commit('rename_node', info);
+      store.commit('rename_node', info);
     },
     rename_cancel(data) {//取消重命名
       this.$set(this.rename_visible, data.id, false);
@@ -251,12 +270,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 16px;
   padding-right: 8px;
+  height: 100px;
 }
 
 .node-function {
-  padding-left: 5px;
+  padding-left: 10px;
 }
 
 .custom-tree-container {

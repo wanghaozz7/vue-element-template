@@ -13,19 +13,28 @@ const state = {
           id: 30,
           label: '升旗仪式三级指标1',
           level: 3,
-          content: '升旗仪式三级指标1检查内容'
+          content: '升旗仪式三级指标1检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         },
         {
           id: 31,
           label: '升旗仪式三级指标2',
           level: 3,
-          content: '升旗仪式三级指标2检查内容'
+          content: '升旗仪式三级指标2检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         },
         {
           id: 32,
           label: '升旗仪式三级指标3',
           level: 3,
-          content: '升旗仪式三级指标3检查内容'
+          content: '升旗仪式三级指标3检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 9,
@@ -35,7 +44,10 @@ const state = {
           id: 33,
           label: '出勤三级指标',
           level: 3,
-          content: '出勤三级指标检查内容'
+          content: '出勤三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 10,
@@ -45,7 +57,10 @@ const state = {
           id: 34,
           label: '日常违纪三级指标',
           level: 3,
-          content: '日常违纪三级指标检查内容'
+          content: '日常违纪三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 11,
@@ -55,7 +70,10 @@ const state = {
           id: 35,
           label: '就餐违纪三级指标',
           level: 3,
-          content: '就餐违纪三级指标检查内容'
+          content: '就餐违纪三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 12,
@@ -65,7 +83,10 @@ const state = {
           id: 36,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 13,
@@ -75,7 +96,10 @@ const state = {
           id: 37,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 14,
@@ -85,7 +109,10 @@ const state = {
           id: 38,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 15,
@@ -95,7 +122,10 @@ const state = {
           id: 39,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }]
     }, {
@@ -112,21 +142,28 @@ const state = {
             label: '发型',
             level: 3,
             content: '发型是否满足学生要求',
-            children: []
+            default_value: 0,
+            step: 1,
+            allow: 'all'
+
           },
           {
             id: 28,
             label: '校服',
             level: 3,
             content: '学生在校是否着装校服',
-            children: []
+            default_value: 0,
+            step: 1,
+            allow: 'all'
           },
           {
             id: 29,
             label: '装扮',
             level: 3,
             content: '装扮是否合乎学生标准',
-            children: []
+            default_value: 0,
+            step: 1,
+            allow: 'all'
           }
         ]
       }]
@@ -142,7 +179,10 @@ const state = {
           id: 40,
           label: '课间学生出勤三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 18,
@@ -152,7 +192,10 @@ const state = {
           id: 41,
           label: '课间班主任出勤三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 19,
@@ -162,7 +205,10 @@ const state = {
           id: 42,
           label: '课间质量三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 20,
@@ -172,7 +218,10 @@ const state = {
           id: 43,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }]
     }, {
@@ -187,7 +236,10 @@ const state = {
           id: 44,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 22,
@@ -197,7 +249,10 @@ const state = {
           id: 45,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }]
     }, {
@@ -212,7 +267,10 @@ const state = {
           id: 46,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 24,
@@ -222,7 +280,10 @@ const state = {
           id: 47,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 25,
@@ -232,7 +293,10 @@ const state = {
           id: 48,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }, {
         id: 26,
@@ -242,19 +306,17 @@ const state = {
           id: 49,
           label: '三级指标',
           level: 3,
-          content: '三级指标检查内容'
+          content: '三级指标检查内容',
+          default_value: 0,
+          step: 1,
+          allow: 'all'
         }]
       }]
     }
   ],
-  count: 49,
-  flag: ''
+  count: 49
 }
 const mutations = {
-  SET_TARGET: (state) => {
-    state.flag = '修改后';
-    Vue.set(state.target[0], 'label', '修改后的数据');
-  },
   add_node: (state, info) => {//添加指标
     if (info.level === 1) {//添加二级指标
       for (let item of state.target) {
@@ -262,9 +324,8 @@ const mutations = {
           state.count++;
           const children = {
             id: state.count,
-            label: info.label,
+            label: info,
             level: 2,
-            content: info.content,
             children: []
           }
           item.children.push(children);
@@ -282,7 +343,9 @@ const mutations = {
               label: info.label,
               level: 3,
               content: info.content,
-              children: []
+              default_value: info.default_value,
+              step: info.step,
+              allow: info.allow
             }
             child.children.push(children);
             console.log(child);
