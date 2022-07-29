@@ -247,7 +247,8 @@ const state = {
       }]
     }
   ],
-  count: 49
+  count: 49,
+  flag: ''
 }
 const mutations = {
   SET_TARGET: (state) => {
@@ -297,7 +298,6 @@ const mutations = {
       id: state.count,
       label: item,
       level: 1,
-      content: '无',
       children: []
     };
     state.target.push(node);

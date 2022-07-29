@@ -7,6 +7,7 @@
         </el-button>
       </el-tab-pane>
     </el-tabs>
+    <el-divider></el-divider>
     <el-table :data="tableData" style="width: 80vw;margin: 30px 30px;" :border="true" :highlight-current-row="true">
       <el-table-column prop="label" label="项目内容" min-width="15%">
       </el-table-column>
@@ -60,11 +61,12 @@
 </template>
 
 <script>
+import store from '@/store';
 export default {
   name: '',
   data() {
-    let target = this.$store.state.target.target;
-    let school = this.$store.state.school.data;
+    let target = store.state.target.target;
+    let school = store.state.school.data;
     let option_grade = [];
     let option_class = [];
     let option_student = [];

@@ -30,7 +30,7 @@ export default {
     }
   },
   methods: {
-    arraySpanMethod({ rowIndex, columnIndex }) {
+    arraySpanMethod({ rowIndex, columnIndex }) {//创造树形表格
       if (columnIndex === 0) {//一级指标
         let count = 0;
         for (let item of this.treeCount) {
@@ -46,8 +46,8 @@ export default {
         for (let item1 of this.treeCount) {
           for (let item2 of item1.col_2) {
             if (item2 !== 1) {
-              if (rowIndex === count) return [item2, 1];
-              for (let i = count + 1; i < count + item2; i++) {
+              if (rowIndex === count) return [item2, 1];//扩容
+              for (let i = count + 1; i < count + item2; i++) {//删除
                 if (rowIndex === i) return [0, 0];
               }
               count += item2;

@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import store from '@/store';
 import TreeTable from '@/components/Treetable';
 export default {
   name: 'Moraleducation',
@@ -91,7 +92,7 @@ export default {
     }
   },
   data() {
-    let data = this.$store.state.target.target;
+    let data = store.state.target.target;
     let table_data = [];
     let tree_count = [];
     for (let t1 of data) {
@@ -159,6 +160,8 @@ export default {
   },
   methods: {
     append(data) {//在树中添加节点
+      console.log(data.level);
+
       const id = this.$store.state.count;
       const newChild = { id: id, label: this.item, children: [] };
       if (!data.children) {
@@ -166,12 +169,10 @@ export default {
       }
       data.children.push(newChild);
     },
-    append_root() {//添加一级指标
+    append_root(data) {//添加一级指标
       const id = this.$store.state.count;
-      const newChild = { id: id, label: this.item, children: [] };
-      this.data.push(newChild);
-      console.log('append_root');
-      console.log(this.data);
+      const newChild = { id: id + 1, label: this.item, children: [] };
+      // data.push(newChild);
     },
     remove(node, data) {//在树中删除节点
       const parent = node.parent;
@@ -184,8 +185,8 @@ export default {
       return data.label.indexOf(value) !== -1;
     },
     add_item(data) {//确认添加
-
-      this.append(data);
+      console.log('add_item');
+      // this.append(data);
       const info = {
         id: data.id,
         level: data.level,
@@ -198,16 +199,16 @@ export default {
     add_cancel(data) {//取消添加
       this.$set(this.add_visible, data.id, false);
     },
-    root_item() {
-      this.append_root();
+    root_item(data) {
+
+      // this.append_root(data);
       this.$store.commit('add_root', this.item);
       this.root_visible = false;
     },
-    root_cancel() {
+    root_cancel(data) {
       this.root_visible = false;
     },
     delete_item(node, data) {//确认删除
-
       this.remove(node, data);
       const info = {
         id: data.id,
