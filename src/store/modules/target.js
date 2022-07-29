@@ -14,26 +14,26 @@ const state = {
           label: '升旗仪式三级指标1',
           level: 3,
           content: '升旗仪式三级指标1检查内容',
-          default_value: 0,
+          default_value: 1,
           step: 1,
-          allow: 'all'
+          allow: 'add'
         },
         {
           id: 31,
           label: '升旗仪式三级指标2',
           level: 3,
           content: '升旗仪式三级指标2检查内容',
-          default_value: 0,
-          step: 1,
-          allow: 'all'
+          default_value: 2,
+          step: 2,
+          allow: 'sub'
         },
         {
           id: 32,
           label: '升旗仪式三级指标3',
           level: 3,
           content: '升旗仪式三级指标3检查内容',
-          default_value: 0,
-          step: 1,
+          default_value: 3,
+          step: 3,
           allow: 'all'
         }]
       }, {

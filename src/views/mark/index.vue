@@ -50,7 +50,8 @@
               <span>{{ text_content }}{{ current_score[$index] }}</span>
             </el-col>
             <el-col :span="12">
-              <el-input-number v-model="row.score" :min="-10" :max="10" label="描述文字">
+              <el-input-number v-model="default_value[$index]" :min=min[$index] :max=max[$index] label="修改分值"
+                :step="step[$index]">
               </el-input-number>
             </el-col>
           </el-row>
@@ -91,7 +92,11 @@ export default {
       first: 0,
       second: 0,
       current_score: ['暂无', '暂无', '暂无'],
-      text_content: '分值:'
+      text_content: '分值:',
+      step: [],
+      default_value: [],
+      min: [],
+      max: []
     };
   },
   methods: {
@@ -99,6 +104,27 @@ export default {
       this.tableData = this.target[index].children[idx].children;
       this.first = index;
       this.second = idx;
+      this.step = [];//步长
+      this.default_value = [];//默认值
+      this.min = [];
+      this.min = [];
+      //先将计数器配置清空
+      for (let idx in this.tableData) {
+        this.step.push(this.tableData[idx].step);
+        this.default_value.push(this.tableData[idx].default_value);
+        if (this.tableData[idx].allow === 'add') {
+          this.min.push(this.tableData[idx].default_value);
+          this.max.push(100);
+        } else if (this.tableData[idx].allow === 'sub') {
+          this.min.push(-100);
+          this.max.push(this.tableData[idx].default_value);
+        } else {
+          this.min.push(-100);
+          this.max.push(100);
+        }
+      }
+      console.log(this.range);
+
     },
     grade_change(value) {//更新年级
       //更新数据
@@ -276,6 +302,12 @@ export default {
       }
 
 
+    },
+    min_range(index) {
+      return this.range[index][0];
+    },
+    max_range(index) {
+      return this.range[index][1];
     }
   }
 };
