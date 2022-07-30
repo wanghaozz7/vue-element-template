@@ -1,13 +1,17 @@
 <template>
   <div style="margin: 1vh 1vw;">
+    <!-- 一级指标tab页 -->
     <el-tabs v-model="activeName">
       <el-tab-pane v-for="(item, index) in target" :key="item.id" :label="item.label" :name="item.label">
-        <el-button round v-for="(button, idx) in item.children" @click="buttonClick(index, idx)" :autofocus="idx === 0">
+        <!-- 二级指标button -->
+        <el-button round v-for="(button, idx) in item.children" @click="buttonClick(index, idx)"
+          :autofocus="idx === 0 && index === 0">
           {{ button.label }}
         </el-button>
       </el-tab-pane>
     </el-tabs>
     <el-divider></el-divider>
+    <!-- 二级指标下的所有三级指标(打分项) -->
     <el-table :data="tableData" style="width: 80vw;margin: 30px 30px;" :border="true" :highlight-current-row="true">
       <el-table-column prop="label" label="项目内容" min-width="15%">
       </el-table-column>
@@ -81,7 +85,6 @@ export default {
     return {
       activeName: '学风纪律',
       target,
-      tableData: target[0].children[0].children,
       selected_grade: '',
       selected_class: '',
       selected_student: '',
@@ -89,14 +92,16 @@ export default {
       option_class,
       option_student,
       school,
+      //默认数据
+      tableData: target[0].children[0].children,
       first: 0,
       second: 0,
       current_score: ['暂无', '暂无', '暂无'],
       text_content: '分值:',
-      step: [],
-      default_value: [],
-      min: [],
-      max: []
+      step: [1, 2, 3],
+      default_value: [1, 2, 3],
+      min: [1, -100, -100],
+      max: [100, 2, 100]
     };
   },
   methods: {
@@ -261,7 +266,7 @@ export default {
           for (let item of this.school) {//年级
             if (item.label !== this.selected_grade) continue;
             for (let c of item.classes) {//班级
-              if (c.idx !== value) continue;
+              if (c.idx !== this.selected_class) continue;
               let sum = [];
               for (let student of c.students) {
                 let tmp = student.target[this.first][this.second];
@@ -300,14 +305,6 @@ export default {
           }
         }
       }
-
-
-    },
-    min_range(index) {
-      return this.range[index][0];
-    },
-    max_range(index) {
-      return this.range[index][1];
     }
   }
 };

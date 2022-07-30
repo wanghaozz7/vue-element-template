@@ -1,11 +1,16 @@
 <template>
   <div>
+    <!-- 指标树 -->
     <div class="custom-tree-container">
+      <!-- 过滤器 -->
       <el-input placeholder="输入关键字进行过滤" v-model="filterText">
       </el-input>
+      <!-- header -->
       <div style="height: 6vh;position: relative;">
+        <!-- span -->
         <span
           style="margin-top: 20px;height: 40px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: bolder;position: absolute;left:10px;">德育量化指标</span>
+        <!-- 一级指标 -->
         <span style="position: absolute;right:10px;margin-top: 10px;">
           <el-popover placement="bottom" width="300" v-model="root_visible" @hide="clean_holder">
             <el-input v-model="item" placeholder="新添加的指标"></el-input>
@@ -19,6 +24,7 @@
           </el-popover>
         </span>
       </div>
+      <!-- 树体 -->
       <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
         class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
         style="margin-top: 5px;height: auto;">
@@ -38,8 +44,9 @@
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
               </el-button>
             </el-popover>
+
             <!-- 添加三级指标 -->
-            <el-popover placement="bottom" width="500" v-model="third_visible[data.id]" @hide="clean_holder"
+            <el-popover placement="bottom" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
               v-else-if="node.level === 2">
               <el-input v-model="info.label" placeholder="三级指标"></el-input>
               <el-input v-model="info.content" placeholder="检查内容"></el-input>
@@ -61,6 +68,7 @@
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
               </el-button>
             </el-popover>
+
             <!-- 删除 -->
             <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
               <p>确认删除？</p>
@@ -73,7 +81,8 @@
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-remove-outline"></i>
               </el-button>
             </el-popover>
-            <!--重命名-->
+
+            <!--重命名一级二级指标-->
             <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
               <el-input v-model="item" placeholder="修改后的指标"></el-input>
               <div style="text-align: right; margin-top: 5px">
@@ -85,10 +94,12 @@
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i>
               </el-button>
             </el-popover>
+
           </span>
         </span>
       </el-tree>
     </div>
+    <!-- 预览 -->
     <el-button type="text" @click="handle_click" style="margin: 2vh 1vw;" :loading="isloading">
       预览<i class="el-icon-notebook-2"></i>
     </el-button>
@@ -169,11 +180,12 @@ export default {
         label: 'label'
       },
       filterText: '',
+      root_visible: false,
       add_visible: [],
+      third_visible: [],
       delete_visible: [],
       rename_visible: [],
-      third_visible: [],
-      root_visible: false,
+      update_visible: [],
       item: '',
       table_data,
       tree_count,
@@ -193,11 +205,11 @@ export default {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    root_item(data) {//添加一级指标
+    root_item() {//添加一级指标
       this.$store.commit('add_root', this.item);
       this.root_visible = false;
     },
-    root_cancel(data) {//取消添加一级指标
+    root_cancel() {//取消添加一级指标
       this.root_visible = false;
     },
     add_item(data) {//添加二级指标
