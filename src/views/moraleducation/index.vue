@@ -25,14 +25,22 @@
         </span>
       </div>
       <!-- 树体 -->
-      <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
+      <!-- <el-tree :data="data" :show-checkbox="false" node-key="id" default-expand-all :expand-on-click-node="false"
         class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
         style="margin-top: 5px;height: auto;">
         <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>{{ node.label }}</span>
           <span>
-            <!-- 添加二级指标 -->
-            <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
+            {{ node.label }}
+            <span v-if="data.level === 3">
+              content:{{ data.content }}
+              default_value:{{ data.default_value }}
+              step:{{ data.step }}
+              allow:{{ data.allow }}
+            </span>
+          </span>
+          <span> -->
+      <!-- 添加二级指标 -->
+      <!-- <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
               v-if="node.level === 1">
               <el-input v-model="item" placeholder="二级指标"></el-input>
               <div style="text-align: right; margin-top: 5px;">
@@ -43,10 +51,10 @@
               </div>
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
               </el-button>
-            </el-popover>
+            </el-popover> -->
 
-            <!-- 添加三级指标 -->
-            <el-popover placement="bottom" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
+      <!-- 添加三级指标 -->
+      <!-- <el-popover placement="bottom" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
               v-else-if="node.level === 2">
               <el-input v-model="info.label" placeholder="三级指标"></el-input>
               <el-input v-model="info.content" placeholder="检查内容"></el-input>
@@ -67,10 +75,10 @@
               </div>
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
               </el-button>
-            </el-popover>
+            </el-popover> -->
 
-            <!-- 删除 -->
-            <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
+      <!-- 删除 -->
+      <!-- <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
               <p>确认删除？</p>
               <div style="text-align: right; margin: 0">
                 <el-button size="mini" type="text" @click="delete_cancel(data)"><i class="el-icon-close"></i>
@@ -80,10 +88,10 @@
               </div>
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-remove-outline"></i>
               </el-button>
-            </el-popover>
+            </el-popover> -->
 
-            <!--重命名一级二级指标-->
-            <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
+      <!--重命名一级二级指标-->
+      <!-- <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
               <el-input v-model="item" placeholder="修改后的指标"></el-input>
               <div style="text-align: right; margin-top: 5px">
                 <el-button size="mini" type="text" @click="rename_cancel(data)"><i class="el-icon-close"></i>
@@ -93,11 +101,13 @@
               </div>
               <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i>
               </el-button>
-            </el-popover>
+            </el-popover> -->
 
-          </span>
+      <!-- </span>
         </span>
-      </el-tree>
+      </el-tree> -->
+
+      <el-tree :data="data" :props="defaultProps" default-expand-all></el-tree>
     </div>
     <!-- 预览 -->
     <el-button type="text" @click="handle_click" style="margin: 2vh 1vw;" :loading="isloading">
@@ -292,7 +302,7 @@ export default {
 }
 
 .custom-tree-container {
-  width: 50vw;
+  width: 70vw;
   margin: 2vh 1vw;
   float: left;
 }
