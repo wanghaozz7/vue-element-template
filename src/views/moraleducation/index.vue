@@ -13,7 +13,7 @@
         <!-- 添加一级指标 -->
         <span style="position: absolute;right:10px;margin-top: 10px;">
           <el-popover placement="bottom" width="300" v-model="root_visible" @hide="clean_holder">
-            <el-input v-model="item" placeholder="新添加的指标"></el-input>
+            <el-input v-model="item" placeholder="一级指标"></el-input>
             <div style="text-align: right; margin-top: 5px;">
               <el-button size="mini" type="text" @click="root_cancel(data)"><i class="el-icon-close"></i>
               </el-button>
@@ -107,10 +107,12 @@
         </span>
       </el-tree> -->
 
-      <el-tree :data="data" :props="defaultProps" node-key="id" default-expand-all class="filter-tree"
-        :filter-node-method="filterNode" ref="tree" :expand-on-click-node="false">
+      <el-tree :data="data" :props="defaultProps" ref="tree" node-key="id" default-expand-all class="filter-tree"
+        :filter-node-method="filterNode" :expand-on-click-node="false">
         <div slot-scope="{ node, data }" class="custom-tree-node">
+          <!-- 节点名 -->
           <el-tooltip placement="right" effect="light" :open-delay="300">
+
             <div slot="content">
               <p>指标名称:{{ data.label }}</p>
               <p>{{ data.level }}级指标</p>
@@ -120,6 +122,7 @@
             </div>
             <span>{{ node.label }}</span>
           </el-tooltip>
+          <!-- 功能按钮 -->
           <span>
             <!-- 添加二级指标 -->
             <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
@@ -187,8 +190,8 @@
 
             <!-- 修改三级指标 -->
             <el-popover placement="bottom" width="400" v-model="update_visible[data.id]" @hide="clean_holder" v-else>
-              <el-input v-model="info.label" placeholder="三级指标"></el-input>
-              <el-input v-model="info.content" placeholder="检查内容"></el-input>
+              <el-input v-model="info.label" :placeholder="data.label"></el-input>
+              <el-input v-model="info.content" :placeholder="data.content"></el-input>
               <el-radio-group v-model="info.allow">
                 <el-radio label="add">仅加分</el-radio>
                 <el-radio label="sub">仅减分</el-radio>
@@ -197,14 +200,15 @@
               <el-select v-model="info.step">
                 <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
               </el-select>
-              <el-input v-model="info.default_value" placeholder="初始值"></el-input>
+              <el-input v-model="info.default_value" :placeholder="data.default_value"></el-input>
               <div style="text-align: right; margin-top: 5px;">
                 <el-button size="mini" type="text" @click="update_cancel(data)"><i class="el-icon-close"></i>
                 </el-button>
                 <el-button type="primary" size="mini" @click="update_confirm(data)"><i class="el-icon-check"></i>
                 </el-button>
               </div>
-              <el-button type="text" slot="reference" class="node-function" icon="el-icon-circle-plus-outline">
+              <el-button type="text" slot="reference" class="node-function" icon="el-icon-edit-outline"
+                @click="show_old_data(data)">
               </el-button>
             </el-popover>
           </span>
@@ -234,12 +238,8 @@
 
 <script>
 import store from '@/store';
-import TreeTable from '@/components/Treetable';
 export default {
   name: 'Moraleducation',
-  components: {
-    TreeTable
-  },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
@@ -317,7 +317,7 @@ export default {
         content: '',
         default_value: 0,
         step: 1,
-        allow: ''
+        allow: 'add'
       },
       jurisdiction: "是"
     }
@@ -362,7 +362,7 @@ export default {
       store.commit('add_node', info);
       this.$set(this.third_visible, data.id, false);
     },
-    third_cancel(data) {
+    third_cancel(data) {//取消添加三级指标
       this.$set(this.third_visible, data.id, false);
     },
     delete_confirm(node, data) {//确认删除
@@ -380,7 +380,11 @@ export default {
     clean_holder() {//重置信息输入框
       this.item = '';
       this.info = {
-
+        label: '',
+        content: '',
+        default_value: 0,
+        step: 1,
+        allow: 'add'
       };
     },
     rename_confirm(data) {//确认重命名
@@ -395,17 +399,36 @@ export default {
     rename_cancel(data) {//取消重命名
       this.$set(this.rename_visible, data.id, false);
     },
-    update_confirm(data) {
+    update_confirm(data) {//确认修改三级指标
 
+      const info = {
+        id: data.id,
+        label: this.info.label,
+        content: this.info.content,
+        default_value: this.info.default_value,
+        step: this.info.step,
+        allow: this.info.allow
+      };
+      store.commimt('update_node', info);
+      this.$set(this.updata_visible, data.id, false);
     },
-    update_cancel(data) {
-
+    update_cancel(data) {//取消修改三级指标
+      this.$set(this.updata_visible, data.id, false);
     },
-    handle_click() {
+    show_old_data(data) {//修改时输入框是旧数据
+      this.info = {
+        label: data.label,
+        content: data.content,
+        default_value: data.default_value,
+        step: data.step,
+        allow: data.allow
+      }
+    },
+    handle_click() {//处理预览按钮的加载
       this.dialogTableVisible = true;
       this.isloading = true;
     },
-    jurisdiction_change() {
+    jurisdiction_change() {//权限切换
       store.commit('jurisdiction_change');
     }
   }

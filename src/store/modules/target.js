@@ -422,19 +422,10 @@ const mutations = {
           }
         }
       }
-    } else {
-      for (let item of state.target) {
-        for (let child of item.children) {
-          for (let gradeson of child.children) {
-            if (gradeson.id === info.id) {
-              gradeson.label = info.item;
-              console.log(gradeson);
-              return;
-            }
-          }
-        }
-      }
     }
+  },
+  updata_node: (state, info) => {
+    
   },
   jurisdiction_change(state) {//权限改变
     state.jurisdiction = !state.jurisdiction;
