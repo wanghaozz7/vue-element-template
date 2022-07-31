@@ -25,100 +25,18 @@
         </span>
       </div>
       <!-- 树体 -->
-      <!-- <el-tree :data="data" :show-checkbox="false" node-key="id" default-expand-all :expand-on-click-node="false"
-        class="filter-tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
-        style="margin-top: 5px;height: auto;">
-        <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>
-            {{ node.label }}
-            <span v-if="data.level === 3">
-              content:{{ data.content }}
-              default_value:{{ data.default_value }}
-              step:{{ data.step }}
-              allow:{{ data.allow }}
-            </span>
-          </span>
-          <span> -->
-      <!-- 添加二级指标 -->
-      <!-- <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
-              v-if="node.level === 1">
-              <el-input v-model="item" placeholder="二级指标"></el-input>
-              <div style="text-align: right; margin-top: 5px;">
-                <el-button size="mini" type="text" @click="add_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="add_item(data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
-              </el-button>
-            </el-popover> -->
-
-      <!-- 添加三级指标 -->
-      <!-- <el-popover placement="bottom" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
-              v-else-if="node.level === 2">
-              <el-input v-model="info.label" placeholder="三级指标"></el-input>
-              <el-input v-model="info.content" placeholder="检查内容"></el-input>
-              <el-radio-group v-model="info.allow">
-                <el-radio label="add">仅加分</el-radio>
-                <el-radio label="sub">仅减分</el-radio>
-                <el-radio label="all">都可以</el-radio>
-              </el-radio-group>
-              <el-select v-model="info.step">
-                <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
-              </el-select>
-              <el-input v-model="info.default_value" placeholder="初始值"></el-input>
-              <div style="text-align: right; margin-top: 5px;">
-                <el-button size="mini" type="text" @click="third_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="third_confirm(data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-circle-plus-outline"></i>
-              </el-button>
-            </el-popover> -->
-
-      <!-- 删除 -->
-      <!-- <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
-              <p>确认删除？</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="delete_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="delete_item(node, data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-remove-outline"></i>
-              </el-button>
-            </el-popover> -->
-
-      <!--重命名一级二级指标-->
-      <!-- <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder">
-              <el-input v-model="item" placeholder="修改后的指标"></el-input>
-              <div style="text-align: right; margin-top: 5px">
-                <el-button size="mini" type="text" @click="rename_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="rename_item(data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
-              <el-button type="text" slot="reference" class="node-function"><i class="el-icon-edit-outline"></i>
-              </el-button>
-            </el-popover> -->
-
-      <!-- </span>
-        </span>
-      </el-tree> -->
-
       <el-tree :data="data" :props="defaultProps" ref="tree" node-key="id" default-expand-all class="filter-tree"
         :filter-node-method="filterNode" :expand-on-click-node="false">
         <div slot-scope="{ node, data }" class="custom-tree-node">
           <!-- 节点名 -->
-          <el-tooltip placement="right" effect="light" :open-delay="300">
-
+          <el-tooltip placement="right-start" :open-delay="300" :offset="10" popper-class="atooltip"
+            :visible-arrow="false">
             <div slot="content">
               <p>指标名称:{{ data.label }}</p>
-              <p>{{ data.level }}级指标</p>
+              <p>指标级别:{{ data.level }}</p>
               <p v-if="data.level === 3">检查内容:{{ data.content }}</p>
-              <p v-if="data.level === 3">default_value:{{ data.default_value }}</p>
-              <p v-if="data.level === 3">5</p>
+              <p v-if="data.level === 3">默认值:{{ data.default_value }}</p>
+              <p v-if="data.level === 3">步长:{{ data.step }}</p>
             </div>
             <span>{{ node.label }}</span>
           </el-tooltip>
@@ -236,10 +154,14 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import store from '@/store';
+import TreeTable from '@/components/Treetable'
 export default {
   name: 'Moraleducation',
+  components: {
+    TreeTable
+  },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
@@ -435,7 +357,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+/* 树的容器 */
+.custom-tree-container {
+  width: 70vw;
+  margin: 2vh 0 0 7vw;
+  float: left;
+}
+
 .custom-tree-node {
   flex: 1;
   display: flex;
@@ -449,17 +378,27 @@ export default {
   font-size: 18px;
 }
 
-.custom-tree-container {
-  width: 70vw;
-  margin: 2vh 1vw;
-  float: left;
-}
-
 .tree-table {
 
   width: 47vw;
   margin: 2vh 1vw;
   height: 75vh;
 
+}
+</style>
+
+<style>
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
+  border-top-color: #72777b;
+}
+
+.atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow:after {
+  border-top-color: #72777b;
+}
+
+.atooltip {
+  background: #72777b !important;
+  color: #ffc20e !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 </style>

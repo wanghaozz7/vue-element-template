@@ -15,7 +15,6 @@
     <el-row :gutter="25">
       <!-- 年级 -->
       <el-col :span="3" :push="1">
-
         <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
           :clearable="true" @change="grade_change">
           <el-option v-for="item in option_grade" :key="item" :label="item" :value="item">
@@ -31,7 +30,10 @@
         </el-select>
       </el-col>
       <!-- 备注 -->
-      <el-col :span="7" :push="7">
+      <el-col :span="1" :push="7">
+        <span style="line-height: 40px;">备注:</span>
+      </el-col>
+      <el-col :span="6" :push="7">
         <el-input v-model="remarks"></el-input>
       </el-col>
       <!-- 提交 -->
