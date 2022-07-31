@@ -110,7 +110,7 @@
       <el-tree :data="data" :props="defaultProps" node-key="id" default-expand-all class="filter-tree"
         :filter-node-method="filterNode" ref="tree" :expand-on-click-node="false">
         <div slot-scope="{ node, data }" class="custom-tree-node">
-          <el-tooltip placement="top" effect="light">
+          <el-tooltip placement="right" effect="light" :open-delay="300">
             <div slot="content">
               <p>指标名称:{{ data.label }}</p>
               <p>{{ data.level }}级指标</p>
@@ -221,6 +221,14 @@
         <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
       </div>
     </el-dialog>
+
+    <!-- 权限 -->
+    <el-tooltip :content="'开放自由打分权限: ' + jurisdiction" placement="top">
+      <el-switch v-model="jurisdiction" active-color="#13ce66" inactive-color="#ff4949" active-value="是"
+        inactive-value="否" @change="jurisdiction_change">
+      </el-switch>
+    </el-tooltip>
+
   </div>
 </template>
 
@@ -310,7 +318,8 @@ export default {
         default_value: 0,
         step: 1,
         allow: ''
-      }
+      },
+      jurisdiction: "是"
     }
   },
   methods: {
@@ -368,8 +377,11 @@ export default {
     delete_cancel(data) {//取消删除
       this.$set(this.delete_visible, data.id, false);
     },
-    clean_holder() {
+    clean_holder() {//重置信息输入框
       this.item = '';
+      this.info = {
+
+      };
     },
     rename_confirm(data) {//确认重命名
       this.$set(this.rename_visible, data.id, false);
@@ -392,6 +404,9 @@ export default {
     handle_click() {
       this.dialogTableVisible = true;
       this.isloading = true;
+    },
+    jurisdiction_change() {
+      store.commit('jurisdiction_change');
     }
   }
 };

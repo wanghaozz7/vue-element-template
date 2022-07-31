@@ -314,7 +314,8 @@ const state = {
       }]
     }
   ],
-  count: 49
+  count: 49,
+  jurisdiction: true
 }
 const mutations = {
   add_node: (state, info) => {//添加指标
@@ -434,6 +435,9 @@ const mutations = {
         }
       }
     }
+  },
+  jurisdiction_change(state) {//权限改变
+    state.jurisdiction = !state.jurisdiction;
   }
 }
 

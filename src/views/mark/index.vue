@@ -48,8 +48,8 @@
       </el-table-column>
       <el-table-column prop="data" label="分值" min-width="20%">
         <template slot-scope="{row, $index}">
-          <el-input-number v-model="default_value[$index]" :min=min[$index] :max=max[$index] label="修改分值"
-            :step="step[$index]">
+          <el-input-number v-model="default_value[$index]" :min="jurisdiction === true ? -100 : min[$index]"
+            :max="jurisdiction === true ? 100 : max[$index]" label="修改分值" :step="step[$index]">
           </el-input-number>
         </template>
       </el-table-column>
@@ -83,6 +83,7 @@ export default {
     let option_grade = [];
     let option_class = [];
     let option_student = [];
+    let jurisdiction = store.state.target.jurisdiction;
     for (let item of school) {
       option_grade.push(item.label);
       for (let c of item.classes) {
@@ -108,11 +109,12 @@ export default {
       text_content: '分值:',
       step: [1, 2, 3],
       default_value: [1, 2, 3],
-      min: [1, -100, -100],
-      max: [100, 2, 100],
+      min: [],
+      max: [],
       personal: [false, false, false],
       column_student: [],
-      remarks: ''
+      remarks: '',
+      jurisdiction
     };
   },
   methods: {
@@ -123,47 +125,24 @@ export default {
       this.step = [];//步长
       this.default_value = [];//默认值
       this.min = [];
-      this.min = [];
+      this.max = [];
       //先将计数器配置清空
       for (let idx in this.tableData) {
         this.step.push(this.tableData[idx].step);
         this.default_value.push(this.tableData[idx].default_value);
         if (this.tableData[idx].allow === 'add') {
           this.min.push(this.tableData[idx].default_value);
-          this.max.push(100);
+          this.max.push(this.tableData[idx].default_value + this.tableData[idx].step);
         } else if (this.tableData[idx].allow === 'sub') {
-          this.min.push(-100);
+          this.min.push(this.tableData[idx].default_value - this.tableData[idx].step);
           this.max.push(this.tableData[idx].default_value);
         } else {
-          this.min.push(-100);
-          this.max.push(100);
+          this.min.push(this.tableData[idx].default_value - this.tableData[idx].step);
+          this.max.push(this.tableData[idx].default_value + this.tableData[idx].step);
         }
       }
     },
     grade_change(value) {//更新年级
-      //更新数据
-      if (value === '') {//清空
-        this.text_content = '得分:';
-        for (let idx in this.current_score) this.$set(this.current_score, idx, '暂无');//将所有项清空
-      } else {//计算年级总得分
-        this.text_content = value + '级总分值:';
-        for (let item of this.school) {
-          if (item.label !== value) continue;//选择年级
-          let sum = [];
-          for (let c of item.classes) {
-            for (let student of c.students) {
-              let tmp = student.target[this.first][this.second];
-              for (let idx in tmp) {
-                while (sum.length <= idx) sum.push(0);//装填初始值
-                sum[idx] += tmp[idx];
-              }
-            }
-          }
-          this.current_score = sum;
-          break;
-        }
-      }
-
       //更新选择框
       if (value === '') {//清空选择
         this.selected_class = '';
@@ -193,56 +172,6 @@ export default {
       }
     },
     class_change(value) {//更新班级
-      //更新数据
-      if (value === '') {//只保留年级
-        if (this.selected_grade !== '') {//计算总年级得分
-          this.text_content = this.selected_grade + '级总分值:';
-          for (let item of this.school) {
-            if (item.label !== value) continue;//选择年级
-            let sum = [];
-            for (let c of item.classes) {
-              for (let student of c.students) {
-                let tmp = student.target[this.first][this.second];
-                for (let idx in tmp) {
-                  while (sum.length <= idx) sum.push(0);//装填初始值
-                  sum[idx] += tmp[idx];
-                }
-              }
-            }
-            this.current_score = sum;
-            break;
-          }
-        } else {//置空
-
-        }
-      } else {//保留了年级和班级
-        if (this.selected_grade !== '') {//计算某个年级的某班总得分
-          this.text_content = this.selected_grade + value + '总得分:';
-          for (let item of this.school) {//年级
-            if (item.label !== this.selected_grade) continue;
-            for (let c of item.classes) {//班级
-              if (c.idx !== value) continue;
-              let sum = [];
-              for (let student of c.students) {
-                let tmp = student.target[this.first][this.second];
-                for (let idx in tmp) {
-                  while (sum.length <= idx) sum.push(0);//装填初始值
-                  sum[idx] += tmp[idx];
-                }
-              }
-              this.current_score = sum;
-              break;
-            }
-            break;
-          }
-        } else {//只有班级(无效数据)
-
-        }
-      }
-
-
-
-
       //更新选择框
       if (value === '') {//清空选择
         this.selected_class = '';
@@ -268,52 +197,6 @@ export default {
       }
     },
     student_change(value) {//更新学生
-      //更新数据
-      if (value === '') {//清空选择
-        if (this.selected_grade !== '' && this.selected_class !== '') {//显示某个班的总得分
-          this.text_content = this.selected_grade + this.selected_class + '总得分:';
-          for (let item of this.school) {//年级
-            if (item.label !== this.selected_grade) continue;
-            for (let c of item.classes) {//班级
-              if (c.idx !== this.selected_class) continue;
-              let sum = [];
-              for (let student of c.students) {
-                let tmp = student.target[this.first][this.second];
-                for (let idx in tmp) {
-                  while (sum.length <= idx) sum.push(0);//装填初始值
-                  sum[idx] += tmp[idx];
-                }
-              }
-              this.current_score = sum;
-              break;
-            }
-            break;
-          }
-        }
-      } else {//重置选择
-        this.text_content = '分值:';
-        for (let item of this.school) {
-          if (this.selected_grade !== '' && item.label !== this.selected_grade) continue;
-          console.log('school');
-          for (let c of item.classes) {
-            if (this.selected_class !== '' && c.idx !== this.selected_class) continue;
-            console.log('classes');
-
-            for (let student of c.students) {
-              if (student.name !== value) continue;
-              console.log('students');
-
-              this.current_score = [];
-              let tmp = student.target[this.first][this.second];
-              for (let score of tmp) {
-                this.current_score.push(score);
-                console.log('tmp');
-              }
-              return;
-            }
-          }
-        }
-      }
     },
     active_change() {//更新列的扩展
       for (let item of this.personal) {
