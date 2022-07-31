@@ -112,7 +112,7 @@
         <div slot-scope="{ node, data }" class="custom-tree-node">
           <el-tooltip placement="top" effect="light">
             <div slot="content">
-              <p>指标名称:{{ node.label }}</p>
+              <p>指标名称:{{ data.label }}</p>
               <p>{{ data.level }}级指标</p>
               <p v-if="data.level === 3">检查内容:{{ data.content }}</p>
               <p v-if="data.level === 3">default_value:{{ data.default_value }}</p>
@@ -334,6 +334,8 @@ export default {
       }
       store.commit('add_node', info);
       this.$set(this.add_visible, data.id, false);
+      console.log(data);
+
     },
     add_cancel(data) {//取消添加二级指标
       this.$set(this.add_visible, data.id, false);

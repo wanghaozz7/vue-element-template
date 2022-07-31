@@ -324,7 +324,7 @@ const mutations = {
           state.count++;
           const children = {
             id: state.count,
-            label: info,
+            label: info.label,
             level: 2,
             children: []
           }
