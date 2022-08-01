@@ -1,4 +1,3 @@
-import Vue from "vue";
 const state = {
   target: [
     {
@@ -356,7 +355,7 @@ const mutations = {
       }
     }
   },
-  add_root: (state, item) => {
+  add_root: (state, item) => {//添加一级指标
     state.count++;
     const node = {
       id: state.count,
@@ -424,8 +423,28 @@ const mutations = {
       }
     }
   },
-  updata_node: (state, info) => {
-    
+  update_node: (state, info) => {//修改三级指标
+    for (let item of state.target) {
+      for (let child of item.children) {
+        if (child.children.length !== 0) {
+          for (let idx in child.children) {
+            if (child.children[idx].id === info.id) {
+              const obj = {
+                id: info.id,
+                label: info.label,
+                content: info.content,
+                level: 3,
+                default_value: info.default_value,
+                step: info.step,
+                allow: info.allow
+              }
+              child.children.splice(idx, 1, obj);
+              return;
+            }
+          }
+        }
+      }
+    }
   },
   jurisdiction_change(state) {//权限改变
     state.jurisdiction = !state.jurisdiction;

@@ -43,7 +43,7 @@
           <!-- 功能按钮 -->
           <span>
             <!-- 添加二级指标 -->
-            <el-popover placement="bottom" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
+            <el-popover placement="left" width="300" v-model="add_visible[data.id]" @hide="clean_holder"
               v-if="node.level === 1">
               <el-input v-model="item" placeholder="二级指标"></el-input>
               <div style="text-align: right; margin-top: 5px;">
@@ -55,30 +55,49 @@
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-circle-plus-outline">
               </el-button>
             </el-popover>
-
             <!-- 添加三级指标 -->
-            <el-popover placement="bottom" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
+            <el-popover placement="left" width="400" v-model="third_visible[data.id]" @hide="clean_holder"
               v-else-if="node.level === 2">
-              <el-input v-model="info.label" placeholder="三级指标"></el-input>
-              <el-input v-model="info.content" placeholder="检查内容"></el-input>
-              <el-radio-group v-model="info.allow">
-                <el-radio label="add">仅加分</el-radio>
-                <el-radio label="sub">仅减分</el-radio>
-                <el-radio label="all">都可以</el-radio>
-              </el-radio-group>
-              <el-select v-model="info.step">
-                <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
-              </el-select>
-              <el-input v-model="info.default_value" placeholder="初始值"></el-input>
-              <div style="text-align: right; margin-top: 5px;">
-                <el-button size="mini" type="text" @click="third_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="third_confirm(data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
+              <!-- 填写数据的表单 -->
+              <el-form ref="form" :model="info" label-width="85px" label-position="left" size="small" :inline="true">
+                <div class="form_style">
+                  <el-form-item label="指标名称">
+                    <el-input v-model="info.label" style="width: 260px;"></el-input>
+                  </el-form-item>
+                  <el-form-item label="检查内容">
+                    <el-input v-model="info.content" style="width: 260px;"></el-input>
+                  </el-form-item>
+                  <el-form-item label="加减分权限">
+                    <el-radio-group v-model="info.allow">
+                      <el-radio label="add">仅加分</el-radio>
+                      <el-radio label="sub">仅减分</el-radio>
+                      <el-radio label="all">都可以</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form ref="form" :model="info" size="small" :inline="true" style="width: 100%;">
+                    <el-form-item label="初始值" label-width="85px">
+                      <el-input v-model="info.default_value" :placeholder="data.default_value"
+                        style="float: left;width: 60px;">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="步长" label-width="50px">
+                      <el-select v-model="info.step" style="float: left;width: 60px;">
+                        <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
+                      </el-select>
+                      <div style="text-align: right;float: left;margin-left:7px">
+                        <el-button size="mini" type="text" @click="third_cancel(data)"><i class="el-icon-close"></i>
+                        </el-button>
+                        <el-button type="primary" size="mini" @click="third_confirm(data)"><i class="el-icon-check"></i>
+                        </el-button>
+                      </div>
+                    </el-form-item>
+                  </el-form>
+                </div>
+              </el-form>
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-circle-plus-outline">
               </el-button>
             </el-popover>
+
 
             <!-- 删除指标 -->
             <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
@@ -93,7 +112,7 @@
             </el-popover>
 
             <!-- 重命名一、二级指标 -->
-            <el-popover placement="bottom" width="300" v-model="rename_visible[data.id]" @hide="clean_holder"
+            <el-popover placement="left" width="300" v-model="rename_visible[data.id]" @hide="clean_holder"
               v-if="data.level <= 2">
               <el-input v-model="item" placeholder="修改后的指标"></el-input>
               <div style="text-align: right; margin-top: 5px">
@@ -107,24 +126,43 @@
             </el-popover>
 
             <!-- 修改三级指标 -->
-            <el-popover placement="bottom" width="400" v-model="update_visible[data.id]" @hide="clean_holder" v-else>
-              <el-input v-model="info.label" :placeholder="data.label"></el-input>
-              <el-input v-model="info.content" :placeholder="data.content"></el-input>
-              <el-radio-group v-model="info.allow">
-                <el-radio label="add">仅加分</el-radio>
-                <el-radio label="sub">仅减分</el-radio>
-                <el-radio label="all">都可以</el-radio>
-              </el-radio-group>
-              <el-select v-model="info.step">
-                <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
-              </el-select>
-              <el-input v-model="info.default_value" :placeholder="data.default_value"></el-input>
-              <div style="text-align: right; margin-top: 5px;">
-                <el-button size="mini" type="text" @click="update_cancel(data)"><i class="el-icon-close"></i>
-                </el-button>
-                <el-button type="primary" size="mini" @click="update_confirm(data)"><i class="el-icon-check"></i>
-                </el-button>
-              </div>
+            <el-popover placement="left" width="400" v-model="update_visible[data.id]" @hide="clean_holder" v-else>
+              <el-form ref="form" :model="info" label-width="85px" label-position="left" size="small" :inline="true">
+                <div class="form_style">
+                  <el-form-item label="指标名称">
+                    <el-input v-model="info.label" :placeholder="data.label" style="width: 260px;"></el-input>
+                  </el-form-item>
+                  <el-form-item label="检查内容">
+                    <el-input v-model="info.content" :placeholder="data.content" style="width: 260px;"></el-input>
+                  </el-form-item>
+                  <el-form-item label="加减分权限">
+                    <el-radio-group v-model="info.allow">
+                      <el-radio label="add">仅加分</el-radio>
+                      <el-radio label="sub">仅减分</el-radio>
+                      <el-radio label="all">都可以</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form ref="form" :model="info" size="small" :inline="true" style="width: 100%;">
+                    <el-form-item label="初始值" label-width="85px">
+                      <el-input v-model="info.default_value" :placeholder="data.default_value"
+                        style="float: left;width: 60px;">
+                      </el-input>
+                    </el-form-item>
+                    <el-form-item label="步长" label-width="50px">
+                      <el-select v-model="info.step" style="float: left;width: 60px;">
+                        <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
+                      </el-select>
+                      <div style="text-align: right;float: left;margin-left:7px">
+                        <el-button size="mini" type="text" @click="update_cancel(data)"><i class="el-icon-close"></i>
+                        </el-button>
+                        <el-button type="primary" size="mini" @click="update_confirm(data)"><i
+                            class="el-icon-check"></i>
+                        </el-button>
+                      </div>
+                    </el-form-item>
+                  </el-form>
+                </div>
+              </el-form>
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-edit-outline"
                 @click="show_old_data(data)">
               </el-button>
@@ -322,7 +360,6 @@ export default {
       this.$set(this.rename_visible, data.id, false);
     },
     update_confirm(data) {//确认修改三级指标
-
       const info = {
         id: data.id,
         label: this.info.label,
@@ -331,11 +368,11 @@ export default {
         step: this.info.step,
         allow: this.info.allow
       };
-      store.commimt('update_node', info);
-      this.$set(this.updata_visible, data.id, false);
+      store.commit('update_node', info);
+      this.$set(this.update_visible, data.id, false);
     },
     update_cancel(data) {//取消修改三级指标
-      this.$set(this.updata_visible, data.id, false);
+      this.$set(this.update_visible, data.id, false);
     },
     show_old_data(data) {//修改时输入框是旧数据
       this.info = {
@@ -357,7 +394,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* 树的容器 */
 .custom-tree-container {
   width: 70vw;
@@ -385,9 +422,29 @@ export default {
   height: 75vh;
 
 }
+
+/* 表单样式 */
+.form_style /deep/ .el-input__inner {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  color: #303133;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.form_style /deep/ .el-form-item__label {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  color: #606266 !important;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.form_style /deep/ .el-form-item {
+  margin: 5px 15px 5px 0;
+}
 </style>
 
 <style>
+/* tooltip样式 */
 .atooltip.el-tooltip__popper[x-placement^="right"] .popper__arrow {
   border-top-color: #72777b;
 }

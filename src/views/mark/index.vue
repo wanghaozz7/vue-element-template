@@ -1,77 +1,70 @@
 <template>
-  <div style="margin: 1vh 1vw;">
+  <div style="margin: 1vh 1vw;overflow: hidden;">
     <!-- 一级指标tab页 -->
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" type="border-card">
       <el-tab-pane v-for="(item, index) in target" :key="item.id" :label="item.label" :name="item.label">
         <!-- 二级指标button -->
         <el-button round v-for="(button, idx) in item.children" @click="buttonClick(index, idx)"
-          :autofocus="idx === 0 && index === 0">
+          :autofocus="idx === 0 && index === 0" style="margin-top: 10px;margin-left: 15px;">
           {{ button.label }}
         </el-button>
+        <el-divider></el-divider>
+        <el-row style="width: 100%;margin-bottom: 25px;" type="flex" justify="space-between">
+          <!-- 年级和班级-->
+          <el-col :span="8" style="padding: 0;">
+            <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
+              :clearable="true" @change="grade_change" style="float: left;width: calc(50% - 5px);margin-right: 10px;">
+              <el-option v-for="item in option_grade" :key="item" :label="item" :value="item">
+              </el-option>
+            </el-select>
+            <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
+              :clearable="true" @change="class_change" style="float: left;width: calc(50% - 5px);">
+              <el-option v-for="item in option_class" :key="item" :label="item" :value="item">
+              </el-option>
+            </el-select>
+          </el-col>
+          <!-- 备注 -->
+          <el-col :span="8" style="padding: 0;">
+            <el-input v-model="remarks" style="float: left;width: calc(100% - 80px);margin-right: 10px;"
+              placeholder="备注">
+            </el-input>
+            <el-button type="primary">提交</el-button>
+          </el-col>
+        </el-row>
+        <!-- 二级指标下的所有三级指标(打分项) -->
+        <el-table style="width: 100%;" :data="tableData" :border="true" :highlight-current-row="true"
+          :header-cell-style="{ 'text-align': 'center' }" :cell-style="{ 'text-align': 'center' }">
+          <el-table-column prop="label" label="项目内容" width="250px">
+          </el-table-column>
+          <el-table-column prop="content" label="评分标准" min-width="500px">
+          </el-table-column>
+          <el-table-column prop="data" label="分值" width="220px">
+            <template slot-scope="{row, $index}">
+              <el-input-number v-model="default_value[$index]" :min="jurisdiction === true ? -100 : min[$index]"
+                :max="jurisdiction === true ? 100 : max[$index]" label="修改分值" :step="step[$index]">
+              </el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column prop="" label="打分对象" width="180px">
+            <template slot-scope="{row, $index}">
+              <el-switch v-model="personal[$index]" active-text="个人" inactive-text="集体" active-color="#13ce66"
+                inactive-color="#ff4949" @change="active_change">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column prop="" label="学生" width="250px" v-for="item in column_student">
+            <template slot-scope="{row, $index}">
+              <el-select v-model="selected_student" filterable allow-create default-first-option placeholder="选择或输入学生"
+                :clearable="true" @change="student_change" v-show="personal[$index]">
+                <el-option v-for="item in option_student" :key="item" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-divider></el-divider>
-    <!-- header -->
-    <el-row :gutter="25">
-      <!-- 年级 -->
-      <el-col :span="3" :push="1">
-        <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
-          :clearable="true" @change="grade_change">
-          <el-option v-for="item in option_grade" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-col>
-      <!-- 班级 -->
-      <el-col :span="3" :push="1">
-        <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
-          :clearable="true" @change="class_change">
-          <el-option v-for="item in option_class" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-col>
-      <!-- 备注 -->
-      <el-col :span="1" :push="7">
-        <span style="line-height: 40px;">备注:</span>
-      </el-col>
-      <el-col :span="6" :push="7">
-        <el-input v-model="remarks"></el-input>
-      </el-col>
-      <!-- 提交 -->
-      <el-col :span="3" :push="7">
-        <el-button type="primary">提交</el-button>
-      </el-col>
-    </el-row>
-    <!-- 二级指标下的所有三级指标(打分项) -->
-    <el-table :data="tableData" style="width: 80vw;margin: 30px 30px;" :border="true" :highlight-current-row="true"
-      :header-cell-style="{ 'text-align': 'center' }" :cell-style="{ 'text-align': 'center' }">
-      <el-table-column prop="label" label="项目内容" min-width="20%">
-      </el-table-column>
-      <el-table-column prop="content" label="评分标准" min-width="30%">
-      </el-table-column>
-      <el-table-column prop="data" label="分值" min-width="20%">
-        <template slot-scope="{row, $index}">
-          <el-input-number v-model="default_value[$index]" :min="jurisdiction === true ? -100 : min[$index]"
-            :max="jurisdiction === true ? 100 : max[$index]" label="修改分值" :step="step[$index]">
-          </el-input-number>
-        </template>
-      </el-table-column>
-      <el-table-column prop="" label="打分对象" min-width="15%">
-        <template slot-scope="{row, $index}">
-          <el-switch v-model="personal[$index]" active-text="个人" inactive-text="集体" active-color="#13ce66"
-            inactive-color="#ff4949" @change="active_change">
-          </el-switch>
-        </template>
-      </el-table-column>
-      <el-table-column prop="" label="学生" min-width="15%" v-for="item in column_student">
-        <template slot-scope="{row, $index}">
-          <el-select v-model="selected_student" filterable allow-create default-first-option placeholder="选择或输入学生"
-            :clearable="true" @change="student_change" v-show="personal[$index]">
-            <el-option v-for="item in option_student" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-        </template>
-      </el-table-column>
-    </el-table>
+
   </div>
 </template>
 
