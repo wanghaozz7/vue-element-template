@@ -430,7 +430,7 @@ export default {
 }
 
 .form_style /deep/ .el-form-item {
-  margin: 5px 15px 5px 0;
+  margin: 5px 15px 5px 5px;
 }
 </style>
 
