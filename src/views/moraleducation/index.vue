@@ -199,9 +199,10 @@ export default {
     }
   },
   data() {
-    let data = store.state.target.target;
-    let table_data = [];
-    let tree_count = [];
+    const data = store.state.target.target;
+    const table_data = [];
+    const tree_count = [];
+    //计算树形表格数据
     for (let t1 of data) {
       let target1 = t1.label;
       let col_1 = 0;
@@ -288,7 +289,6 @@ export default {
       this.root_visible = false;
     },
     add_confirm(data) {//添加二级指标
-      console.log('add_item');
       const info = {
         id: data.id,
         level: 1,
@@ -377,6 +377,53 @@ export default {
     handle_click() {//处理预览按钮的加载
       this.dialogTableVisible = true;
       this.isloading = true;
+      this.table_data = [];
+      this.tree_count = [];
+      for (let t1 of this.data) {
+        let target1 = t1.label;
+        let col_1 = 0;
+        let col_2 = []
+        if (t1.children.length !== 0) {
+          let idx = 0;
+          for (let t2 of t1.children) {
+            let target2 = t2.label;
+            if (t2.children.length !== 0) {
+              col_1 += t2.children.length;
+              col_2[idx++] = t2.children.length;
+              for (let t3 of t2.children) {
+                let target3 = t3.label;
+                let table_item = {
+                  target1,
+                  target2,
+                  target3
+                };
+                this.table_data.push(table_item);
+              }
+            } else {
+              col_1 += 1;
+              col_2[idx++] = 1;
+              let table_item = {
+                target1,
+                target2,
+                target3: ''
+              };
+              this.table_data.push(table_item);
+            }
+          }
+        } else {
+          let table_item = {
+            target1,
+            target2: '',
+            target3: ''
+          };
+          this.table_data.push(table_item);
+        }
+        let item = {
+          col_1,
+          col_2
+        }
+        this.tree_count.push(item);
+      }
     },
     jurisdiction_change() {//权限切换
       store.commit('jurisdiction_change');

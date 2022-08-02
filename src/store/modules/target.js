@@ -347,7 +347,6 @@ const mutations = {
               allow: info.allow
             }
             child.children.push(children);
-            console.log(child);
             return;
           }
         }

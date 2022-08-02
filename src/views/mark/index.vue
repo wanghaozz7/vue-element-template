@@ -72,12 +72,12 @@ import store from '@/store';
 export default {
   name: '',
   data() {
-    let target = store.state.target.target;
-    let school = store.state.school.data;
-    let option_grade = [];
-    let option_class = [];
-    let option_student = [];
-    let jurisdiction = store.state.target.jurisdiction;
+    const target = store.state.target.target;
+    const school = store.state.school.data;
+    const option_grade = [];
+    const option_class = [];
+    const option_student = [];
+    const jurisdiction = store.state.target.jurisdiction;
     for (let item of school) {
       option_grade.push(item.label);
       for (let c of item.classes) {
