@@ -97,8 +97,6 @@
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-circle-plus-outline">
               </el-button>
             </el-popover>
-
-
             <!-- 删除指标 -->
             <el-popover placement="top" width="160" v-model="delete_visible[data.id]">
               <p>确认删除？</p>
@@ -110,7 +108,6 @@
               </div>
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-remove-outline"></el-button>
             </el-popover>
-
             <!-- 重命名一、二级指标 -->
             <el-popover placement="left" width="300" v-model="rename_visible[data.id]" @hide="clean_holder"
               v-if="data.level <= 2">
@@ -124,7 +121,6 @@
               <el-button type="text" slot="reference" class="node-function" icon="el-icon-edit-outline">
               </el-button>
             </el-popover>
-
             <!-- 修改三级指标 -->
             <el-popover placement="left" width="400" v-model="update_visible[data.id]" @hide="clean_holder" v-else>
               <el-form ref="form" :model="info" label-width="85px" label-position="left" size="small" :inline="true">
@@ -171,7 +167,6 @@
         </div>
       </el-tree>
     </div>
-
     <!-- 预览 -->
     <el-button type="text" @click="handle_click" style="margin: 2vh 1vw;" :loading="isloading">
       预览<i class="el-icon-notebook-2"></i>
@@ -181,14 +176,12 @@
         <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
       </div>
     </el-dialog>
-
     <!-- 权限 -->
     <el-tooltip :content="'开放自由打分权限: ' + jurisdiction" placement="top">
       <el-switch v-model="jurisdiction" active-color="#13ce66" inactive-color="#ff4949" active-value="是"
         inactive-value="否" @change="jurisdiction_change">
       </el-switch>
     </el-tooltip>
-
   </div>
 </template>
 
@@ -303,8 +296,6 @@ export default {
       }
       store.commit('add_node', info);
       this.$set(this.add_visible, data.id, false);
-      console.log(data);
-
     },
     add_cancel(data) {//取消添加二级指标
       this.$set(this.add_visible, data.id, false);

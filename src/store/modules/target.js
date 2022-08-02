@@ -329,7 +329,6 @@ const mutations = {
             children: []
           }
           item.children.push(children);
-          console.log(item);
           return;
         }
       }
@@ -364,15 +363,12 @@ const mutations = {
       children: []
     };
     state.target.push(node);
-    console.log(state.target);
-
   },
   delete_node: (state, info) => {//删除指标
     if (info.level === 1) {//删除一级指标
       for (let idx in state.target) {
         if (state.target[idx].id === info.id) {
           state.target.splice(idx, 1);
-          console.log(state.target);
           return;
         }
       }
@@ -381,7 +377,6 @@ const mutations = {
         for (let idx in item.children) {
           if (item.children[idx].id === info.id) {
             item.children.splice(idx, 1);
-            console.log(state.target);
             return;
           }
         }
@@ -393,7 +388,6 @@ const mutations = {
             for (let idx in child.children) {
               if (child.children[idx].id === info.id) {
                 child.children.splice(idx, 1);
-                console.log(state.target);
                 return;
               }
             }
@@ -407,7 +401,6 @@ const mutations = {
       for (let item of state.target) {
         if (item.id === info.id) {
           item.label = info.item;
-          console.log(item);
           return;
         }
       }
@@ -416,7 +409,6 @@ const mutations = {
         for (let child of item.children) {
           if (child.id === info.id) {
             child.label = info.item;
-            console.log(child);
             return;
           }
         }
