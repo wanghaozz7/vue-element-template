@@ -86,13 +86,26 @@ export const constantRoutes = [
   {
     path: "/demo",
     component: Layout,
-    redirect: "/moral/idx",
+    redirect: "/demo/idx",
     children: [
       {
         path: "idx",
-        name: "idx",
+        name: "demo",
         component: () => import("@/views/demo"),
         meta: { title: "demo", icon: "form" },
+      },
+    ],
+  },
+  {
+    path: "/static",
+    component: Layout,
+    redirect: "/static/idx",
+    children: [
+      {
+        path: "idx",
+        name: "static",
+        component: () => import("@/views/static"),
+        meta: { title: "static", icon: "form" },
       },
     ],
   },
