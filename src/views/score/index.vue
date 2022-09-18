@@ -32,27 +32,26 @@
           </el-col>
         </el-row>
         <!-- 二级指标下的所有三级指标(打分项) -->
-        <el-table style="width: 100%" :data="tableData" :border="true" :highlight-current-row="true"
-          :header-cell-style="{ 'text-align': 'center' }" :cell-style="{ 'text-align': 'center' }">
-          <el-table-column prop="label" label="项目内容" width="250px">
+        <el-table style="width: 100%" :data="tableData" :border="true" :highlight-current-row="true">
+          <el-table-column prop="label" label="指标名称" width="250px" align="center">
           </el-table-column>
           <el-table-column prop="content" label="评分标准" min-width="500px">
           </el-table-column>
-          <el-table-column prop="data" label="分值" width="220px">
+          <el-table-column prop="data" label="分值" width="220px" align="center">
             <template slot-scope="{ row, $index }">
               <el-input-number v-model="default_value[$index]" :min="jurisdiction === true ? -100 : min[$index]"
                 :max="jurisdiction === true ? 100 : max[$index]" label="修改分值" :step="step[$index]">
               </el-input-number>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="打分对象" width="180px">
+          <el-table-column prop="" label="打分对象" width="180px" align="center">
             <template slot-scope="{ row, $index }">
               <el-switch v-model="personal[$index]" active-text="个人" inactive-text="集体" active-color="#13ce66"
                 inactive-color="#ff4949" @change="active_change">
               </el-switch>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="学生" width="250px" v-for="item in column_student">
+          <el-table-column prop="" label="学生" width="250px" v-for="item in column_student" align="center">
             <template slot-scope="{ row, $index }">
               <!-- <el-select
                 v-model="selected_student"
@@ -99,9 +98,9 @@
         <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogTransformVisible" width="45%">
-      <div style="text-align: center">
-        <el-transfer style="text-align: left; display: inline-block;" v-model="value4" filterable
+    <el-dialog :visible.sync="dialogTransformVisible" width="1200px">
+      <div class="board">
+        <!-- <el-transfer style="text-align: left; display: inline-block;" v-model="value4" filterable
           :left-default-checked="[2, 3]" :right-default-checked="[1]" :titles="['Source', 'Target']"
           :button-texts="['到左边', '到右边']" :format="{
             noChecked: '${total}',
@@ -110,7 +109,10 @@
           <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
           <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
           <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
-        </el-transfer>
+        </el-transfer> -->
+        <Kanban :key="1" :list="list1" :group="group" class="kanban todo" header-text="Todo" />
+        <Kanban :key="2" :list="list2" :group="group" class="kanban working" header-text="Working" />
+        <Kanban :key="3" :list="list3" :group="group" class="kanban done" header-text="Done" />
       </div>
     </el-dialog>
   </div>
@@ -118,8 +120,12 @@
 
 <script>
 import store from "@/store";
+import Kanban from '@/components/Kanban'
 export default {
   name: "Score",
+  components: {
+    Kanban
+  },
   data() {
     const target = store.state.target.target;
     const school = store.state.school.data;
@@ -192,6 +198,23 @@ export default {
           </span>
         );
       },
+      group: 'mission',
+      list1: [
+        { name: 'Mission', id: 1 },
+        { name: 'Mission', id: 2 },
+        { name: 'Mission', id: 3 },
+        { name: 'Mission', id: 4 }
+      ],
+      list2: [
+        { name: 'Mission', id: 5 },
+        { name: 'Mission', id: 6 },
+        { name: 'Mission', id: 7 }
+      ],
+      list3: [
+        { name: 'Mission', id: 8 },
+        { name: 'Mission', id: 9 },
+        { name: 'Mission', id: 10 }
+      ]
     };
   },
   methods: {
@@ -227,6 +250,7 @@ export default {
           );
         }
       }
+      for (let idx in this.personal) this.personal[idx] = false
     },
     grade_change(value) {
       //更新年级
@@ -316,9 +340,9 @@ export default {
       let num = Math.floor(Math.random() * 7);
       return color_card[num];
     },
-    handleChange(){
+    handleChange() {
       console.log('11');
-      
+
     }
   },
   created() {
@@ -328,6 +352,16 @@ export default {
 </script>
 
 <style scoped>
+.board {
+  width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+
 .button_style {
   transition: all .8s;
   margin-top: 10px;

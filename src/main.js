@@ -15,6 +15,8 @@ import router from "./router";
 import "@/icons"; // icon
 import "@/permission"; // permission control
 import * as echarts from "echarts";
+import splitPane from "vue-splitpane";
+Vue.component("split-pane", splitPane);
 Vue.prototype.$echarts = echarts;
 /**
  * If you don't want to use mock-server
