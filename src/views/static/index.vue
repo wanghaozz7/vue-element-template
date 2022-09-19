@@ -1,11 +1,6 @@
 <template>
   <div>
     <div class="components-container">
-      <!-- <aside><strong>SplitPane</strong> If you've used
-      <a href="https://codepen.io/" target="_blank"> codepen</a>,
-      <a href="https://jsfiddle.net/" target="_blank"> jsfiddle </a>will not be unfamiliar.
-      <a href="https://github.com/PanJiaChen/vue-split-pane" target="_blank"> Github repository</a>
-    </aside> -->
       <split-pane split="vertical" @resize="resize" :default-percent="70" :min-percent="25">
         <template slot="paneL">
           <div class="chart-container">
@@ -18,44 +13,34 @@
             <template slot="paneL">
               <div class="top-container">
                 <div class="tab-container">
-                  <div class="tab-icon">
-                    <i class="el-icon-user" style="font-size: 64px;"></i>
-                  </div>
-                  <div class="tab-icon">
-                    <i class="el-icon-user" style="font-size: 64px;"></i>
-                  </div>
-                  <div class="tab-icon">
-                    <i class="el-icon-user" style="font-size: 64px;"></i>
-                  </div>
+                  <tabIcon icon="el-icon-user" content="个人"></tabIcon>
+                  <tabIcon icon="el-icon-school" content="班级"></tabIcon>
+                  <tabIcon icon="el-icon-school" content="学校"></tabIcon>
                 </div>
                 <div class="data-filter">
                   <el-collapse accordion>
                     <el-collapse-item>
                       <template slot="title">
-                        <h2>年级<i class="header-icon el-icon-info"></i></h2>
+                        <h2 style="margin-left: 20px;">年级</h2>
                         <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
                       </template>
-                      <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                      <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                      <selector :list=grade></selector>
                     </el-collapse-item>
                     <el-collapse-item>
                       <template slot="title">
-                        <h2>班级<i class="header-icon el-icon-info"></i></h2>
-                        <el-tag type="success">标签二</el-tag>
+                        <h2 style="margin-left: 20px;">班级</h2>
+                        <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
                       </template>
-                      <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                      <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                      <selector :list=classes></selector>
                     </el-collapse-item>
                     <el-collapse-item>
                       <template slot="title">
-                        <h2>指标<i class="header-icon el-icon-info"></i></h2>
-                        <el-tag type="success">标签二</el-tag>
+                        <h2 style="margin-left: 20px;">指标</h2>
+                        <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
                       </template>
-                      <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                      <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                      <selector :list=target></selector>
                     </el-collapse-item>
                   </el-collapse>
-
                 </div>
               </div>
             </template>
@@ -112,9 +97,11 @@
 import splitPane from 'vue-splitpane'
 import Chart from '@/components/Charts/MixChart'
 import { parseTime } from '@/utils'
+import tabIcon from './component/tab-icon'
+import selector from './component/selector'
 export default {
   name: 'MixChart',
-  components: { Chart, splitPane },
+  components: { Chart, splitPane, tabIcon, selector },
   data() {
     return {
       female_data: [
@@ -163,6 +150,12 @@ export default {
       listLoading: false,
       downloadLoading: false,
       filename: '',
+      checked: false,
+      grade: ['初一', '初二', '初三'],
+      classes: ['初一(1)班', '初一(2)班', '初一(3)班', '初一(4)班', '初一(5)班'],
+      target: ['指标1', '指标2', '指标3', '指标4', '指标5'],
+      no_svg: false,
+      is_svg: true
     }
   },
   methods: {
@@ -225,78 +218,62 @@ export default {
 }
 </script>
 
+
 <style scoped>
+/* 图表容器 */
 .chart-container {
   position: relative;
   width: 100%;
   height: calc(100vh - 89px);
 }
 
+/* split-pane的固定容器 */
 .components-container {
   position: relative;
   height: calc(100vh - 90px);
   margin: 20px;
 }
 
+/* 表格的容器 */
 .table-container {
   margin: 20px;
 }
 
+/* 左侧 */
 .left-container {
-  background-color: #F38181;
   height: 100%;
 }
 
+/* 右侧 */
 .right-container {
-  background-color: #FCE38A;
   height: 200px;
 }
 
+/* 右侧顶部 */
 .top-container {
-  background-color: #FCE38A;
   width: 100%;
   height: 100%;
 }
 
+/* 右侧底部 */
 .bottom-container {
   width: 100%;
   background-color: #95E1D3;
   height: 100%;
 }
 
-
 .tab-container {
   width: 100%;
-  height: 20%;
+  height: 100px;
   background-color: #fff;
+  display: flex;
+  flex: 1;
 }
 
 .data-filter {
   width: 100%;
   height: 80%;
-  background-color: #F38181;
-}
-
-.tab-icon {
-  width: 100px;
-  height: 100%;
-  display: flex;
-  background-color: #ac9c5f;
-  color: white;
-  float: left;
-  transition: all .7s;
-}
-
-.tab-icon i {
-  margin: auto;
-}
-
-.tab-icon:hover {
-  transform-style: preserve-3d;
-  transition: all .7s;
-  transform: rotateY(-180deg);
-  background-color: white;
-  color: #ac9c5f;
+  /* background-color: #F0F2F5; */
 }
 </style>
 
