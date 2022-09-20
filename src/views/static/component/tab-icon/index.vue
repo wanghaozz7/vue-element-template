@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip :content=content placement="bottom" effect="light">
+  <el-tooltip :content=content placement="top" effect="light">
     <div class="tab-icon">
       <i :class=icon style="font-size: 64px;" />
     </div>
@@ -31,13 +31,13 @@ export default {
   color: white;
   float: left;
   transition: all .7s;
-  display: flex;
-  flex: 1;
-  margin: auto;
+
 }
 
 .tab-icon i {
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  line-height: 100px;
 }
 
 .tab-icon:hover {

@@ -1,13 +1,13 @@
 <template>
   <div id="selector" :style="{height:is_extend?getHeight():'50px'}" v-click-outside="handleClickOutside">
     <div class="default_demo">
-      <el-button type="text" icon="el-icon-arrow-left" :disabled="checked===0" @click="checked--"></el-button>
+      <el-button type="text" icon="el-icon-arrow-left" :disabled="checked===0" @click="shift_left"></el-button>
       <el-button type="text" @click="is_extend = true">{{list[checked]}}</el-button>
-      <el-button type="text" icon="el-icon-arrow-right" :disabled="checked+1===list.length" @click="checked++">
+      <el-button type="text" icon="el-icon-arrow-right" :disabled="checked+1===list.length" @click="shift_right">
       </el-button>
     </div>
     <div class="hidden_demo">
-      <div style="margin: 0 150px;background-color: #fff;">
+      <div style="margin: 0 auto;background-color: #fff;width:160px">
         <h3 @click="handleClick(idx)" v-for="(item,idx) in list" class="normal-cursor">
           <el-button circle class="check-button" :style="{color:idx!==checked?'#fff':'#2EC7C9'}"><i
               class="el-icon-check"></i>
@@ -49,6 +49,15 @@ export default {
     handleClick(idx) {
       this.checked = idx;
       this.is_extend = false;
+      this.$emit('checkedChange', this.checked);
+    },
+    shift_left() {
+      this.checked--;
+      this.$emit('checkedChange', this.checked);
+    },
+    shift_right() {
+      this.checked++;
+      this.$emit('checkedChange', this.checked);
     }
   },
   directives: {
@@ -121,7 +130,7 @@ export default {
 .check-button {
   padding: 6px;
   font-size: 15px;
-  margin: 0 30px 0 20px;
+  margin: 0 20px 0 20px;
 }
 
 .check-button:hover {

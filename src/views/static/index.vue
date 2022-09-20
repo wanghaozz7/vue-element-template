@@ -9,7 +9,7 @@
           </div>
         </template>
         <template slot="paneR">
-          <split-pane split="horizontal">
+          <split-pane split="horizontal" @resize="resize" :default-percent="80" :min-percent="20">
             <template slot="paneL">
               <div class="top-container">
                 <div class="tab-container">
@@ -22,23 +22,26 @@
                     <el-collapse-item>
                       <template slot="title">
                         <h2 style="margin-left: 20px;">年级</h2>
-                        <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
+                        <el-tag style="margin-left: 10px;color: #01847F;background-color: #F9D2E4;">{{checked_grade}}
+                        </el-tag>
                       </template>
-                      <selector :list=grade></selector>
+                      <selector :list=grade @checkedChange="handleGrade"></selector>
                     </el-collapse-item>
                     <el-collapse-item>
                       <template slot="title">
                         <h2 style="margin-left: 20px;">班级</h2>
-                        <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
+                        <el-tag style="margin-left: 10px;color: #F8F5D6;background-color: #80D1C8;">{{checked_classed}}
+                        </el-tag>
                       </template>
-                      <selector :list=classes></selector>
+                      <selector :list=classes @checkedChange="handleClasses"></selector>
                     </el-collapse-item>
                     <el-collapse-item>
                       <template slot="title">
                         <h2 style="margin-left: 20px;">指标</h2>
-                        <el-tag style="margin-left: 10px;color: black;background-color: #fff;">标签二</el-tag>
+                        <el-tag style="margin-left: 10px;color: #492D22;background-color: #D8C7B5;">{{checked_target}}
+                        </el-tag>
                       </template>
-                      <selector :list=target></selector>
+                      <selector :list=target @checkedChange="handleTarget"></selector>
                     </el-collapse-item>
                   </el-collapse>
                 </div>
@@ -59,18 +62,19 @@
         </el-button>
       </div>
 
-      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading..." border fit highlight-current-row>
+      <el-table v-loading="listLoading" :data="list" element-loading-text="Loading..." border fit highlight-current-row
+        :default-sort="{prop: 'class', order: 'descending'}">
         <el-table-column align="center" label="" width="95">
           <template slot-scope="scope">
             {{ scope.$index }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="班级" width="95">
+        <el-table-column align="center" label="班级" width="95" sortable>
           <template slot-scope="scope">
             {{ scope.row.class }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="总得分" width="95">
+        <el-table-column align="center" label="总得分" width="95" sortable>
           <template slot-scope="scope">
             {{ scope.row.total }}
           </template>
@@ -154,8 +158,9 @@ export default {
       grade: ['初一', '初二', '初三'],
       classes: ['初一(1)班', '初一(2)班', '初一(3)班', '初一(4)班', '初一(5)班'],
       target: ['指标1', '指标2', '指标3', '指标4', '指标5'],
-      no_svg: false,
-      is_svg: true
+      checked_grade: '初一',
+      checked_classed: '初一(1)班',
+      checked_target: '指标1'
     }
   },
   methods: {
@@ -173,13 +178,13 @@ export default {
         },
         {
           class: '初一1班',
-          total: 99,
+          total: 98,
           rate: 3.7,
           title: '1111111111111111111111111111111111111111111111111111'
         },
         {
           class: '初一1班',
-          total: 99,
+          total: 91,
           rate: 3.7,
           title: '1111111111111111111111111111111111111111111111111111'
         }
@@ -210,6 +215,18 @@ export default {
           return v[j]
         }
       }))
+    },
+    handleGrade(e) {
+      this.checked_grade = this.grade[e];
+    },
+    handleClasses(e) {
+      this.checked_classed = this.classes[e];
+    },
+    handleTarget(e) {
+      this.checked_target = this.target[e];
+    },
+    formatter(row, column) {
+      return row.address;
     }
   },
   created() {
@@ -267,7 +284,11 @@ export default {
   height: 100px;
   background-color: #fff;
   display: flex;
-  flex: 1;
+  margin-bottom: 14px;
+}
+
+.tab-container div {
+  margin: auto;
 }
 
 .data-filter {
