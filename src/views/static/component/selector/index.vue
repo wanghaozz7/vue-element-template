@@ -2,7 +2,7 @@
   <div id="selector" :style="{height:is_extend?getHeight():'50px'}" v-click-outside="handleClickOutside">
     <div class="default_demo">
       <el-button type="text" icon="el-icon-arrow-left" :disabled="checked===0" @click="shift_left"></el-button>
-      <el-button type="text" @click="is_extend = true">{{list[checked]}}</el-button>
+      <el-button type="text" @click="is_extend = !is_extend">{{list[checked]}}</el-button>
       <el-button type="text" icon="el-icon-arrow-right" :disabled="checked+1===list.length" @click="shift_right">
       </el-button>
     </div>
@@ -40,7 +40,8 @@ export default {
   methods: {
     getHeight() {//自适应获得下拉框长度
       let len = this.list.length + 1;
-      let num = len * 45 + 14;
+      let num = len * 45 + 10;
+      num = num > 450 ? 372 : num;
       return num + 'px';
     },
     handleClickOutside() {
@@ -100,7 +101,8 @@ export default {
   margin: 14px;
   overflow: hidden;
   transition: all .8s;
-  background-color: #F0F2F5;
+
+  z-index: 99;
 }
 
 #selector:hover {
@@ -111,6 +113,7 @@ export default {
 .default_demo {
   height: 50px;
   text-align: center;
+  background-color: #F0F2F5;
 }
 
 .default_demo button {
@@ -118,24 +121,32 @@ export default {
 }
 
 .hidden_demo {
-  background-color: #F0F2F5;
+  background-color: #fff;
+  margin-bottom: 10px;
+  overflow: auto;
+  overflow-x: hidden;
+  height: 320px;
+  line-height: 30px;
 }
 
 .hidden_demo h3 {
   padding: 7px 0 7px 0;
   margin: 0;
   border-bottom: 0.5px solid #F0F2F5;
+  border-left: 0.5px solid #F0F2F5;
+  border-right: 0.5px solid #F0F2F5;
 }
 
 .check-button {
   padding: 6px;
   font-size: 15px;
-  margin: 0 20px 0 20px;
+  margin: 0 10px 0 10px;
 }
 
-.check-button:hover {
+.hidden_demo h3:hover .check-button {
   background-color: greenyellow;
 }
+
 
 .normal-cursor:hover {
   cursor: default;

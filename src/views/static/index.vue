@@ -9,7 +9,7 @@
           </div>
         </template>
         <template slot="paneR">
-          <split-pane split="horizontal" @resize="resize" :default-percent="80" :min-percent="20">
+          <!-- <split-pane split="horizontal" @resize="resize" :default-percent="80" :min-percent="20">
             <template slot="paneL">
               <div class="top-container">
                 <div class="tab-container">
@@ -47,10 +47,45 @@
                 </div>
               </div>
             </template>
-            <template slot="paneR">
+             <template slot="paneR">
               <div class="bottom-container" />
-            </template>
-          </split-pane>
+            </template> -->
+          <!-- </split-pane> -->
+          <div class="top-container">
+            <div class="tab-container">
+              <tabIcon icon="el-icon-user" content="个人"></tabIcon>
+              <tabIcon icon="el-icon-school" content="班级"></tabIcon>
+              <tabIcon icon="el-icon-school" content="学校"></tabIcon>
+            </div>
+            <div class="data-filter">
+              <el-collapse accordion>
+                <el-collapse-item>
+                  <template slot="title">
+                    <h2 style="margin-left: 20px;">年级</h2>
+                    <el-tag style="margin-left: 10px;color: #01847F;background-color: #F9D2E4;">{{checked_grade}}
+                    </el-tag>
+                  </template>
+                  <selector :list=grade @checkedChange="handleGrade"></selector>
+                </el-collapse-item>
+                <el-collapse-item>
+                  <template slot="title">
+                    <h2 style="margin-left: 20px;">班级</h2>
+                    <el-tag style="margin-left: 10px;color: #F8F5D6;background-color: #80D1C8;">{{checked_classed}}
+                    </el-tag>
+                  </template>
+                  <selector :list=classes @checkedChange="handleClasses"></selector>
+                </el-collapse-item>
+                <el-collapse-item>
+                  <template slot="title">
+                    <h2 style="margin-left: 20px;">指标</h2>
+                    <el-tag style="margin-left: 10px;color: #492D22;background-color: #D8C7B5;">{{checked_target}}
+                    </el-tag>
+                  </template>
+                  <selector :list=target @checkedChange="handleTarget"></selector>
+                </el-collapse-item>
+              </el-collapse>
+            </div>
+          </div>
         </template>
       </split-pane>
     </div>
@@ -156,7 +191,7 @@ export default {
       filename: '',
       checked: false,
       grade: ['初一', '初二', '初三'],
-      classes: ['初一(1)班', '初一(2)班', '初一(3)班', '初一(4)班', '初一(5)班'],
+      classes: ['初一(1)班', '初一(2)班', '初一(3)班', '初一(4)班', '初一(5)班', '初一(6)班', '初一(7)班', '初一(8)班', '初一(9)班', '初一(10)班', '初一(11)班', '初一(12)班', '初一(13)班'],
       target: ['指标1', '指标2', '指标3', '指标4', '指标5'],
       checked_grade: '初一',
       checked_classed: '初一(1)班',
