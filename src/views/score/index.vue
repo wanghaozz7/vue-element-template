@@ -5,7 +5,7 @@
       <el-tab-pane v-for="(item, index) in target" :key="item.id" :label="item.label" :name="item.label">
         <!-- 二级指标button -->
         <el-button round v-for="(button, idx) in item.children" @click="buttonClick(index, idx)"
-          :autofocus="idx === 0 && index === 0" class="button_style" :class="button_color()">
+          :autofocus="idx === 0 && index === 0" class="button_style" :class=[hover_random(),choose_random(index,idx)]>
           {{ button.label }}
         </el-button>
         <el-divider></el-divider>
@@ -74,7 +74,7 @@
               <div v-show="personal[$index]">
                 <!-- <h4 style="margin: 0;"></h4> -->
                 <!-- <el-button type="text" @click="dialogFormVisible = true">表单</el-button> -->
-                <el-button type="text" @click="dialogTransformVisible = true">已选0人</el-button>
+                <el-button type="text" @click="dialogTransformVisible = true">已选{{list2.length}}人</el-button>
               </div>
             </template>
           </el-table-column>
@@ -100,19 +100,8 @@
     </el-dialog>
     <el-dialog :visible.sync="dialogTransformVisible" width="1100px" top="5vh">
       <div class="board">
-        <!-- <el-transfer style="text-align: left; display: inline-block;" v-model="value4" filterable
-          :left-default-checked="[2, 3]" :right-default-checked="[1]" :titles="['Source', 'Target']"
-          :button-texts="['到左边', '到右边']" :format="{
-            noChecked: '${total}',
-            hasChecked: '${checked}/${total}',
-          }" @change="handleChange" :data="transformData">
-          <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
-          <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-          <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
-        </el-transfer> -->
         <KanbanShow :key="1" :list="list1" :group="group" class="kanban todo" header-text="未选中" />
         <KanbanSelect :key="2" :list="list2" :group="group" class="kanban working" header-text="已选中" />
-        <!--  <Kanban :key="3" :list="list3" :group="group" class="kanban done" header-text="未选中" /> -->
       </div>
     </el-dialog>
   </div>
@@ -122,6 +111,7 @@
 import store from "@/store";
 import KanbanShow from '@/components/Kanban/show'
 import KanbanSelect from '@/components/Kanban/select'
+import { color } from "echarts/lib/theme/light";
 export default {
   name: "Score",
   components: {
@@ -164,14 +154,12 @@ export default {
       }
     }
     return {
-      activeName: "学风纪律",
-      target,
-      selected_grade: "",
-      selected_class: "",
-      selected_student: "",
-      option_grade,
-      option_class,
-      option_student,
+      activeName: "学风纪律",//选中的指标
+      target,//指标集合
+      selected_grade: "",//被选中的年级
+      selected_class: "",//被选中的班级
+      option_grade,//年级集合
+      option_class,//班级集合
       school,
       //默认数据
       tableData: target[0].children[0].children,
@@ -253,7 +241,9 @@ export default {
         { name: 'Mission', id: 49 },
         { name: 'Mission', id: 50 },
       ],
-      list2: []
+      list2: [],
+      studentList: [],
+      studentSelected: []
     };
   },
   methods: {
@@ -374,18 +364,22 @@ export default {
     submit() {
       //提交数据
     },
-    button_color() {
+    hover_random() {
       const color_card = ['button_color1', 'button_color2', 'button_color3', 'button_color4', 'button_color5', 'button_color6', 'button_color7']
       let num = Math.floor(Math.random() * 7);
       return color_card[num];
     },
     handleChange() {
       console.log('11');
-
+    },
+    choose_random(index, idx) {
+      const color_card = ['button_color1_chosen', 'button_color2_chosen', 'button_color3_chosen', 'button_color4_chosen', 'button_color5_chosen', 'button_color6_chosen', 'button_color7_chosen']
+      let num = Math.floor(Math.random() * 7);
+      if (index === this.first && idx === this.second) return color_card[num];
+      return '';
     }
   },
   created() {
-    //申请数据
   },
 };
 </script>
@@ -409,18 +403,18 @@ export default {
 }
 
 /* 克莱因蓝 + 松花黄 */
-.button_color1:focus {
+.button_color1_chosen {
   background-color: #FFE76F;
   color: #002EA6;
 }
 
 .button_color1:hover {
-  background-color: #FFE76F;
-  color: #002EA6;
+  background-color: #002EA6;
+  color: #FFE76F;
 }
 
 /* 马尔斯绿 + 玫瑰粉 */
-.button_color2:focus {
+.button_color2_chosen {
   background-color: #F9D2E4;
   color: #01847F;
 }
@@ -431,7 +425,7 @@ export default {
 }
 
 /* 爱马仕橙 + 深蓝色 */
-.button_color3:focus {
+.button_color3_chosen {
   background-color: #FF770F;
   color: #000026;
 }
@@ -442,7 +436,7 @@ export default {
 }
 
 /* 奶酪色 + 蒂尼芙蓝 */
-.button_color4:focus {
+.button_color4_chosen {
   background-color: #F8F5D6;
   color: #80D1C8;
 }
@@ -453,7 +447,7 @@ export default {
 }
 
 /* 中国红 + 淡黄色 */
-.button_color5:focus {
+.button_color5_chosen {
   background-color: #FF0000;
   color: #FAEAD3;
 }
@@ -464,7 +458,7 @@ export default {
 }
 
 /* 范戴克棕 + 浅卡其色 */
-.button_color6:focus {
+.button_color6_chosen {
   background-color: #492D22;
   color: #D8C7B5;
 }
@@ -475,7 +469,7 @@ export default {
 }
 
 /* 普鲁士蓝 + 雾灰色 */
-.button_color7:focus {
+.button_color7_chosen {
   background-color: #E5DDD7;
   color: #003153;
 }
