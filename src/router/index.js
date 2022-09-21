@@ -105,7 +105,7 @@ export const constantRoutes = [
         path: "idx",
         name: "static",
         component: () => import("@/views/static"),
-        meta: { title: "static", icon: "form" },
+        meta: { title: "static", icon: "el-icon-s-data" },
       },
     ],
   },

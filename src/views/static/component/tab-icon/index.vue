@@ -1,6 +1,6 @@
 <template>
   <el-tooltip :content=content placement="top" effect="light">
-    <div class="tab-icon">
+    <div class="tab-icon" @click="tabChange">
       <i :class=icon style="font-size: 64px;" />
     </div>
   </el-tooltip>
@@ -18,6 +18,16 @@ export default {
     content: {
       type: String,
       default: ''
+    },
+    id: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    tabChange() {
+      this.$emit('tabChange', this.id)
+
     }
   }
 };
@@ -46,5 +56,6 @@ export default {
   transform: rotateY(-180deg);
   background-color: white;
   color: #ac9c5f;
+  cursor: pointer;
 }
 </style>

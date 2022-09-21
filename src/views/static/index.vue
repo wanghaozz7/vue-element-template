@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="components-container">
-      <split-pane split="vertical" @resize="resize" :default-percent="70" :min-percent="25">
+      <split-pane split="vertical" @resize="resize" :default-percent="75" :min-percent="25">
         <template slot="paneL">
           <div class="chart-container">
-            <chart height="100%" width="100%" :chart_data="chart_data" ref="child" />
+            <chart height="100%" width="100%" :chart_data="chart_data[data_idx]" ref="child" v-if="type==='0'" />
           </div>
         </template>
         <template slot="paneR">
-          <!-- <split-pane split="horizontal" @resize="resize" :default-percent="80" :min-percent="20">
+          <!-- <split-pane split="horizontal" @resize="resize" :default-percent="80" :min-percent="15">
             <template slot="paneL">
               <div class="top-container">
                 <div class="tab-container">
@@ -52,9 +52,9 @@
           <!-- </split-pane> -->
           <div class="top-container">
             <div class="tab-container">
-              <tabIcon icon="el-icon-user" content="个人"></tabIcon>
-              <tabIcon icon="el-icon-school" content="班级"></tabIcon>
-              <tabIcon icon="el-icon-school" content="学校"></tabIcon>
+              <tabIcon icon="el-icon-s-home" content="班级" id=0 @tabChange="tabChange"></tabIcon>
+              <tabIcon icon="el-icon-user-solid" content="个人" id=1 @tabChange="tabChange"></tabIcon>
+              <tabIcon icon="el-icon-school" content="学校" id=2 @tabChange="tabChange"></tabIcon>
             </div>
             <div class="data-filter">
               <el-collapse accordion>
@@ -77,6 +77,14 @@
                 <el-collapse-item>
                   <template slot="title">
                     <h2 style="margin-left: 20px;">指标</h2>
+                    <el-tag style="margin-left: 10px;color: #492D22;background-color: #D8C7B5;">{{checked_target}}
+                    </el-tag>
+                  </template>
+                  <selector :list=target @checkedChange="handleTarget"></selector>
+                </el-collapse-item>
+                <el-collapse-item v-if="type==='1'">
+                  <template slot="title">
+                    <h2 style="margin-left: 20px;">学生</h2>
                     <el-tag style="margin-left: 10px;color: #492D22;background-color: #D8C7B5;">{{checked_target}}
                     </el-tag>
                   </template>
@@ -148,11 +156,6 @@ export default {
 
   data() {
     return {
-      chart_data: {
-        female_data,
-        male_data,
-        avg_data,
-      },
       list: null,
       listLoading: false,
       downloadLoading: false,
@@ -163,7 +166,32 @@ export default {
       target: ['指标1', '指标2', '指标3', '指标4', '指标5'],
       checked_grade: '初一',
       checked_classed: '初一(1)班',
-      checked_target: '指标1'
+      checked_target: '指标1',
+      chart_data: [
+        {
+          female_data: [70, 19, 24, 26, 17, 14, 15, 32, 58, 32, 84, 48],
+          male_data: [37, 76, 50, 20, 80, 42, 24, 90, 11, 51, 81, 20],
+          avg_data: [36, 69, 22, 10, 29, 15, 18, 75, 29, 43, 25, 48],
+          x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          classes: '初一(1)班'
+        },
+        {
+          female_data: [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220],
+          male_data: [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078],
+          avg_data: [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298],
+          x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          classes: '初一(1)班'
+        },
+        {
+          female_data: [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298],
+          male_data: [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220],
+          avg_data: [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078],
+          x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          classes: '初一(1)班'
+        }
+      ],
+      data_idx: 0,
+      type: '0'
     }
   },
   methods: {
@@ -221,8 +249,7 @@ export default {
     },
     handleGrade(e) {
       this.checked_grade = this.grade[e];
-      this.chart_data.female_data = [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220];
-      this.chart_data.male_data = [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078];
+      this.data_idx = e;
     },
     handleClasses(e) {
       this.checked_classed = this.classes[e];
@@ -232,6 +259,10 @@ export default {
     },
     formatter(row, column) {
       return row.address;
+    },
+    tabChange(idx) {
+      console.log(idx);
+      this.type = idx;
     }
   },
   created() {

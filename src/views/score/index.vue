@@ -72,9 +72,9 @@
                 </el-option>
               </el-select> -->
               <div v-show="personal[$index]">
-                <h4>已选0人</h4>
-                <el-button type="text" @click="dialogFormVisible = true">表单</el-button>
-                <el-button type="text" @click="dialogTransformVisible = true">穿梭框</el-button>
+                <!-- <h4 style="margin: 0;"></h4> -->
+                <!-- <el-button type="text" @click="dialogFormVisible = true">表单</el-button> -->
+                <el-button type="text" @click="dialogTransformVisible = true">已选0人</el-button>
               </div>
             </template>
           </el-table-column>
@@ -98,7 +98,7 @@
         <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogTransformVisible" width="1200px">
+    <el-dialog :visible.sync="dialogTransformVisible" width="1100px" top="5vh">
       <div class="board">
         <!-- <el-transfer style="text-align: left; display: inline-block;" v-model="value4" filterable
           :left-default-checked="[2, 3]" :right-default-checked="[1]" :titles="['Source', 'Target']"
@@ -110,9 +110,9 @@
           <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
           <el-button class="transfer-footer" slot="right-footer" size="small">操作</el-button>
         </el-transfer> -->
-        <Kanban :key="1" :list="list1" :group="group" class="kanban todo" header-text="Todo" />
-        <Kanban :key="2" :list="list2" :group="group" class="kanban working" header-text="Working" />
-        <Kanban :key="3" :list="list3" :group="group" class="kanban done" header-text="Done" />
+        <KanbanShow :key="1" :list="list1" :group="group" class="kanban todo" header-text="未选中" />
+        <KanbanSelect :key="2" :list="list2" :group="group" class="kanban working" header-text="已选中" />
+        <!--  <Kanban :key="3" :list="list3" :group="group" class="kanban done" header-text="未选中" /> -->
       </div>
     </el-dialog>
   </div>
@@ -120,11 +120,13 @@
 
 <script>
 import store from "@/store";
-import Kanban from '@/components/Kanban'
+import KanbanShow from '@/components/Kanban/show'
+import KanbanSelect from '@/components/Kanban/select'
 export default {
   name: "Score",
   components: {
-    Kanban
+    KanbanShow,
+    KanbanSelect
   },
   data() {
     const target = store.state.target.target;
@@ -203,18 +205,55 @@ export default {
         { name: 'Mission', id: 1 },
         { name: 'Mission', id: 2 },
         { name: 'Mission', id: 3 },
-        { name: 'Mission', id: 4 }
-      ],
-      list2: [
+        { name: 'Mission', id: 4 },
         { name: 'Mission', id: 5 },
         { name: 'Mission', id: 6 },
-        { name: 'Mission', id: 7 }
-      ],
-      list3: [
+        { name: 'Mission', id: 7 },
         { name: 'Mission', id: 8 },
         { name: 'Mission', id: 9 },
-        { name: 'Mission', id: 10 }
-      ]
+        { name: 'Mission', id: 10 },
+        { name: 'Mission', id: 11 },
+        { name: 'Mission', id: 12 },
+        { name: 'Mission', id: 13 },
+        { name: 'Mission', id: 14 },
+        { name: 'Mission', id: 15 },
+        { name: 'Mission', id: 16 },
+        { name: 'Mission', id: 17 },
+        { name: 'Mission', id: 18 },
+        { name: 'Mission', id: 19 },
+        { name: 'Mission', id: 20 },
+        { name: 'Mission', id: 21 },
+        { name: 'Mission', id: 22 },
+        { name: 'Mission', id: 23 },
+        { name: 'Mission', id: 24 },
+        { name: 'Mission', id: 25 },
+        { name: 'Mission', id: 26 },
+        { name: 'Mission', id: 27 },
+        { name: 'Mission', id: 28 },
+        { name: 'Mission', id: 29 },
+        { name: 'Mission', id: 30 },
+        { name: 'Mission', id: 31 },
+        { name: 'Mission', id: 32 },
+        { name: 'Mission', id: 33 },
+        { name: 'Mission', id: 34 },
+        { name: 'Mission', id: 35 },
+        { name: 'Mission', id: 36 },
+        { name: 'Mission', id: 37 },
+        { name: 'Mission', id: 38 },
+        { name: 'Mission', id: 39 },
+        { name: 'Mission', id: 40 },
+        { name: 'Mission', id: 41 },
+        { name: 'Mission', id: 42 },
+        { name: 'Mission', id: 43 },
+        { name: 'Mission', id: 44 },
+        { name: 'Mission', id: 45 },
+        { name: 'Mission', id: 46 },
+        { name: 'Mission', id: 47 },
+        { name: 'Mission', id: 48 },
+        { name: 'Mission', id: 49 },
+        { name: 'Mission', id: 50 },
+      ],
+      list2: []
     };
   },
   methods: {
@@ -353,7 +392,7 @@ export default {
 
 <style scoped>
 .board {
-  width: 1000px;
+  width: 1060px;
   margin: auto;
   display: flex;
   justify-content: space-around;
