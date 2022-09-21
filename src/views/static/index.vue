@@ -4,8 +4,7 @@
       <split-pane split="vertical" @resize="resize" :default-percent="70" :min-percent="25">
         <template slot="paneL">
           <div class="chart-container">
-            <chart height="100%" width="100%" :female_data=female_data :male_data=male_data :avg_data=avg_data
-              ref="child" />
+            <chart height="100%" width="100%" :chart_data="chart_data" ref="child" />
           </div>
         </template>
         <template slot="paneR">
@@ -138,53 +137,22 @@ import Chart from '@/components/Charts/MixChart'
 import { parseTime } from '@/utils'
 import tabIcon from './component/tab-icon'
 import selector from './component/selector'
+
+
+const female_data = [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078];
+const male_data = [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220];
+const avg_data = [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298]
 export default {
   name: 'MixChart',
   components: { Chart, splitPane, tabIcon, selector },
+
   data() {
     return {
-      female_data: [
-        709,
-        1917,
-        2455,
-        2610,
-        1719,
-        1433,
-        1544,
-        3285,
-        5208,
-        3372,
-        2484,
-        4078
-      ],
-      male_data: [
-        327,
-        1776,
-        507,
-        1200,
-        800,
-        482,
-        204,
-        1390,
-        1001,
-        951,
-        381,
-        220
-      ],
-      avg_data: [
-        1036,
-        3693,
-        2962,
-        3810,
-        2519,
-        1915,
-        1748,
-        4675,
-        6209,
-        4323,
-        2865,
-        4298
-      ],
+      chart_data: {
+        female_data,
+        male_data,
+        avg_data,
+      },
       list: null,
       listLoading: false,
       downloadLoading: false,
@@ -253,6 +221,8 @@ export default {
     },
     handleGrade(e) {
       this.checked_grade = this.grade[e];
+      this.chart_data.female_data = [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220];
+      this.chart_data.male_data = [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078];
     },
     handleClasses(e) {
       this.checked_classed = this.classes[e];
@@ -267,6 +237,15 @@ export default {
   created() {
     this.fetchData()
   },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      },
+      immediate: true
+    }
+  }
 }
 </script>
 
