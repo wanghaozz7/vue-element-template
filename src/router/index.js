@@ -109,6 +109,19 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path:"/modify",
+    component:Layout,
+    redirect:"/static/idx",
+    children:[
+      {
+        path:"idx",
+        name:"modify",
+        component:()=>import("@/views/modify"),
+        meta:{title:"modify",icon:"el-icon-edit"}
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },
 ];

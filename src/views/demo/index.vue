@@ -1,13 +1,56 @@
 <template>
   <div class="container">
     <el-table :data="tableData" style="width: 100%; margin-bottom: 20px" row-key="id" border
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="name" label="指标" width="180" header-align="center"> </el-table-column>
-      <el-table-column prop="detail" label="检查内容" min-width="180" align="center">
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" :row-class-name="tableRowClassName">
+      <el-table-column prop="name" label="指标" width="180" header-align="center">
+        <template slot-scope="scope">
+          <el-popover placement="bottom" width="400" trigger="click">
+            <el-input v-model="item" placeholder="修改后"></el-input>
+            <div style="text-align: right; margin-top: 5px">
+              <el-button size="mini" type="text" @click="rename_cancel(scope.$index)"><i class="el-icon-close"></i>
+              </el-button>
+              <el-button type="primary" size="mini" @click="rename_confirm(scope.$index)"><i class="el-icon-check"></i>
+              </el-button>
+            </div>
+            <el-button slot="reference" type="text">{{scope.row.name}}</el-button>
+          </el-popover>
+        </template>
       </el-table-column>
-      <el-table-column prop="default_value" label="默认值" align="center" width="100"></el-table-column>
-      <el-table-column prop="step" label="步长" align="center" width="100"></el-table-column>
-      <el-table-column prop="allow" label="修改方式" align="center" width="100"></el-table-column>
+      <el-table-column prop="detail" label="检查内容" min-width="180" align="center">
+        <template slot-scope="scope">
+          <!-- <el-popover placement="top" width="600" trigger="click">
+            <el-input v-model="item" placeholder="修改后"></el-input>
+            <div style="text-align: right; margin-top: 5px">
+              <el-button size="mini" type="text" @click="rename_cancel(scope.$index)"><i class="el-icon-close"></i>
+              </el-button>
+              <el-button type="primary" size="mini" @click="rename_confirm(scope.$index)"><i class="el-icon-check"></i>
+              </el-button>
+            </div>
+            <el-button slot="reference" type="text">{{scope.row.detail}}</el-button>
+          </el-popover> -->
+          <el-button type="text" v-show="!edit_content[scope.$index]" @click="edit_content[scope.$index] = true">
+            {{scope.row.detail}}</el-button>
+          <div v-show="edit_content[scope.$index]">
+            <el-input tabindex="0"></el-input>
+          </div>
+
+        </template>
+      </el-table-column>
+      <el-table-column prop="default_value" label="默认值" align="center" width="100">
+        <template slot-scope="scope">
+          <el-button type="text"> {{scope.row.default_value}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="step" label="步长" align="center" width="100">
+        <template slot-scope="scope">
+          <el-button type="text"> {{scope.row.step}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="allow" label="修改方式" align="center" width="100">
+        <template slot-scope="scope">
+          <el-button type="text"> {{scope.row.allow}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column width="170">
         <!-- 添加一级指标 -->
         <template slot="header" slot-scope="scope">
@@ -25,7 +68,7 @@
         <template slot-scope="scope">
           <div class="button_container">
             <!-- 重命名一、二级指标 -->
-            <el-popover placement="left" width="300" v-model="rename_visible[scope.$index]" @hide="clean_holder"
+            <!-- <el-popover placement="left" width="300" v-model="rename_visible[scope.$index]" @hide="clean_holder"
               v-if="scope.row.level <= 2">
               <el-input v-model="item" placeholder="修改后的指标"></el-input>
               <div style="text-align: right; margin-top: 5px">
@@ -36,9 +79,9 @@
                 </el-button>
               </div>
               <el-button type="primary" size="mini" icon="el-icon-edit" slot="reference"></el-button>
-            </el-popover>
+            </el-popover> -->
             <!-- 修改三级指标 -->
-            <el-popover placement="left" width="400" v-model="update_visible[scope.$index]" @hide="clean_holder" v-else>
+            <!-- <el-popover placement="left" width="400" v-model="update_visible[scope.$index]" @hide="clean_holder" v-else>
               <el-form ref="form" :model="info" label-width="85px" label-position="left" size="small" :inline="true">
                 <div class="form_style">
                   <el-form-item label="指标名称">
@@ -77,7 +120,7 @@
                 </div>
               </el-form>
               <el-button type="primary" size="mini" icon="el-icon-edit" slot="reference"></el-button>
-            </el-popover>
+            </el-popover> -->
             <!-- 添加二级指标 -->
             <el-popover placement="left" width="300" v-model="add_visible[scope.$index]" @hide="clean_holder"
               v-if="scope.row.level === 1">
@@ -278,7 +321,8 @@ export default {
         default_value: 0,
         step: 1,
         allow: 'add'
-      }
+      },
+      edit_content: []
     };
   },
   methods: {
@@ -447,6 +491,15 @@ export default {
     },
     jurisdiction_change() {//权限切换
       store.commit('jurisdiction_change');
+    },
+    tableRowClassName({ row, rowIndex }) {
+      // if (rowIndex === 1) {
+      //   return 'warning-row';
+      // } else if (rowIndex === 3) {
+      //   return 'success-row';
+      // }
+      console.log(row.level);
+      return 'success-row';
     }
   },
   created() {
@@ -456,6 +509,16 @@ export default {
 </script>
 
 <style scoped>
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.success-row {
+  background: red;
+}
+
+
+
 .container {
   margin: 20px;
 }
