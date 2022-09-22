@@ -99,28 +99,47 @@ export const constantRoutes = [
   {
     path: "/static",
     component: Layout,
-    redirect: "/static/idx",
+    redirect: "/static/classes",
+    meta: { title: "static", icon: "el-icon-s-data" },
     children: [
+      // {
+      //   path: "idx",
+      //   name: "static",
+      //   component: () => import("@/views/static"),
+      //   meta: { title: "static", icon: "el-icon-s-data" },
+      // },
       {
-        path: "idx",
-        name: "static",
-        component: () => import("@/views/static"),
-        meta: { title: "static", icon: "el-icon-s-data" },
+        path: "classes",
+        name: "classes-data",
+        component: () => import("@/views/static/classes-data"),
+        meta: { title: "class-static", icon: "el-icon-data-line" },
+      },
+      {
+        path: "school",
+        name: "school-data",
+        component: () => import("@/views/static/school-data"),
+        meta: { title: "school-static", icon: "el-icon-data-analysis" },
+      },
+      {
+        path: "student",
+        name: "student-data",
+        component: () => import("@/views/static/student-data"),
+        meta: { title: "student-static", icon: "el-icon-pie-chart" },
       },
     ],
   },
   {
-    path:"/modify",
-    component:Layout,
-    redirect:"/static/idx",
-    children:[
+    path: "/modify",
+    component: Layout,
+    redirect: "/static/idx",
+    children: [
       {
-        path:"idx",
-        name:"modify",
-        component:()=>import("@/views/modify"),
-        meta:{title:"modify",icon:"el-icon-edit"}
-      }
-    ]
+        path: "idx",
+        name: "modify",
+        component: () => import("@/views/modify"),
+        meta: { title: "modify", icon: "el-icon-edit" },
+      },
+    ],
   },
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },
