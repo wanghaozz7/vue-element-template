@@ -1,5 +1,14 @@
 <template>
   <div id="container">
+    <div style="margin-bottom: 20px ;">
+      <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 211px);" @click="recovery"><i
+          class="el-icon-refresh" style="margin-right: 10px;"></i>恢复
+      </el-button>
+      <el-button type="primary" style="font-size: 16px;" @click="submit"><i class="el-icon-search"
+          style="margin-right: 10px;"></i>提交
+      </el-button>
+
+    </div>
     <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <!-- 指标名 -->
       <el-table-column prop="label" label="指标" width="250" header-align="center">
@@ -96,7 +105,7 @@
           <div class="buttonContainer">
             <!-- 添加二三级指标 -->
             <el-button size="mini" type="success" icon="el-icon-plus" v-if="scope.row.level!==3"
-              @click="add_node(scope.row.level,scope.row.id)"></el-button>
+              @click="add_node(scope.row.level,scope.row.id,scope.row.label)"></el-button>
             <!-- 删除指标 -->
             <el-button size="mini" type="danger" icon="el-icon-delete"
               @click="delete_node(scope.row.level,scope.row.id)"></el-button>
@@ -439,7 +448,7 @@ export default {
     ];
   },
   methods: {
-    add_node(level, id) {//添加节点
+    add_node(level, id, label) {//添加节点
       if (level === 0) {//添加一级指标
         const node = {
           id: this.count++,
@@ -451,7 +460,7 @@ export default {
       } else if (level === 1) {//添加二级指标
         const node = {
           id: this.count++,
-          label: '二级指标',
+          label: label + '的二级指标',
           level: 2,
           children: []
         };
@@ -463,7 +472,7 @@ export default {
       } else {//添加三级指标
         const node = {
           id: this.count++,
-          label: '三级指标',
+          label: label + '的三级指标',
           level: 3,
           content: '三级指标检查内容',
           default_value: 0,
@@ -560,6 +569,16 @@ export default {
       this.step_edit = 0;
       this.allow_edit = '';
 
+
+    },
+    recovery() {//恢复修改前
+      //重新申请数据
+      console.log('recovery');
+
+    },
+    submit() {//提交修改
+      //提交修改
+      console.log('submit');
 
     }
   }

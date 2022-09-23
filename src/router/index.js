@@ -58,19 +58,6 @@ export const constantRoutes = [
   },
 
   {
-    path: "/score",
-    component: Layout,
-    redirect: "/score/index",
-    children: [
-      {
-        path: "index",
-        name: "Index",
-        component: () => import("@/views/score"),
-        meta: { title: "Score", icon: "form" },
-      },
-    ],
-  },
-  {
     path: "/moral",
     component: Layout,
     redirect: "/moral/moraleducation",
@@ -125,6 +112,19 @@ export const constantRoutes = [
         name: "student-data",
         component: () => import("@/views/static/student-data"),
         meta: { title: "student-static", icon: "el-icon-pie-chart" },
+      },
+    ],
+  },
+  {
+    path: "/score",
+    component: Layout,
+    redirect: "/score/index",
+    children: [
+      {
+        path: "index",
+        name: "Index",
+        component: () => import("@/views/score"),
+        meta: { title: "Score", icon: "form" },
       },
     ],
   },
