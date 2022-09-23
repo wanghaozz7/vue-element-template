@@ -1,6 +1,7 @@
 <template>
   <div id="container">
     <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <!-- 指标名 -->
       <el-table-column prop="label" label="指标" width="250" header-align="center">
         <template slot-scope="scope">
           <el-popover placement="right" width="350" trigger="click" :ref="`popover1-${scope.row.id}`">
@@ -16,6 +17,7 @@
           </el-popover>
         </template>
       </el-table-column>
+      <!-- 检查内容 -->
       <el-table-column prop="content" label="检查内容" min-width="180" align="center">
         <template slot-scope="scope">
           <el-popover placement="top" width="750" trigger="click" :ref="`popover2-${scope.row.id}`">
@@ -31,6 +33,7 @@
           </el-popover>
         </template>
       </el-table-column>
+      <!-- 默认值 -->
       <el-table-column prop="default_value" label="默认值" align="center" width="70">
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover3-${scope.row.id}`">
@@ -46,6 +49,7 @@
           </el-popover>
         </template>
       </el-table-column>
+      <!-- 步长 -->
       <el-table-column prop="step" label="步长" align="center" width="70">
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover4-${scope.row.id}`">
@@ -61,6 +65,7 @@
           </el-popover>
         </template>
       </el-table-column>
+      <!-- 修改方式 -->
       <el-table-column prop="allow" label="修改方式" align="center" width="90">
         <template slot-scope="scope">
           <el-popover placement="top" width="240" trigger="click" :ref="`popover5-${scope.row.id}`">
@@ -81,14 +86,18 @@
 
         </template>
       </el-table-column>
+      <!-- 操作按钮 -->
       <el-table-column width="170">
+        <!-- 添加一级指标 -->
         <template slot="header" slot-scope="scope">
           <el-button style="margin: 0 12.5px;" @click="add_node(0,0)">添加一级指标</el-button>
         </template>
         <template slot-scope="scope">
           <div class="buttonContainer">
+            <!-- 添加二三级指标 -->
             <el-button size="mini" type="success" icon="el-icon-plus" v-if="scope.row.level!==3"
               @click="add_node(scope.row.level,scope.row.id)"></el-button>
+            <!-- 删除指标 -->
             <el-button size="mini" type="danger" icon="el-icon-delete"
               @click="delete_node(scope.row.level,scope.row.id)"></el-button>
           </div>
@@ -101,23 +110,15 @@
 <script>
 export default {
   name: 'modify',
-  components: {
-
-  },
   data() {
     return {
       tableData: [],//表格数据
       count: 50,//当前id计数
       label_edit: '',//修改后的指标名
-      content_edit: '',
-      default_edit: '',
-      step_edit: '',
-      allow_edit: '',
-      label_visible: false,
-      content_visible: [],
-      default_visible: [],
-      step_visible: [],
-      allow_visible: []
+      content_edit: '',//修改后的内容
+      default_edit: '',//修改后的默认值
+      step_edit: '',//修改后步长
+      allow_edit: '',//修改后的权限
     }
   },
   created() {
