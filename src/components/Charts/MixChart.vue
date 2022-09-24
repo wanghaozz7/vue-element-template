@@ -168,7 +168,7 @@ export default {
         }],
         series: [{
           name: classes,
-          type: 'bar',
+          type: 'line',
           stack: 'total',
           barMaxWidth: 35,
           barGap: '10%',
@@ -191,7 +191,7 @@ export default {
         },
         {
           name: '年级平均分',
-          type: 'bar',
+          type: 'line',
           stack: 'total',
           itemStyle: {
             normal: {

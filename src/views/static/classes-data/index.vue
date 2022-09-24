@@ -22,7 +22,7 @@
       <el-select v-model="filter.target2" filterable placeholder="请选择"
         style="margin: 30px 20px 30px 10px;width: 300px;">
         <el-option-group v-for="group in filter.target2_range" :key="group.label" :label="group.label"
-          v-show="group.label===selectedFirst">
+          v-show="group.label===selectedFirst||selectedFirst===''">
           <el-option v-for="item in group.options" :key="item" :label="item" :value="item">
           </el-option>
         </el-option-group>
