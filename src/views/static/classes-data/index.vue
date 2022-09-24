@@ -3,34 +3,42 @@
     <!-- 数据过滤 -->
     <div class="filter">
       <span>年级</span>
-      <el-select v-model="filter.grade" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 120px;">
+      <el-select v-model="filter.grade" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 150px;">
         <el-option v-for="item in filter.grade_range" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
       <span>班级</span>
-      <el-select v-model="filter.Class" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 120px;">
+      <el-select v-model="filter.Class" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 150px;">
         <el-option v-for="item in filter.Class_range" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
-      <span>指标</span>
-      <el-select v-model="filter.target" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 250px;">
-        <el-option-group v-for="group in filter.target_range" :key="group.label" :label="group.label">
+      <span>一级指标</span>
+      <el-select v-model="filter.target1" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 300px;"
+        @change="refreshSecond">
+        <el-option v-for="item in filter.target1_range" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
+      <span>二级指标</span>
+      <el-select v-model="filter.target2" filterable placeholder="请选择"
+        style="margin: 30px 20px 30px 10px;width: 300px;">
+        <el-option-group v-for="group in filter.target2_range" :key="group.label" :label="group.label"
+          v-show="group.label===selectedFirst">
           <el-option v-for="item in group.options" :key="item" :label="item" :value="item">
           </el-option>
         </el-option-group>
       </el-select>
+    </div>
+    <div class="filter">
       <span>日期</span>
-      <el-select v-model="filter.date" filterable placeholder="请选择" style="margin: 30px 20px 30px 10px;width: 150px;">
-        <el-option-group v-for="group in filter.date_range" :key="group.label" :label="group.label">
-          <el-option v-for="item in group.options" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-option-group>
-      </el-select>
-      <el-button type="primary" style="font-size: 16px;" @click="handleFilter"><i class="el-icon-search"
-          style="margin-right: 10px;"></i>确定
+      <el-date-picker v-model="filter.date" type="daterange" align="center" unlink-panels range-separator="至"
+        start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
+        style="margin: 30px 10px 30px 10px;width: 500px;">
+      </el-date-picker>
+      <el-button type="primary" style="font-size: 16px;margin: 30px 10px;" @click="handleFilter"><i
+          class="el-icon-search" style="margin-right: 10px;"></i>确定
       </el-button>
-      <el-button type="info" style="font-size: 16px;" @click="refreshFilter"><i class="el-icon-refresh"
-          style="margin-right: 10px;"></i>重置
+      <el-button type="info" style="font-size: 16px;margin: 30px 10px;" @click="refreshFilter"><i
+          class="el-icon-refresh" style="margin-right: 10px;"></i>重置
       </el-button>
     </div>
     <!-- 图表 -->
@@ -45,21 +53,21 @@
         </el-button>
       </div>
       <el-table :data="table_data" border v-loading="listLoading" element-loading-text="Loading..." fit
-        highlight-current-row :row-style="getSelected">
-        <el-table-column width="120" prop="Class" label="日期" align="center" />
-        <el-table-column width="135" v-for="(item,idx) in Targets" align="center"
+        highlight-current-row :row-style="getSelected" :default-sort="{}">
+        <el-table-column width="100" prop="date" label="日期" align="center" sortable />
+        <el-table-column width="100" :label="item" v-for="(item,idx) in Targets" align="center"
           :sort-method="(a, b) => {return a[item.props] - b[item.props]}" sortable>
-          <template slot="header">
+          <!-- <template slot="header">
             <span class="header_span" :style="{float:(item.length>=6?'left':'none')}">
               {{item}}
             </span>
-          </template>
+          </template> -->
           <template slot-scope="scope">
             <span>{{scope.row.targets[idx]}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="135" prop="total" label="总分" align="center" sortable />
-        <el-table-column width="120" prop="rank" label="排名" align="center" sortable />
+        <el-table-column width="100" prop="total" label="总分" align="center" sortable />
+        <!-- <el-table-column width="100" prop="rank" label="排名" align="center" sortable /> -->
         <el-table-column min-width="300" prop="remark" label="备注" align="center" sortable />
       </el-table>
     </div>
@@ -83,6 +91,8 @@ export default {
       downloadLoading: false,
       filename: '',
       filter: null,
+      pickerOptions: null,
+      selectedFirst: ''
     }
   },
   methods: {
@@ -115,7 +125,7 @@ export default {
       }))
     },
     handleFilter() {//过滤数据
-      console.log(this.filter.grade, this.filter.Class, this.filter.target, this.filter.date);
+      console.log(this.filter);
       //更新表单数据
       //更新图表数据
     },
@@ -128,6 +138,10 @@ export default {
     getSelected({ row, rowIndex }) {//高亮选中列
       // if (row.label === this.filter.grade + this.filter.Class) return { 'background-color': 'red' };
       // return null;
+    },
+    refreshSecond(obj) {
+      console.log(obj);
+      this.selectedFirst = obj;
     }
   },
   created() {
@@ -141,56 +155,56 @@ export default {
         remark: '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'
       },
       {
-        date: '2022-9-24',
+        date: '2021-9-23',
         targets: [0, 0, 1, 0, 0, 0],
         rank: 2,
         total: 1,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2020-9-22',
         targets: [0, -1, 1, 0, 0, 0],
         rank: 3,
         total: 0,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '1922-9-21',
         targets: [0, -1, 1, 0, 0, 0],
         rank: 4,
         total: 0,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2000-9-20',
         targets: [0, -1, 0, 0, 0, 0],
         rank: 5,
         total: -1,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2022-6-19',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 6,
         total: 0,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2022-7-18',
         targets: [0, 0, 1, 0, 0, 0],
         rank: 7,
         total: 1,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2022-9-1',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 9,
         total: 0,
         remark: ''
       },
       {
-        date: '2022-9-24',
+        date: '2022-9-16',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 8,
         total: 0,
@@ -200,11 +214,13 @@ export default {
     this.filter = {
       grade: '',
       Class: '',
-      target: '',
+      target1: '',
+      target2: '',
       date: '',
       grade_range: ['初一', '初二', '初三'],
       Class_range: ['1班', '2班', '3班', '4班', '5班', '6班', '7班', '8班'],
-      target_range: [
+      target1_range: ['学风纪律', '仪表仪容', '两操', '宿舍检查', '环境卫生'],
+      target2_range: [
         {
           label: '学风纪律',
           options: ['升旗仪式', '出勤', '日常违纪、学生安全违纪', '就餐违纪、外卖违纪']
@@ -247,6 +263,81 @@ export default {
       }
     ];
     this.Targets = ['讲啊实打实打算是谁少时诵诗书所所所所所所所说', '地板地板地地', '书柜', '走廊', '课桌', '窗户']
+    this.pickerOptions = {
+      shortcuts: [{
+        text: '最近一周',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近两周',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7 * 2);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近三周',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7 * 3);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近一个月',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近两个月',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 2);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近三个月',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 3);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '半年内',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 6);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '一年内',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '两年内',
+        onClick(picker) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 12 * 2);
+          picker.$emit('pick', [start, end]);
+        }
+      }]
+    };
   }
 
 };
@@ -260,9 +351,9 @@ export default {
 
 .filter {
   width: 100%;
-  height: 100px;
+  height: auto;
   background-color: #fff;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   padding-left: 20px;
 }
 
@@ -272,7 +363,7 @@ export default {
 
 .chart-container {
   width: 100%;
-  height: calc(100vh - 253px);
+  height: 100vh;
   background-color: #fff;
   margin-bottom: 32px;
 }
