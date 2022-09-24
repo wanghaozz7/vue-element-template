@@ -46,7 +46,7 @@
       </div>
       <el-table :data="table_data" border v-loading="listLoading" element-loading-text="Loading..." fit
         highlight-current-row :row-style="getSelected">
-        <el-table-column width="120" prop="Class" label="班级" align="center" />
+        <el-table-column width="120" prop="Class" label="日期" align="center" />
         <el-table-column width="135" v-for="(item,idx) in Targets" align="center"
           :sort-method="(a, b) => {return a[item.props] - b[item.props]}" sortable>
           <template slot="header">
@@ -134,63 +134,63 @@ export default {
     //初始化数据
     this.table_data = [
       {
-        Class: '初一(1)班',
+        date: '2022-9-24',
         targets: [0, 0, 1, 0, 0, 0],
         rank: 1,
         total: 1,
         remark: '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'
       },
       {
-        Class: '初一(2)班',
+        date: '2022-9-24',
         targets: [0, 0, 1, 0, 0, 0],
         rank: 2,
         total: 1,
         remark: ''
       },
       {
-        Class: '初一(3)班',
+        date: '2022-9-24',
         targets: [0, -1, 1, 0, 0, 0],
         rank: 3,
         total: 0,
         remark: ''
       },
       {
-        Class: '初一(4)班',
+        date: '2022-9-24',
         targets: [0, -1, 1, 0, 0, 0],
         rank: 4,
         total: 0,
         remark: ''
       },
       {
-        Class: '初一(5)班',
+        date: '2022-9-24',
         targets: [0, -1, 0, 0, 0, 0],
         rank: 5,
         total: -1,
         remark: ''
       },
       {
-        Class: '初一(6)班',
+        date: '2022-9-24',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 6,
         total: 0,
         remark: ''
       },
       {
-        Class: '初一(7)班',
+        date: '2022-9-24',
         targets: [0, 0, 1, 0, 0, 0],
         rank: 7,
         total: 1,
         remark: ''
       },
       {
-        Class: '初一(8)班',
+        date: '2022-9-24',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 9,
         total: 0,
         remark: ''
       },
       {
-        Class: '初一(9)班',
+        date: '2022-9-24',
         targets: [0, 0, 0, 0, 0, 0],
         rank: 8,
         total: 0,
