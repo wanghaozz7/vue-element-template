@@ -9,23 +9,24 @@
           {{ button.label }}
         </el-button>
         <el-divider></el-divider>
+        <!-- 功能栏 -->
         <el-row style="width: 100%; margin-bottom: 25px" type="flex" justify="space-between">
           <!-- 年级和班级-->
-          <el-col :span="8" style="padding: 0">
-            <el-select v-model="selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
+          <el-col :span="6" style="padding: 0">
+            <el-select v-model="form.selected_grade" filterable allow-create default-first-option placeholder="选择或输入年级"
               :clearable="true" @change="grade_change" style="float: left; width: calc(50% - 5px); margin-right: 10px">
               <el-option v-for="item in option_grade" :key="item" :label="item" :value="item">
               </el-option>
             </el-select>
-            <el-select v-model="selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
+            <el-select v-model="form.selected_class" filterable allow-create default-first-option placeholder="选择或输入班别"
               :clearable="true" @change="class_change" style="float: left; width: calc(50% - 5px)">
               <el-option v-for="item in option_class" :key="item" :label="item" :value="item">
               </el-option>
             </el-select>
           </el-col>
-          <!-- 备注 -->
-          <el-col :span="8" style="padding: 0">
-            <el-input v-model="remarks" style="float: left; width: calc(100% - 81px); margin-right: 10px"
+          <!-- 备注和提交 -->
+          <el-col :span="11" style="padding: 0">
+            <el-input v-model="form.remark" style="float: left; width: calc(100% - 81px); margin-right: 10px"
               placeholder="备注">
             </el-input>
             <el-button type="primary" @click="submit">提交</el-button>
@@ -37,44 +38,26 @@
           </el-table-column>
           <el-table-column prop="content" label="评分标准" min-width="500px">
           </el-table-column>
-          <el-table-column prop="data" label="分值" width="220px" align="center">
-            <template slot-scope="{ row, $index }">
-              <el-input-number v-model="default_value[$index]" :min="jurisdiction === true ? -100 : min[$index]"
-                :max="jurisdiction === true ? 100 : max[$index]" label="修改分值" :step="step[$index]">
+          <el-table-column label="分值" width="220px" align="center">
+            <template slot-scope="scope">
+              <el-input-number v-model="form.data[scope.$index].score"
+                :min="jurisdiction === true ? -100 : form.data[scope.$index].min"
+                :max="jurisdiction === true ? 100 :  form.data[scope.$index].max" :step="tableData[scope.$index].step">
               </el-input-number>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="打分对象" width="180px" align="center">
+          <el-table-column label="打分对象" width="180px" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="personal[scope.$index]" active-text="个人" inactive-text="集体" active-color="red"
-                inactive-color="#fff;" @change="active_change">
+              <el-switch v-model="form.data[scope.$index].extend" active-text="个人" inactive-text="集体"
+                active-color="#DCDFE6" inactive-color="#DCDFE6;" @change="active_change">
               </el-switch>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="学生" width="250px" v-for="item in column_student" align="center">
-            <template slot-scope="{ row, $index }">
-              <!-- <el-select
-                v-model="selected_student"
-                filterable
-                allow-create
-                default-first-option
-                placeholder="选择或输入学生"
-                :clearable="true"
-                @change="student_change"
-                v-show="personal[$index]"
-              >
-                <el-option
-                  v-for="item in option_student"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                >
-                </el-option>
-              </el-select> -->
-              <div v-show="personal[$index]">
-                <!-- <h4 style="margin: 0;"></h4> -->
-                <!-- <el-button type="text" @click="dialogFormVisible = true">表单</el-button> -->
-                <el-button type="text" @click="dialogTransformVisible = true">已选{{studentSelected.length}}人
+          <el-table-column label="学生" width="250px" v-for="item in column_student" align="center">
+            <template slot-scope="scope">
+              <div v-show="form.data[scope.$index].extend">
+                <el-button type="text" @click="dialogVisible = true;selectedRow = scope.$index">
+                  已选{{form.data[scope.$index].studentSelected.length}}人
                 </el-button>
               </div>
             </template>
@@ -82,37 +65,21 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog :visible.sync="dialogFormVisible">
-      <el-form>
-        <el-form-item>
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-            <el-checkbox label="地推活动" name="type"></el-checkbox>
-            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-            <el-checkbox :label="'学生' + item" name="type" v-for="item in 50"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :visible.sync="dialogTransformVisible" width="1100px" top="5vh">
+    <!-- 选择学生 -->
+    <el-dialog :visible.sync="dialogVisible" width="1100px" top="5vh">
       <div class="board">
-        <KanbanShow :key="1" :list="studentList" :group="group" class="kanban todo" header-text="未选中" />
-        <KanbanSelect :key="2" :list="studentSelected" :group="group" class="kanban working" header-text="已选中" />
+        <KanbanShow :key="1" :list="form.data[selectedRow].studentList" :group="group" class="kanban todo"
+          header-text="未选中" />
+        <KanbanSelect :key="2" :list="form.data[selectedRow].studentSelected" :group="group" class="kanban working"
+          header-text="已选中" />
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import store from "@/store";
 import KanbanShow from '@/components/Kanban/show'
 import KanbanSelect from '@/components/Kanban/select'
-import { color } from "echarts/lib/theme/light";
 export default {
   name: "Score",
   components: {
@@ -434,321 +401,105 @@ export default {
         }]
       }
     ];
-    // const school = [
-    // {
-    //   label: '初一',
-    //   classes: [{
-    //     idx: '1班',
-    //     students: [{
-    //       name: '小红',
-    //       target: [
-    //         [[1, 1, 3], [1], [1], [1], [1], [1], [1], [1]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }, {
-    //       name: '小明',
-    //       target: [
-    //         [[2, 1, 2], [2], [2], [2], [2], [2], [2], [2]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }]
-    //   }, {
-    //     idx: '2班',
-    //     students: [{
-    //       name: '小张',
-    //       target: [
-    //         [[1, 3, 1], [3], [3], [3], [3], [3], [3], [3]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }, {
-    //       name: '小伟',
-    //       target: [
-    //         [[4, 4, 4], [4], [4], [4], [4], [4], [4], [4]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }]
-    //   }]
-    // }, {
-    //   label: '初二',
-    //   classes: [{
-    //     idx: '1班',
-    //     students: [{
-    //       name: '小力',
-    //       target: [
-    //         [[5, 5, 5], [5], [5], [5], [5], [5], [5], [5]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }, {
-    //       name: '小莉',
-    //       target: [
-    //         [[6, 6, 6], [6], [6], [6], [6], [6], [6], [6]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }]
-    //   }, {
-    //     idx: '2班',
-    //     students: [{
-    //       name: '小宝',
-    //       target: [
-    //         [[7, 7, 7], [7], [7], [7], [7], [7], [7], [7]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }, {
-    //       name: '大宝',
-    //       target: [
-    //         [[8, 8, 8], [8], [8], [8], [8], [8], [8], [8]],
-    //         [[1, 1, 1]],
-    //         [[1], [1], [1], [1]],
-    //         [[1], [1]],
-    //         [[1], [1], [1], [1]]
-    //       ]
-    //     }]
-    //   }]
-    // }];
-    const jurisdiction = true;
     const option_grade = ['初一', '初二'];
     const option_class = ['1班', '2班'];
-    // const generateData = (_) => {
-    //   const data = [];
-    //   for (let i = 1; i <= 15; i++) {
-    //     data.push({
-    //       key: i,
-    //       label: `备选项 ${i}`,
-    //       disabled: i % 4 === 0,
-    //     });
-    //   }
-    //   return data;
-    // };
     const form = {
-      name: "",
-      region: "",
-      date1: "",
-      date2: "",
-      delivery: false,
-      type: [],
-      resource: "",
-      desc: "",
+      selected_grade: '',
+      selected_class: '',
+      remark: '',
+      data: []
     };
-    // for (let item of school) {
-    //   option_grade.push(item.label);
-    //   for (let c of item.classes) {
-    //     if (option_class.indexOf(c.idx) === -1) option_class.push(c.idx);
-    //     for (let student of c.students) option_student.push(student.name);
-    //   }
-    // }
+    const tableData = target[0].children[0].children;
+    const jurisdiction = false;
+    const studentList = [
+      { name: 'Mission', id: 1 },
+      { name: 'Mission', id: 2 },
+      { name: 'Mission', id: 3 },
+      { name: 'Mission', id: 4 },
+      { name: 'Mission', id: 5 },
+      { name: 'Mission', id: 6 },
+      { name: 'Mission', id: 7 },
+      { name: 'Mission', id: 8 },
+      { name: 'Mission', id: 9 },
+      { name: 'Mission', id: 10 },
+      { name: 'Mission', id: 11 },
+      { name: 'Mission', id: 12 },
+      { name: 'Mission', id: 13 },
+      { name: 'Mission', id: 14 },
+      { name: 'Mission', id: 15 },
+      { name: 'Mission', id: 16 },
+      { name: 'Mission', id: 17 },
+      { name: 'Mission', id: 18 },
+      { name: 'Mission', id: 19 },
+      { name: 'Mission', id: 20 },
+      { name: 'Mission', id: 21 },
+      { name: 'Mission', id: 22 },
+      { name: 'Mission', id: 23 },
+      { name: 'Mission', id: 24 },
+      { name: 'Mission', id: 25 },
+      { name: 'Mission', id: 26 },
+      { name: 'Mission', id: 27 },
+      { name: 'Mission', id: 28 },
+      { name: 'Mission', id: 29 },
+      { name: 'Mission', id: 30 },
+      { name: 'Mission', id: 31 },
+      { name: 'Mission', id: 32 },
+      { name: 'Mission', id: 33 },
+      { name: 'Mission', id: 34 },
+      { name: 'Mission', id: 35 },
+      { name: 'Mission', id: 36 },
+      { name: 'Mission', id: 37 },
+      { name: 'Mission', id: 38 },
+      { name: 'Mission', id: 39 },
+      { name: 'Mission', id: 40 },
+      { name: 'Mission', id: 41 },
+      { name: 'Mission', id: 42 },
+      { name: 'Mission', id: 43 },
+      { name: 'Mission', id: 44 },
+      { name: 'Mission', id: 45 },
+      { name: 'Mission', id: 46 },
+      { name: 'Mission', id: 47 },
+      { name: 'Mission', id: 48 },
+      { name: 'Mission', id: 49 },
+      { name: 'Mission', id: 50 },
+    ];
+    console.log(tableData);
     return {
-      activeName: "学风纪律",//选中的指标
-      target,//指标集合
-      selected_grade: "",//被选中的年级
-      selected_class: "",//被选中的班级
+      activeName: "学风纪律",//一级指标
+      target,//指标树
       option_grade,//年级集合
       option_class,//班级集合
-      // school,
-      //默认数据
-      tableData: target[0].children[0].children,
-      first: 0,
-      second: 0,
-      current_score: ["暂无", "暂无", "暂无"],
-      text_content: "分值:",
-      step: [1, 2, 3],
-      default_value: [1, 2, 3],
-      min: [],
-      max: [],
+      tableData,//三级指标的常量
+      first: 0,//一级指标的索引
+      second: 0,//二级指标的索引
+      selectedRow: 0,//当前聚焦的行
+      min: [],//加分范围
+      max: [],//扣分范围
       personal: [false, false, false],
-      column_student: [],
-      remarks: "",
-      jurisdiction,
-      form,
-      dialogFormVisible: false,
-      dialogTransformVisible: false,
-      // transformData: generateData(),
-      // value: [1],
-      // value4: [1],
-      // renderFunc(h, option) {
-      //   return (
-      //     <span>
-      //       {option.key} - {option.label}
-      //     </span>
-      //   );
-      // },
+      column_student: [],//学生列是否展开
+      jurisdiction,//控制是否自由加减分
+      form,//三级指标的变量:得分，选中学生，展开变量
+      dialogVisible: false,//对话框
       group: '学生',
-      studentList: [
-        { name: 'Mission', id: 1 },
-        { name: 'Mission', id: 2 },
-        { name: 'Mission', id: 3 },
-        { name: 'Mission', id: 4 },
-        { name: 'Mission', id: 5 },
-        { name: 'Mission', id: 6 },
-        { name: 'Mission', id: 7 },
-        { name: 'Mission', id: 8 },
-        { name: 'Mission', id: 9 },
-        { name: 'Mission', id: 10 },
-        { name: 'Mission', id: 11 },
-        { name: 'Mission', id: 12 },
-        { name: 'Mission', id: 13 },
-        { name: 'Mission', id: 14 },
-        { name: 'Mission', id: 15 },
-        { name: 'Mission', id: 16 },
-        { name: 'Mission', id: 17 },
-        { name: 'Mission', id: 18 },
-        { name: 'Mission', id: 19 },
-        { name: 'Mission', id: 20 },
-        { name: 'Mission', id: 21 },
-        { name: 'Mission', id: 22 },
-        { name: 'Mission', id: 23 },
-        { name: 'Mission', id: 24 },
-        { name: 'Mission', id: 25 },
-        { name: 'Mission', id: 26 },
-        { name: 'Mission', id: 27 },
-        { name: 'Mission', id: 28 },
-        { name: 'Mission', id: 29 },
-        { name: 'Mission', id: 30 },
-        { name: 'Mission', id: 31 },
-        { name: 'Mission', id: 32 },
-        { name: 'Mission', id: 33 },
-        { name: 'Mission', id: 34 },
-        { name: 'Mission', id: 35 },
-        { name: 'Mission', id: 36 },
-        { name: 'Mission', id: 37 },
-        { name: 'Mission', id: 38 },
-        { name: 'Mission', id: 39 },
-        { name: 'Mission', id: 40 },
-        { name: 'Mission', id: 41 },
-        { name: 'Mission', id: 42 },
-        { name: 'Mission', id: 43 },
-        { name: 'Mission', id: 44 },
-        { name: 'Mission', id: 45 },
-        { name: 'Mission', id: 46 },
-        { name: 'Mission', id: 47 },
-        { name: 'Mission', id: 48 },
-        { name: 'Mission', id: 49 },
-        { name: 'Mission', id: 50 },
-      ],
-      studentSelected: []
+      studentList//班级学生列表
     };
   },
   methods: {
     buttonClick(index, idx) {//选择二级指标
-      this.tableData = this.target[index].children[idx].children;
+      //更新高亮按钮
       this.first = index;
       this.second = idx;
-      this.step = []; //步长
-      this.default_value = []; //默认值
-      this.min = [];
-      this.max = [];
-      //先将计数器配置清空
-      for (let idx in this.tableData) {
-        this.step.push(this.tableData[idx].step);
-        this.default_value.push(this.tableData[idx].default_value);
-        if (this.tableData[idx].allow === "add") {
-          this.min.push(this.tableData[idx].default_value);
-          this.max.push(
-            this.tableData[idx].default_value + this.tableData[idx].step
-          );
-        } else if (this.tableData[idx].allow === "sub") {
-          this.min.push(
-            this.tableData[idx].default_value - this.tableData[idx].step
-          );
-          this.max.push(this.tableData[idx].default_value);
-        } else {
-          this.min.push(
-            this.tableData[idx].default_value - this.tableData[idx].step
-          );
-          this.max.push(
-            this.tableData[idx].default_value + this.tableData[idx].step
-          );
-        }
-      }
-      for (let idx in this.personal) this.personal[idx] = false
+      this.refreshForm(index, idx);
     },
     grade_change(value) {//更新年级
-      //更新选择框
-      // if (value === "") {
-      //   //清空选择
-      //   this.selected_class = "";
-      //   this.option_class = [];
-      //   this.selected_student = "";
-      //   this.option_student = [];
-      //   for (let item of this.school) {
-      //     for (let c of item.classes) {
-      //       if (this.option_class.indexOf(c.idx) === -1)
-      //         this.option_class.push(c.idx);
-      //       for (let student of c.students)
-      //         this.option_student.push(student.name);
-      //     }
-      //   }
-      //   return;
-      // }
-      // for (let item of this.school) {
-      //   if (item.label !== value) continue;
-      //   this.option_class = [];
-      //   this.option_student = [];
-      //   this.selected_class = "";
-      //   this.selected_student = "";
-      //   //重置班级和学生
-      //   for (let c of item.classes) {
-      //     if (this.option_class.indexOf(c.idx) === -1)
-      //       this.option_class.push(c.idx);
-      //     for (let student of c.students)
-      //       this.option_student.push(student.name);
-      //   }
-      //   return;
-      // }
+      //更新班级数据
     },
     class_change(value) {//更新班级
-
-      //更新选择框
-      // if (value === "") {
-      //   //清空选择
-      //   this.selected_class = "";
-      //   this.selected_student = "";
-      //   this.option_student = [];
-      //   for (let item of this.school) {
-      //     if (item.label !== this.selected_grade) continue;
-      //     for (let c of item.classes)
-      //       for (let student of c.students)
-      //         this.option_student.push(student.name);
-      //     return;
-      //   }
-      //   return;
-      // }
-      // for (let item of this.school) {
-      //   if (item.label !== this.selected_grade) continue;
-      //   this.option_student = [];
-      //   this.selected_student = "";
-      //   //重置学生
-      //   for (let c of item.classes) {
-      //     if (c.idx !== value) continue;
-      //     for (let student of c.students)
-      //       this.option_student.push(student.name);
-      //   }
-      //   break;
-      // }
+      //更新学生列表
     },
     active_change() {//扩展选择学生列
-      for (let item of this.personal) {
-        if (item === true) {
+      for (let item of this.form.data) {
+        if (item.extend === true) {
           //遇到一个需要选择学生就需要扩展列
           this.column_student = [];
           this.column_student.push(true);
@@ -758,25 +509,56 @@ export default {
       this.column_student = [];
     },
     submit() {//提交数据
+      console.log(this.form);
     },
     hover_random() {//随机生成悬浮颜色
       const color_card = ['button_color1', 'button_color2', 'button_color3', 'button_color4', 'button_color5', 'button_color6', 'button_color7']
       let num = Math.floor(Math.random() * 7);
       return color_card[num];
     },
-    handleChange() {
-      console.log('11');
-    },
     choose_random(index, idx) {//随机生成选中颜色
       const color_card = ['button_color1_chosen', 'button_color2_chosen', 'button_color3_chosen', 'button_color4_chosen', 'button_color5_chosen', 'button_color6_chosen', 'button_color7_chosen']
       let num = Math.floor(Math.random() * 7);
       if (index === this.first && idx === this.second) return color_card[num];
       return '';
+    },
+    refreshForm(index, idx) {//更新动态变量
+      this.form.selected_class = '';//重置班级年级备注
+      this.form.selected_grade = '';
+      this.form.remark = '';
+      this.form.data = [];//重置默认值
+      this.tableData = this.target[index].children[idx].children;
+      for (let item of this.tableData) {
+        const min = 0;
+        const max = 10;
+        if (item.allow === "add") {
+          min = item.default_value;
+          max = item.default_value + item.step;
+        } else if (item.allow === "sub") {
+          min = item.default_value - item.step;
+          max = item.default_value;
+        } else {
+          min = item.default_value - item.step;
+          max = item.default_value + item.step;
+        }
+        let obj = {
+          score: item.default_value,
+          studentList: this.studentList,
+          studentSelected: [],
+          extend: false,
+          min,
+          max
+        }
+        this.form.data.push(obj)
+      }
+      this.active_change();
     }
   },
   created() {
-  },
-};
+    //初始化数据
+    this.refreshForm(0, 0);
+  }
+}
 </script>
 
 <style scoped>
