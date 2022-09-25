@@ -244,174 +244,42 @@ export default {
       yData: [
         {
           value: 6,
-          group: [
-            {
-              label: '二级指标1',
-              value: 1
-            }, {
-              label: '二级指标2',
-              value: 2
-            }, {
-              label: '二级指标2',
-              value: 3
-            }]
-        }, {
-          value: 12,
-          group: [
-            {
-              label: '二级指标1',
-              value: 3
-            }, {
-              label: '二级指标2',
-              value: 4
-            }, {
-              label: '二级指标3',
-              value: 5
-            }]
-        }, {
-          value: 18,
-          group: [
-            {
-              label: '二级指标1',
-              value: 5
-            }, {
-              label: '二级指标2',
-              value: 6
-            }, {
-              label: '二级指标3',
-              value: 7
-            }]
-        }, {
-          value: 6,
-          group: [
-            {
-              label: '二级指标1',
-              value: 1
-            }, {
-              label: '二级指标2',
-              value: 2
-            }, {
-              label: '二级指标2',
-              value: 3
-            }]
-        }, {
-          value: 3,
-          group: [
-            {
-              label: '二级指标1',
-              value: 1
-            }, {
-              label: '二级指标2',
-              value: 0
-            }, {
-              label: '二级指标2',
-              value: 2
-            }]
-        }, {
-          value: 13,
-          group: [
-            {
-              label: '二级指标1',
-              value: 5
-            }, {
-              label: '二级指标2',
-              value: 3
-            }, {
-              label: '二级指标2',
-              value: 5
-            }]
-        }, {
-          value: 10,
-          group: [
-            {
-              label: '二级指标1',
-              value: 2
-            }, {
-              label: '二级指标2',
-              value: 2
-            }, {
-              label: '二级指标2',
-              value: 6
-            }]
+          group: [1, 1, 1, 1, 1, 1]
         }, {
           value: 7,
-          group: [
-            {
-              label: '二级指标1',
-              value: 1
-            }, {
-              label: '二级指标2',
-              value: 3
-            }, {
-              label: '二级指标2',
-              value: 3
-            }]
+          group: [1, 2, 1, 1, 1, 1]
+        }, {
+          value: 8,
+          group: [1, 1, 3, 1, 1, 1]
+        }, {
+          value: 9,
+          group: [1, 2, 3, 1, 1, 1]
         }, {
           value: 6,
-          group: [
-            {
-              label: '二级指标1',
-              value: 3
-            }, {
-              label: '二级指标2',
-              value: 3
-            }, {
-              label: '二级指标2',
-              value: 0
-            }]
-        }, {
-          value: 6,
-          group: [
-            {
-              label: '二级指标1',
-              value: 5
-            }, {
-              label: '二级指标2',
-              value: 0
-            }, {
-              label: '二级指标2',
-              value: 1
-            }]
-        }, {
-          value: 16,
-          group: [
-            {
-              label: '二级指标1',
-              value: 5
-            }, {
-              label: '二级指标2',
-              value: 5
-            }, {
-              label: '二级指标2',
-              value: 6
-            }]
+          group: [1, 0, 1, 2, 1, 1]
         }, {
           value: 11,
-          group: [
-            {
-              label: '二级指标1',
-              value: 1
-            }, {
-              label: '二级指标2',
-              value: 4
-            }, {
-              label: '二级指标2',
-              value: 6
-            }]
+          group: [2, 1, 3, 4, 1, 1]
+        }, {
+          value: 13,
+          group: [3, 5, 1, 1, 1, 1]
+        }, {
+          value: 14,
+          group: [0, 1, 4, 1, 4, 1]
+        }, {
+          value: 16,
+          group: [3, 6, 1, 5, 1, 3]
         }, {
           value: 2,
-          group: [
-            {
-              label: '二级指标1',
-              value: 0
-            }, {
-              label: '二级指标2',
-              value: 0
-            }, {
-              label: '二级指标2',
-              value: 2
-            }]
+          group: [1, 0, 1, 0, 0, 1]
+        }, {
+          value: 5,
+          group: [1, 1, 0, 1, 1, 1]
+        }, {
+          value: 6,
+          group: [1, 1, 1, 1, 1, 1]
         }],
+      childLabel: ['教室', '讲台', '窗户', '走廊', '书柜', '地板'],
       text: '初一',
       subText: '教室卫生',
       xLabel: '班级',

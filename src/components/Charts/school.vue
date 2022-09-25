@@ -55,23 +55,20 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
       this.setOption(this.chart_data)
     },
-    setOption({ xData, yData, text, subText } = {}) {
+    setOption({ xData, yData, text, subText, childLabel } = {}) {
       const data1 = [];//第一层数据
       const data2 = [];//第二层数据
       for (let idx in yData) {//数据处理
         const obj1 = {
           value: yData[idx].value,
           groupId: xData[idx],
-          itemStyle: {
-            color: 'yellowgreen'
-          }
         };
         data1.push(obj1);
         const group = [];
-        for (let item of yData[idx].group) {
+        for (let index in yData[idx].group) {
           const tmp = [];
-          tmp.push(item.label);
-          tmp.push(item.value);
+          tmp.push(childLabel[index]);
+          tmp.push(yData[idx].group[index]);
           group.push(tmp);
         }
         const obj2 = {
@@ -81,6 +78,7 @@ export default {
         data2.push(obj2);
       }
       const option = {
+        backgroundColor: '#F8F5D6',
         title: {
           text: text,
           subtext: subText,
@@ -95,10 +93,49 @@ export default {
             fontSize: '18'
           }
         },
-        xAxis: {
-          data: xData
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            textStyle: {
+              color: '#fff'
+            },
+            type: 'none'
+          }
         },
-        yAxis: {},
+        xAxis: {
+          type: 'category',
+          name: '111',
+          nameLocation: 'end',
+          nameTextStyle: {
+            fontSize: 16,
+            color: 'brown'
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#90979c'
+            },
+            type: 'shadow'
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          splitArea: {
+            show: false
+          },
+          axisLabel: {
+            interval: 0,
+            fontSize: 16
+          },
+          data: xData,
+        },
+        yAxis: {
+          axisLabel: {
+            fontSize: 18
+          }
+        },
         dataGroupId: '',
         animationDurationUpdate: 500,
         series: {
@@ -110,7 +147,20 @@ export default {
             divideShape: 'clone'
           },
           itemStyle: {
-            color: 'green'
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#83bff6' },
+              { offset: 0.5, color: '#188df0' },
+              { offset: 1, color: '#188df0' }
+            ])
+          },
+          emphasis: {
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#2378f7' },
+                { offset: 0.7, color: '#2378f7' },
+                { offset: 1, color: '#83bff6' }
+              ])
+            }
           },
         }
       };
@@ -140,6 +190,13 @@ export default {
               universalTransition: {
                 enabled: true,
                 divideShape: 'clone'
+              },
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: '#2378f7' },
+                  { offset: 0.7, color: '#2378f7' },
+                  { offset: 1, color: '#83bff6' }
+                ])
               }
             },
             graphic: [
