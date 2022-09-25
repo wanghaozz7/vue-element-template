@@ -52,8 +52,201 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
       this.setOption(this.chart_data)
     },
-    setOption({ _rawData } = {}) {
-      this.chart.setOption({
+    setOption({ xData, yData, text, subText } = {}) {
+      const option = {
+        backgroundColor: ' #E5DDD7',
+        title: {
+          text: text,
+          subtext: subText,
+          x: '20',
+          top: '20',
+          textStyle: {
+            color: 'black',
+            fontSize: '22'
+          },
+          subtextStyle: {
+            color: '#90979c',
+            fontSize: '18'
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            textStyle: {
+              color: '#fff'
+            },
+            type: 'shadow'
+          }
+        },
+        grid: {
+          left: '5%',
+          right: '5%',
+          borderWidth: 0,
+          top: 150,
+          bottom: 95,
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        legend: {
+          x: '7%',
+          top: '10%',
+          textStyle: {
+            color: '#90979c'
+          },
+          data: [yData.choose.label, yData.avg.label, yData.max.label]
+        },
+        calculable: true,
+        xAxis: [{
+          type: 'category',
+          name: '日期',
+          nameLocation: 'end',
+          nameTextStyle: {
+            fontSize: 16,
+            color: 'brown'
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#90979c'
+            },
+            type: 'shadow'
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          splitArea: {
+            show: false
+          },
+          axisLabel: {
+            interval: 0
+          },
+          data: xData
+        }],
+        yAxis: [{
+          type: 'value',
+          name: '得分',
+          nameLocation: 'end',
+          nameTextStyle: {
+            fontSize: 16,
+            color: 'brown',
+            align: 'right'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#90979c'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            interval: 0
+          },
+          splitArea: {
+            show: false
+          }
+        }],
+        dataZoom: [{
+          show: true,
+          height: 30,
+          xAxisIndex: [
+            0
+          ],
+          bottom: 30,
+          start: 10,
+          end: 80,
+          handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+          handleSize: '110%',
+          handleStyle: {
+            color: '#d3dee5'
+
+          },
+          textStyle: {
+            color: '#fff'
+          },
+          borderColor: '#90979c'
+
+        },
+        {
+          type: 'inside',
+          show: true,
+          height: 15,
+          start: 1,
+          end: 35
+        }],
+        series: [{
+          name: yData.choose.label,
+          type: 'bar',
+          // stack: 'total',
+          barMaxWidth: 50,
+          barGap: '12%',
+          itemStyle: {
+            normal: {
+              color: 'rgba(255,144,128,1)',
+              label: {
+                show: true,
+                textStyle: {
+                  color: '#fff'
+                },
+                position: 'insideTop',
+                formatter(p) {
+                  return p.value > 0 ? p.value : ''
+                }
+              }
+            }
+          },
+          data: yData.choose.data
+        },
+        {
+          name: yData.avg.label,
+          type: 'bar',
+          // stack: 'total',
+          barMaxWidth: 50,
+          itemStyle: {
+            normal: {
+              color: 'rgba(0,191,183,1)',
+              barBorderRadius: 0,
+              label: {
+                show: true,
+                position: 'top',
+                formatter(p) {
+                  return p.value > 0 ? p.value : ''
+                }
+              }
+            }
+          },
+          data: yData.avg.data
+        },
+        {
+          name: yData.max.label,
+          type: 'line',
+          // stack: 'total',
+          symbolSize: 10,
+          symbol: 'pin',
+          itemStyle: {
+            normal: {
+              color: '#003153',
+              barBorderRadius: 0,
+              label: {
+                show: true,
+                position: 'top',
+                formatter(p) {
+                  return p.value > 0 ? p.value : ''
+                }
+              }
+            }
+          },
+          data: yData.max.data
+        }
+        ]
+      }
+      const op = {
         backgroudColor: '#fff',
         global: {
           show: true
@@ -111,7 +304,8 @@ export default {
           },
           data: ['初一一班', '年级平均分', '年级最高分']
         }
-      })
+      }
+      this.chart.setOption(option);
     }
   },
   watch: {
