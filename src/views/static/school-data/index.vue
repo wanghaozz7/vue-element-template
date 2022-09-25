@@ -43,7 +43,7 @@
     </div>
     <!-- 图表 -->
     <div class="chart-container">
-      <chart height="100%" width="100%" :chart_data="chart_data[0]" ref="child" />
+      <chart height="100%" width="100%" :chart_data="chart_data" ref="child" />
     </div>
     <!-- 表格 -->
     <div class="table-container">
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import Chart from '@/components/Charts/DataFilter'
+import Chart from '@/components/Charts/school'
 import { parseTime } from '@/utils'
 export default {
   name: 'classed-data',
@@ -239,29 +239,184 @@ export default {
         options: ['9-14', '9-12', '9-10']
       }]
     };
-    this.chart_data = [
-      {
-        female_data: [70, 19, 24, 26, 17, 14, 15, 32, 58, 32, 84, 48],
-        male_data: [37, 76, 50, 20, 80, 42, 24, 90, 11, 51, 81, 20],
-        avg_data: [36, 69, 22, 10, 29, 15, 18, 75, 29, 43, 25, 48],
-        x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-        classes: '初一(1)班'
-      },
-      {
-        female_data: [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220],
-        male_data: [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078],
-        avg_data: [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298],
-        x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-        classes: '初一(1)班'
-      },
-      {
-        female_data: [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298],
-        male_data: [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220],
-        avg_data: [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078],
-        x_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-        classes: '初一(1)班'
-      }
-    ];
+    this.chart_data = {
+      xData: ['初一(1)班', '初一(2)班', '初一(3)班', '初一(4)班', '初一(5)班', '初一(6)班', '初一(7)班', '初一(8)班', '初一(9)班', '初一(10)班', '初一(11)班', '初一(12)班'],
+      yData: [
+        {
+          value: 6,
+          group: [
+            {
+              label: '二级指标1',
+              value: 1
+            }, {
+              label: '二级指标2',
+              value: 2
+            }, {
+              label: '二级指标2',
+              value: 3
+            }]
+        }, {
+          value: 12,
+          group: [
+            {
+              label: '二级指标1',
+              value: 3
+            }, {
+              label: '二级指标2',
+              value: 4
+            }, {
+              label: '二级指标3',
+              value: 5
+            }]
+        }, {
+          value: 18,
+          group: [
+            {
+              label: '二级指标1',
+              value: 5
+            }, {
+              label: '二级指标2',
+              value: 6
+            }, {
+              label: '二级指标3',
+              value: 7
+            }]
+        }, {
+          value: 6,
+          group: [
+            {
+              label: '二级指标1',
+              value: 1
+            }, {
+              label: '二级指标2',
+              value: 2
+            }, {
+              label: '二级指标2',
+              value: 3
+            }]
+        }, {
+          value: 3,
+          group: [
+            {
+              label: '二级指标1',
+              value: 1
+            }, {
+              label: '二级指标2',
+              value: 0
+            }, {
+              label: '二级指标2',
+              value: 2
+            }]
+        }, {
+          value: 13,
+          group: [
+            {
+              label: '二级指标1',
+              value: 5
+            }, {
+              label: '二级指标2',
+              value: 3
+            }, {
+              label: '二级指标2',
+              value: 5
+            }]
+        }, {
+          value: 10,
+          group: [
+            {
+              label: '二级指标1',
+              value: 2
+            }, {
+              label: '二级指标2',
+              value: 2
+            }, {
+              label: '二级指标2',
+              value: 6
+            }]
+        }, {
+          value: 7,
+          group: [
+            {
+              label: '二级指标1',
+              value: 1
+            }, {
+              label: '二级指标2',
+              value: 3
+            }, {
+              label: '二级指标2',
+              value: 3
+            }]
+        }, {
+          value: 6,
+          group: [
+            {
+              label: '二级指标1',
+              value: 3
+            }, {
+              label: '二级指标2',
+              value: 3
+            }, {
+              label: '二级指标2',
+              value: 0
+            }]
+        }, {
+          value: 6,
+          group: [
+            {
+              label: '二级指标1',
+              value: 5
+            }, {
+              label: '二级指标2',
+              value: 0
+            }, {
+              label: '二级指标2',
+              value: 1
+            }]
+        }, {
+          value: 16,
+          group: [
+            {
+              label: '二级指标1',
+              value: 5
+            }, {
+              label: '二级指标2',
+              value: 5
+            }, {
+              label: '二级指标2',
+              value: 6
+            }]
+        }, {
+          value: 11,
+          group: [
+            {
+              label: '二级指标1',
+              value: 1
+            }, {
+              label: '二级指标2',
+              value: 4
+            }, {
+              label: '二级指标2',
+              value: 6
+            }]
+        }, {
+          value: 2,
+          group: [
+            {
+              label: '二级指标1',
+              value: 0
+            }, {
+              label: '二级指标2',
+              value: 0
+            }, {
+              label: '二级指标2',
+              value: 2
+            }]
+        }],
+      text: '初一',
+      subText: '教室卫生',
+      xLabel: '班级',
+      yLabel: '得分'
+    };
     this.Targets = ['讲啊实打实打算是谁少时诵诗书所所所所所所所说', '地板地板地地', '书柜', '走廊', '课桌', '窗户']
     this.pickerOptions = {
       shortcuts: [{

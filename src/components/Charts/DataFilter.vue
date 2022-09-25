@@ -52,7 +52,7 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
       this.setOption(this.chart_data)
     },
-    setOption({ xData, yData, text, subText } = {}) {
+    setOption({ xData, yData, text, subText, xLabel, yLabel } = {}) {
       const option = {
         backgroundColor: ' #E5DDD7',
         title: {
@@ -99,7 +99,7 @@ export default {
         calculable: true,
         xAxis: [{
           type: 'category',
-          name: '日期',
+          name: xLabel,
           nameLocation: 'end',
           nameTextStyle: {
             fontSize: 16,
@@ -127,7 +127,7 @@ export default {
         }],
         yAxis: [{
           type: 'value',
-          name: '得分',
+          name: yLabel,
           nameLocation: 'end',
           nameTextStyle: {
             fontSize: 16,
@@ -165,10 +165,9 @@ export default {
           handleSize: '110%',
           handleStyle: {
             color: '#d3dee5'
-
           },
           textStyle: {
-            color: '#fff'
+            color: 'black'
           },
           borderColor: '#90979c'
 

@@ -54,7 +54,7 @@
         </el-button>
       </div>
       <el-table :data="table_data" border v-loading="listLoading" element-loading-text="Loading..." fit
-        highlight-current-row :row-style="getSelected" :default-sort="{}">
+        highlight-current-row :row-style="getSelected" :default-sort="{prop: 'date', order: 'descending'}">
         <el-table-column width="100" prop="date" label="日期" align="center" sortable />
         <el-table-column width="100" :label="item" v-for="(item,idx) in Targets" align="center"
           :sort-method="(a, b) => {return a[item.props] - b[item.props]}" sortable>
@@ -133,7 +133,8 @@ export default {
     refreshFilter() {//重置过滤器
       this.filter.grade = '';
       this.filter.Class = '';
-      this.filter.target = '';
+      this.filter.target1 = '';
+      this.filter.target2 = '';
       this.filter.date = '';
     },
     getSelected({ row, rowIndex }) {//高亮选中列
@@ -244,7 +245,7 @@ export default {
       }]
     };
     this.chart_data = {
-      xData: ['1922-9-21', '2000-9-20', '2000-9-22', '2021-9-23', '2022-6-19', '2022-7-18', '2022-9-1', '2022-9-16', '2022-9-24'],
+      xData: ['1922-9-21', '2000-9-20', '2000-9-22', '2021-9-23', '2022-6-19', '2022-7-18', '2022-9-1', '2022-9-16', '2022-9-18', '2022-9-24', '2033-2-11', '2098-9-21'],
       yData: {
         choose: {
           label: '初一(1)班',
@@ -261,6 +262,8 @@ export default {
       },
       text: '初一(1)班',
       subText: '教室卫生',
+      xLabel: '日期',
+      yLabel: '得分'
     };
     this.Targets = ['讲啊实打实打算是谁少时诵诗书所所所所所所所说', '地板地板地地', '书柜', '走廊', '课桌', '窗户']
     this.pickerOptions = {
