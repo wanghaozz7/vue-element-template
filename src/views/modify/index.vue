@@ -2,9 +2,17 @@
   <div id="container">
     <!-- 操作栏 -->
     <div style="margin-bottom: 20px;">
-      <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 211px);" @click="recovery"><i
+      <!-- 权限开关 -->
+      <el-tooltip :content="'开放自由打分权限: ' + jurisdiction" placement="top">
+        <el-switch v-model="jurisdiction" active-color="#FF770F" inactive-color="#80D1C8" active-value="是"
+          inactive-value="否">
+        </el-switch>
+      </el-tooltip>
+      <!-- 恢复 -->
+      <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 251px);" @click="recovery"><i
           class="el-icon-refresh" style="margin-right: 10px;"></i>恢复
       </el-button>
+      <!-- 提交 -->
       <el-button type="primary" style="font-size: 16px;" @click="submit"><i class="el-icon-search"
           style="margin-right: 10px;"></i>提交
       </el-button>
@@ -138,7 +146,8 @@ export default {
       step_edit: '',//修改后步长
       allow_edit: '',//修改后的权限
       table_data: [],
-      tree_count: []
+      tree_count: [],
+      jurisdiction: '否'
     }
   },
   created() {

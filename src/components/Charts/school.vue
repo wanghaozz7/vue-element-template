@@ -138,7 +138,7 @@ export default {
           nameTextStyle: {
             fontSize: 16,
             color: 'brown',
-            align: 'right'
+            align: 'left'
           },
           splitLine: {
             show: false

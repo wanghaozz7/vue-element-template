@@ -49,7 +49,7 @@
           <el-table-column label="打分对象" width="180px" align="center">
             <template slot-scope="scope">
               <el-switch v-model="form.data[scope.$index].extend" active-text="个人" inactive-text="集体"
-                active-color="#DCDFE6" inactive-color="#DCDFE6;" @change="active_change">
+                active-color="#FF770F" inactive-color="#80D1C8" @change="active_change">
               </el-switch>
             </template>
           </el-table-column>
