@@ -121,7 +121,8 @@ export default {
             show: false
           },
           axisLabel: {
-            interval: 0
+            interval: 0,
+            fontSize: 14
           },
           data: xData
         }],
@@ -146,7 +147,8 @@ export default {
             show: false
           },
           axisLabel: {
-            interval: 0
+            interval: 0,
+            fontSize: 16
           },
           splitArea: {
             show: false

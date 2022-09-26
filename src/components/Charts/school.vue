@@ -104,7 +104,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          name: '111',
+          name: '班级',
           nameLocation: 'end',
           nameTextStyle: {
             fontSize: 16,
@@ -132,8 +132,31 @@ export default {
           data: xData,
         },
         yAxis: {
+          type: 'value',
+          name: '得分',
+          nameLocation: 'end',
+          nameTextStyle: {
+            fontSize: 16,
+            color: 'brown',
+            align: 'right'
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#90979c'
+            }
+          },
+          axisTick: {
+            show: false
+          },
           axisLabel: {
-            fontSize: 18
+            interval: 0,
+            fontSize: 16
+          },
+          splitArea: {
+            show: false
           }
         },
         dataGroupId: '',
@@ -202,7 +225,7 @@ export default {
             graphic: [
               {
                 type: 'text',
-                left: '180',
+                left: '200',
                 top: '25',
                 style: {
                   text: '返回',
