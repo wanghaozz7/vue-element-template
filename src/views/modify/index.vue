@@ -20,7 +20,7 @@
     <!-- 修改表格 -->
     <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <!-- 指标名 -->
-      <el-table-column prop="label" label="指标" width="250" header-align="center">
+      <el-table-column label="指标" width="250" header-align="center">
         <template slot-scope="scope">
           <el-popover placement="right" width="350" trigger="click" :ref="`popover1-${scope.row.id}`">
             <div style="float: left;width: 250px;">
@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
       <!-- 检查内容 -->
-      <el-table-column prop="content" label="检查内容" min-width="180" align="center">
+      <el-table-column label="检查内容" min-width="180" align="center">
         <template slot-scope="scope">
           <el-popover placement="top" width="750" trigger="click" :ref="`popover2-${scope.row.id}`">
             <div style="float: left;width: 652px;">
@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
       <!-- 默认值 -->
-      <el-table-column prop="default_value" label="默认值" align="center" width="70">
+      <el-table-column label="默认值" align="center" width="70">
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover3-${scope.row.id}`">
             <div style="float: left;width: 180px;">
@@ -68,11 +68,12 @@
         </template>
       </el-table-column>
       <!-- 步长 -->
-      <el-table-column prop="step" label="步长" align="center" width="70">
+      <el-table-column label="步长" align="center" width="70">
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover4-${scope.row.id}`">
             <div style="float: left;width: 180px;">
-              <el-input-number v-model="step_edit"></el-input-number>
+              <el-input-number v-model="step_edit" @change="handleChange(scope.row.max)">
+              </el-input-number>
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
@@ -83,8 +84,40 @@
           </el-popover>
         </template>
       </el-table-column>
+      <!-- 最大值 -->
+      <el-table-column label="最大值" align="center" width="70">
+        <template slot-scope="scope">
+          <el-popover placement="top" width="280" trigger="click" :ref="`popover5-${scope.row.id}`">
+            <div style="float: left;width: 180px;">
+              <el-input-number v-model="max_edit"></el-input-number>
+            </div>
+            <div style="float: left;">
+              <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
+                @click="scope._self.$refs[`popover5-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+              </el-button>
+            </div>
+            <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.max}}</span>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <!-- 最小值 -->
+      <el-table-column label="最小值" align="center" width="70">
+        <template slot-scope="scope">
+          <el-popover placement="top" width="280" trigger="click" :ref="`popover6-${scope.row.id}`">
+            <div style="float: left;width: 180px;">
+              <el-input-number v-model="min_edit"></el-input-number>
+            </div>
+            <div style="float: left;">
+              <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
+                @click="scope._self.$refs[`popover6-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+              </el-button>
+            </div>
+            <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.min}}</span>
+          </el-popover>
+        </template>
+      </el-table-column>
       <!-- 修改方式 -->
-      <el-table-column prop="allow" label="修改方式" align="center" width="90">
+      <!-- <el-table-column prop="allow" label="修改方式" align="center" width="90">
         <template slot-scope="scope">
           <el-popover placement="top" width="240" trigger="click" :ref="`popover5-${scope.row.id}`">
             <div style="float: left;width: 200px;">
@@ -103,7 +136,7 @@
           </el-popover>
 
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- 操作按钮 -->
       <el-table-column width="170">
         <!-- 添加一级指标 -->
@@ -142,9 +175,10 @@ export default {
       count: 50,//当前id计数
       label_edit: '',//修改后的指标名
       content_edit: '',//修改后的内容
-      default_edit: '',//修改后的默认值
-      step_edit: '',//修改后步长
-      allow_edit: '',//修改后的权限
+      default_edit: 0,//修改后的默认值
+      step_edit: 0,//修改后步长
+      max_edit: 0,//修改后的最大值
+      min_edit: 0,//修改后的最小值
       table_data: [],
       tree_count: [],
       jurisdiction: '否'
@@ -168,7 +202,8 @@ export default {
             content: '升旗仪式三级指标1检查内容',
             default_value: 1,
             step: 1,
-            allow: '仅加分'
+            min: 0,
+            max: 1
           },
           {
             id: 31,
@@ -176,8 +211,9 @@ export default {
             level: 3,
             content: '升旗仪式三级指标2检查内容',
             default_value: 2,
-            step: 2,
-            allow: '仅减分'
+            step: 1,
+            min: -1,
+            max: 3
           },
           {
             id: 32,
@@ -185,8 +221,9 @@ export default {
             level: 3,
             content: '升旗仪式三级指标3检查内容',
             default_value: 3,
-            step: 3,
-            allow: '加减分'
+            step: 2,
+            min: 2,
+            max: 4
           }]
         }, {
           id: 9,
@@ -199,7 +236,8 @@ export default {
             content: '出勤三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 10,
@@ -212,7 +250,8 @@ export default {
             content: '日常违纪三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 11,
@@ -225,7 +264,8 @@ export default {
             content: '就餐违纪三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 12,
@@ -238,7 +278,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 13,
@@ -251,7 +292,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 14,
@@ -264,7 +306,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 15,
@@ -277,7 +320,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -296,7 +340,8 @@ export default {
               content: '发型是否满足学生要求',
               default_value: 0,
               step: 1,
-              allow: '加减分'
+              min: 0,
+              max: 1
 
             },
             {
@@ -306,7 +351,8 @@ export default {
               content: '学生在校是否着装校服',
               default_value: 0,
               step: 1,
-              allow: '加减分'
+              min: 0,
+              max: 1
             },
             {
               id: 29,
@@ -315,7 +361,8 @@ export default {
               content: '装扮是否合乎学生标准',
               default_value: 0,
               step: 1,
-              allow: '加减分'
+              min: 0,
+              max: 1
             }
           ]
         }]
@@ -334,7 +381,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 18,
@@ -347,7 +395,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 19,
@@ -360,7 +409,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 20,
@@ -373,7 +423,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -391,7 +442,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 22,
@@ -404,7 +456,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -422,7 +475,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 24,
@@ -435,7 +489,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 25,
@@ -448,7 +503,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 26,
@@ -461,7 +517,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: '加减分'
+            min: 0,
+            max: 1
           }]
         }]
       }
@@ -498,7 +555,8 @@ export default {
           content: '三级指标检查内容',
           default_value: 0,
           step: 1,
-          allow: '仅加分'
+          min: 0,
+          max: 1
         };
         for (let idx1 in this.tableData) {
           for (let idx2 in this.tableData[idx1].children) {
@@ -574,7 +632,8 @@ export default {
                   content: this.content_edit === '' ? this.tableData[idx1].children[idx2].children[idx3].content : this.content_edit,
                   default_value: this.default_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].default_value : this.default_edit,
                   step: this.step_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].step : this.step_edit,
-                  allow: this.allow_edit === '' ? this.tableData[idx1].children[idx2].children[idx3].allow : this.allow_edit
+                  max: this.max_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].max : this.max_edit,
+                  min: this.min_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].min : this.min_edit
                 }
                 this.$set(this.tableData[idx1].children[idx2].children, idx3, node);
               }
@@ -583,7 +642,7 @@ export default {
         }
       }
       this.renderTree();
-      this.$refs[`popover-${idx}`].doClose();
+      // this.$refs[`popover-${idx}`].doClose();
     },
     clean_edit() {//每次先清理内容
       console.log(this.allow_edit);
@@ -591,9 +650,8 @@ export default {
       this.content_edit = '';
       this.default_edit = 0;
       this.step_edit = 0;
-      this.allow_edit = '';
-
-
+      this.max_edit = 0;
+      this.min_edit = 0;
     },
     recovery() {//恢复修改前
       //重新申请数据
@@ -652,6 +710,9 @@ export default {
         }
         this.tree_count.push(item);
       }
+    },
+    handleChange(value) {
+      console.log(value);
     }
   }
 };

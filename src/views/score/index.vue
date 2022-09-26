@@ -40,9 +40,8 @@
           </el-table-column>
           <el-table-column label="分值" width="220px" align="center">
             <template slot-scope="scope">
-              <el-input-number v-model="form.data[scope.$index].score"
-                :min="jurisdiction === true ? -100 : form.data[scope.$index].min"
-                :max="jurisdiction === true ? 100 :  form.data[scope.$index].max" :step="tableData[scope.$index].step">
+              <el-input-number v-model="form.data[scope.$index].score" :min="form.data[scope.$index].min"
+                :max="form.data[scope.$index].max">
               </el-input-number>
             </template>
           </el-table-column>
@@ -103,7 +102,8 @@ export default {
             content: '升旗仪式三级指标1检查内容',
             default_value: 1,
             step: 1,
-            allow: 'add'
+            min: 0,
+            max: 1
           },
           {
             id: 31,
@@ -111,8 +111,9 @@ export default {
             level: 3,
             content: '升旗仪式三级指标2检查内容',
             default_value: 2,
-            step: 2,
-            allow: 'sub'
+            step: 1,
+            min: -1,
+            max: 3
           },
           {
             id: 32,
@@ -120,8 +121,9 @@ export default {
             level: 3,
             content: '升旗仪式三级指标3检查内容',
             default_value: 3,
-            step: 3,
-            allow: 'all'
+            step: 2,
+            min: 2,
+            max: 4
           }]
         }, {
           id: 9,
@@ -134,7 +136,8 @@ export default {
             content: '出勤三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 10,
@@ -147,7 +150,8 @@ export default {
             content: '日常违纪三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 11,
@@ -160,7 +164,8 @@ export default {
             content: '就餐违纪三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 12,
@@ -173,7 +178,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 13,
@@ -186,7 +192,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 14,
@@ -199,7 +206,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 15,
@@ -212,7 +220,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -231,7 +240,8 @@ export default {
               content: '发型是否满足学生要求',
               default_value: 0,
               step: 1,
-              allow: 'all'
+              min: 0,
+              max: 1
 
             },
             {
@@ -241,7 +251,8 @@ export default {
               content: '学生在校是否着装校服',
               default_value: 0,
               step: 1,
-              allow: 'all'
+              min: 0,
+              max: 1
             },
             {
               id: 29,
@@ -250,7 +261,8 @@ export default {
               content: '装扮是否合乎学生标准',
               default_value: 0,
               step: 1,
-              allow: 'all'
+              min: 0,
+              max: 1
             }
           ]
         }]
@@ -269,7 +281,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 18,
@@ -282,7 +295,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 19,
@@ -295,7 +309,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 20,
@@ -308,7 +323,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -326,7 +342,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 22,
@@ -339,7 +356,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }]
       }, {
@@ -357,7 +375,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 24,
@@ -370,7 +389,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 25,
@@ -383,7 +403,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }, {
           id: 26,
@@ -396,7 +417,8 @@ export default {
             content: '三级指标检查内容',
             default_value: 0,
             step: 1,
-            allow: 'all'
+            min: 0,
+            max: 1
           }]
         }]
       }
@@ -529,25 +551,13 @@ export default {
       this.form.data = [];//重置默认值
       this.tableData = this.target[index].children[idx].children;
       for (let item of this.tableData) {
-        const min = 0;
-        const max = 10;
-        if (item.allow === "add") {
-          min = item.default_value;
-          max = item.default_value + item.step;
-        } else if (item.allow === "sub") {
-          min = item.default_value - item.step;
-          max = item.default_value;
-        } else {
-          min = item.default_value - item.step;
-          max = item.default_value + item.step;
-        }
         let obj = {
           score: item.default_value,
           studentList: this.studentList,
           studentSelected: [],
           extend: false,
-          min,
-          max
+          min: item.min,
+          max: item.max
         }
         this.form.data.push(obj)
       }
