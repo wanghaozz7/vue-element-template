@@ -1,14 +1,15 @@
 <template>
   <div id="container">
-    <div style="margin-bottom: 20px ;">
+    <!-- 操作栏 -->
+    <div style="margin-bottom: 20px;">
       <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 211px);" @click="recovery"><i
           class="el-icon-refresh" style="margin-right: 10px;"></i>恢复
       </el-button>
       <el-button type="primary" style="font-size: 16px;" @click="submit"><i class="el-icon-search"
           style="margin-right: 10px;"></i>提交
       </el-button>
-
     </div>
+    <!-- 修改表格 -->
     <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <!-- 指标名 -->
       <el-table-column prop="label" label="指标" width="250" header-align="center">
@@ -113,12 +114,20 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 展示表格 -->
+    <div style="margin: 40px 0;">
+      <TreeTable :tableData="table_data" :treeCount="tree_count"></TreeTable>
+    </div>
   </div>
 </template>
 
 <script>
+import TreeTable from '@/components/Treetable'
 export default {
   name: 'modify',
+  components: {
+    TreeTable
+  },
   data() {
     return {
       tableData: [],//表格数据
@@ -128,6 +137,8 @@ export default {
       default_edit: '',//修改后的默认值
       step_edit: '',//修改后步长
       allow_edit: '',//修改后的权限
+      table_data: [],
+      tree_count: []
     }
   },
   created() {
@@ -446,6 +457,7 @@ export default {
         }]
       }
     ];
+    this.renderTree();
   },
   methods: {
     add_node(level, id, label) {//添加节点
@@ -487,6 +499,7 @@ export default {
           }
         }
       }
+      this.renderTree();
     },
     delete_node(level, id) {//删除节点
       if (level === 1) {
@@ -509,7 +522,8 @@ export default {
             }
           }
         }
-      }
+      };
+      this.renderTree();
     },
     handleEdit(level, id, idx) {//修改节点
       if (level === 1) {//一级指标
@@ -559,6 +573,7 @@ export default {
           }
         }
       }
+      this.renderTree();
       this.$refs[`popover-${idx}`].doClose();
     },
     clean_edit() {//每次先清理内容
@@ -579,7 +594,55 @@ export default {
     submit() {//提交修改
       //提交修改
       console.log('submit');
-
+    },
+    renderTree() {//重新渲染树形表格
+      this.table_data = [];
+      this.tree_count = [];
+      for (let t1 of this.tableData) {
+        let target1 = t1.label;
+        let col_1 = 0;
+        let col_2 = []
+        if (t1.children.length !== 0) {
+          let idx = 0;
+          for (let t2 of t1.children) {
+            let target2 = t2.label;
+            if (t2.children.length !== 0) {
+              col_1 += t2.children.length;
+              col_2[idx++] = t2.children.length;
+              for (let t3 of t2.children) {
+                let target3 = t3.label;
+                let table_item = {
+                  target1,
+                  target2,
+                  target3
+                };
+                this.table_data.push(table_item);
+              }
+            } else {
+              col_1 += 1;
+              col_2[idx++] = 1;
+              let table_item = {
+                target1,
+                target2,
+                target3: ''
+              };
+              this.table_data.push(table_item);
+            }
+          }
+        } else {
+          let table_item = {
+            target1,
+            target2: '',
+            target3: ''
+          };
+          this.table_data.push(table_item);
+        }
+        let item = {
+          col_1,
+          col_2
+        }
+        this.tree_count.push(item);
+      }
     }
   }
 };
@@ -588,7 +651,8 @@ export default {
 <style scoped>
 /* 总容器 */
 #container {
-  margin: 20px;
+  padding: 20px;
+  background-color: rgb(240, 242, 245);
 }
 
 /* 操作按钮容器 */
