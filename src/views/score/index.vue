@@ -41,7 +41,7 @@
           <el-table-column label="分值" width="220px" align="center">
             <template slot-scope="scope">
               <el-input-number v-model="form.data[scope.$index].score" :min="form.data[scope.$index].min"
-                :max="form.data[scope.$index].max">
+                :max="form.data[scope.$index].max" :step="form.data[scope.$index].step" :step-strictly="true">
               </el-input-number>
             </template>
           </el-table-column>
@@ -100,7 +100,7 @@ export default {
             label: '升旗仪式三级指标1',
             level: 3,
             content: '升旗仪式三级指标1检查内容',
-            default_value: 1,
+            default_value: 0,
             step: 1,
             min: 0,
             max: 1
@@ -110,19 +110,19 @@ export default {
             label: '升旗仪式三级指标2',
             level: 3,
             content: '升旗仪式三级指标2检查内容',
-            default_value: 2,
+            default_value: 0,
             step: 1,
             min: -1,
-            max: 3
+            max: 0
           },
           {
             id: 32,
             label: '升旗仪式三级指标3',
             level: 3,
             content: '升旗仪式三级指标3检查内容',
-            default_value: 3,
+            default_value: 2,
             step: 2,
-            min: 2,
+            min: 0,
             max: 4
           }]
         }, {
@@ -434,56 +434,56 @@ export default {
     const tableData = target[0].children[0].children;
     const jurisdiction = false;
     const studentList = [
-      { name: 'Mission', id: 1 },
-      { name: 'Mission', id: 2 },
-      { name: 'Mission', id: 3 },
-      { name: 'Mission', id: 4 },
-      { name: 'Mission', id: 5 },
-      { name: 'Mission', id: 6 },
-      { name: 'Mission', id: 7 },
-      { name: 'Mission', id: 8 },
-      { name: 'Mission', id: 9 },
-      { name: 'Mission', id: 10 },
-      { name: 'Mission', id: 11 },
-      { name: 'Mission', id: 12 },
-      { name: 'Mission', id: 13 },
-      { name: 'Mission', id: 14 },
-      { name: 'Mission', id: 15 },
-      { name: 'Mission', id: 16 },
-      { name: 'Mission', id: 17 },
-      { name: 'Mission', id: 18 },
-      { name: 'Mission', id: 19 },
-      { name: 'Mission', id: 20 },
-      { name: 'Mission', id: 21 },
-      { name: 'Mission', id: 22 },
-      { name: 'Mission', id: 23 },
-      { name: 'Mission', id: 24 },
-      { name: 'Mission', id: 25 },
-      { name: 'Mission', id: 26 },
-      { name: 'Mission', id: 27 },
-      { name: 'Mission', id: 28 },
-      { name: 'Mission', id: 29 },
-      { name: 'Mission', id: 30 },
-      { name: 'Mission', id: 31 },
-      { name: 'Mission', id: 32 },
-      { name: 'Mission', id: 33 },
-      { name: 'Mission', id: 34 },
-      { name: 'Mission', id: 35 },
-      { name: 'Mission', id: 36 },
-      { name: 'Mission', id: 37 },
-      { name: 'Mission', id: 38 },
-      { name: 'Mission', id: 39 },
-      { name: 'Mission', id: 40 },
-      { name: 'Mission', id: 41 },
-      { name: 'Mission', id: 42 },
-      { name: 'Mission', id: 43 },
-      { name: 'Mission', id: 44 },
-      { name: 'Mission', id: 45 },
-      { name: 'Mission', id: 46 },
-      { name: 'Mission', id: 47 },
-      { name: 'Mission', id: 48 },
-      { name: 'Mission', id: 49 },
-      { name: 'Mission', id: 50 },
+      { name: '学生四字', id: 1 },
+      { name: '学生四字', id: 2 },
+      { name: '学生四字', id: 3 },
+      { name: '学生四字', id: 4 },
+      { name: '学生四字', id: 5 },
+      { name: '学生四字', id: 6 },
+      { name: '学生四字', id: 7 },
+      { name: '学生四字', id: 8 },
+      { name: '学生四字', id: 9 },
+      { name: '学生四字', id: 10 },
+      { name: '学生四字', id: 11 },
+      { name: '学生四字', id: 12 },
+      { name: '学生四字', id: 13 },
+      { name: '学生四字', id: 14 },
+      { name: '学生四字', id: 15 },
+      { name: '学生四字', id: 16 },
+      { name: '学生四字', id: 17 },
+      { name: '学生四字', id: 18 },
+      { name: '学生四字', id: 19 },
+      { name: '学生四字', id: 20 },
+      { name: '学生四字', id: 21 },
+      { name: '学生四字', id: 22 },
+      { name: '学生四字', id: 23 },
+      { name: '学生四字', id: 24 },
+      { name: '学生四字', id: 25 },
+      { name: '学生四字', id: 26 },
+      { name: '学生四字', id: 27 },
+      { name: '学生四字', id: 28 },
+      { name: '学生四字', id: 29 },
+      { name: '学生四字', id: 30 },
+      { name: '学生四字', id: 31 },
+      { name: '学生四字', id: 32 },
+      { name: '学生四字', id: 33 },
+      { name: '学生四字', id: 34 },
+      { name: '学生四字', id: 35 },
+      { name: '学生四字', id: 36 },
+      { name: '学生四字', id: 37 },
+      { name: '学生四字', id: 38 },
+      { name: '学生四字', id: 39 },
+      { name: '学生四字', id: 40 },
+      { name: '学生四字', id: 41 },
+      { name: '学生四字', id: 42 },
+      { name: '学生四字', id: 43 },
+      { name: '学生四字', id: 44 },
+      { name: '学生四字', id: 45 },
+      { name: '学生四字', id: 46 },
+      { name: '学生四字', id: 47 },
+      { name: '学生四字', id: 48 },
+      { name: '学生四字', id: 49 },
+      { name: '学生四字', id: 50 },
     ];
     console.log(tableData);
     return {
@@ -552,12 +552,13 @@ export default {
       this.tableData = this.target[index].children[idx].children;
       for (let item of this.tableData) {
         let obj = {
-          score: item.default_value,
-          studentList: this.studentList,
-          studentSelected: [],
-          extend: false,
-          min: item.min,
-          max: item.max
+          score: item.default_value,//设置默认分值
+          studentList: this.studentList,//学生列表
+          studentSelected: [],//已选择学生
+          extend: false,//是否展开
+          min: item.min,//最小值
+          max: item.max,//最大值
+          step: item.step//步长
         }
         this.form.data.push(obj)
       }

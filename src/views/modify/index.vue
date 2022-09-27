@@ -3,13 +3,13 @@
     <!-- 操作栏 -->
     <div style="margin-bottom: 20px;">
       <!-- 权限开关 -->
-      <el-tooltip :content="'开放自由打分权限: ' + jurisdiction" placement="top">
+      <!-- <el-tooltip :content="'开放自由打分权限: ' + jurisdiction" placement="top">
         <el-switch v-model="jurisdiction" active-color="#FF770F" inactive-color="#80D1C8" active-value="是"
           inactive-value="否">
         </el-switch>
-      </el-tooltip>
+      </el-tooltip> -->
       <!-- 恢复 -->
-      <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 251px);" @click="recovery"><i
+      <el-button type="info" style="font-size: 16px;margin-left: calc(100% - 211px);" @click="recovery"><i
           class="el-icon-refresh" style="margin-right: 10px;"></i>恢复
       </el-button>
       <!-- 提交 -->
@@ -18,17 +18,20 @@
       </el-button>
     </div>
     <!-- 修改表格 -->
-    <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table :data="tableData" row-key="id" border :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      default-expand-all>
       <!-- 指标名 -->
       <el-table-column label="指标" width="250" header-align="center">
         <template slot-scope="scope">
           <el-popover placement="right" width="350" trigger="click" :ref="`popover1-${scope.row.id}`">
             <div style="float: left;width: 250px;">
-              <el-input v-model="label_edit" placeholder="修改后"></el-input>
+              <el-input v-model="label_edit" placeholder="修改后"
+                @keyup.enter.native="scope._self.$refs[`popover1-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,0)">
+              </el-input>
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover1-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover1-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,0)">
               </el-button>
             </div>
             <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.label}}</span>
@@ -40,14 +43,16 @@
         <template slot-scope="scope">
           <el-popover placement="top" width="750" trigger="click" :ref="`popover2-${scope.row.id}`">
             <div style="float: left;width: 652px;">
-              <el-input v-model="content_edit" placeholder="修改后"></el-input>
+              <el-input v-model="content_edit" placeholder="修改后"
+                @keyup.enter.native="scope._self.$refs[`popover2-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,1)">
+              </el-input>
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover2-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover2-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,1)">
               </el-button>
             </div>
-            <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.content}}</span>
+            <span class="edit_span" slot="reference" @click="clean_edit()">{{scope.row.content}}</span>
           </el-popover>
         </template>
       </el-table-column>
@@ -56,11 +61,12 @@
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover3-${scope.row.id}`">
             <div style="float: left;width: 180px;">
-              <el-input-number v-model="default_edit"></el-input-number>
+              <el-input-number v-model="default_edit">
+              </el-input-number>
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover3-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover3-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,2)">
               </el-button>
             </div>
             <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.default_value}}</span>
@@ -72,12 +78,12 @@
         <template slot-scope="scope">
           <el-popover placement="top" width="280" trigger="click" :ref="`popover4-${scope.row.id}`">
             <div style="float: left;width: 180px;">
-              <el-input-number v-model="step_edit" @change="handleChange(scope.row.max)">
+              <el-input-number v-model="step_edit">
               </el-input-number>
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover4-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover4-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,3)">
               </el-button>
             </div>
             <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.step}}</span>
@@ -93,7 +99,7 @@
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover5-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover5-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,4)">
               </el-button>
             </div>
             <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.max}}</span>
@@ -109,7 +115,7 @@
             </div>
             <div style="float: left;">
               <el-button type="primary" icon="el-icon-check" style="margin-left: 14px;"
-                @click="scope._self.$refs[`popover6-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,scope.$index)">
+                @click="scope._self.$refs[`popover6-${scope.row.id}`].doClose();handleEdit(scope.row.level,scope.row.id,5)">
               </el-button>
             </div>
             <span class="edit_span" slot="reference" @click="clean_edit">{{scope.row.min}}</span>
@@ -164,6 +170,7 @@
 
 <script>
 import TreeTable from '@/components/Treetable'
+
 export default {
   name: 'modify',
   components: {
@@ -171,7 +178,7 @@ export default {
   },
   data() {
     return {
-      tableData: [],//表格数据
+      tableData: [],//树形表格(修改)
       count: 50,//当前id计数
       label_edit: '',//修改后的指标名
       content_edit: '',//修改后的内容
@@ -179,9 +186,9 @@ export default {
       step_edit: 0,//修改后步长
       max_edit: 0,//修改后的最大值
       min_edit: 0,//修改后的最小值
-      table_data: [],
+      table_data: [],//树形表格(展示)
       tree_count: [],
-      jurisdiction: '否'
+      // jurisdiction: '否'
     }
   },
   created() {
@@ -566,7 +573,7 @@ export default {
           }
         }
       }
-      this.renderTree();
+      this.renderTree();//重新渲染表格
     },
     delete_node(level, id) {//删除节点
       if (level === 1) {
@@ -592,17 +599,16 @@ export default {
       };
       this.renderTree();
     },
-    handleEdit(level, id, idx) {//修改节点
+    handleEdit(level, id, type) {//修改节点
       if (level === 1) {//一级指标
         for (let idx in this.tableData) {
           if (this.tableData[idx].id === id) {
             const node = {
               id: this.tableData[idx].id,
-              label: this.label_edit === '' ? this.tableData[idx].label : this.label_edit,
+              label: type === 0 ? this.tableData[idx].label : this.label_edit,
               level: 1,
               children: this.tableData[idx].children
             }
-            // this.tableData[idx].lebel = this.label_edit;
             this.$set(this.tableData, idx, node);
           }
         }
@@ -612,7 +618,7 @@ export default {
             if (this.tableData[idx1].children[idx2].id === id) {
               const node = {
                 id: this.tableData[idx1].children[idx2].id,
-                label: this.label_edit === '' ? this.tableData[idx1].children[idx2].label : this.label_edit,
+                label: type === 0 ? this.tableData[idx1].children[idx2].label : this.label_edit,
                 level: 2,
                 children: this.tableData[idx1].children[idx2].children
               }
@@ -627,13 +633,13 @@ export default {
               if (this.tableData[idx1].children[idx2].children[idx3].id === id) {
                 const node = {
                   id: this.tableData[idx1].children[idx2].children[idx3].id,
-                  label: this.label_edit === '' ? this.tableData[idx1].children[idx2].children[idx3].label : this.label_edit,
+                  label: type !== 0 ? this.tableData[idx1].children[idx2].children[idx3].label : this.label_edit,
                   level: 3,
-                  content: this.content_edit === '' ? this.tableData[idx1].children[idx2].children[idx3].content : this.content_edit,
-                  default_value: this.default_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].default_value : this.default_edit,
-                  step: this.step_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].step : this.step_edit,
-                  max: this.max_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].max : this.max_edit,
-                  min: this.min_edit === 0 ? this.tableData[idx1].children[idx2].children[idx3].min : this.min_edit
+                  content: type !== 1 ? this.tableData[idx1].children[idx2].children[idx3].content : this.content_edit,
+                  default_value: type !== 2 ? this.tableData[idx1].children[idx2].children[idx3].default_value : this.default_edit,
+                  step: type !== 3 ? this.tableData[idx1].children[idx2].children[idx3].step : this.step_edit,
+                  max: type !== 4 ? this.tableData[idx1].children[idx2].children[idx3].max : this.max_edit,
+                  min: type !== 5 ? this.tableData[idx1].children[idx2].children[idx3].min : this.min_edit
                 }
                 this.$set(this.tableData[idx1].children[idx2].children, idx3, node);
               }
@@ -641,11 +647,9 @@ export default {
           }
         }
       }
-      this.renderTree();
-      // this.$refs[`popover-${idx}`].doClose();
+      this.renderTree();//重新渲染表格
     },
     clean_edit() {//每次先清理内容
-      console.log(this.allow_edit);
       this.label_edit = '';
       this.content_edit = '';
       this.default_edit = 0;
@@ -656,7 +660,6 @@ export default {
     recovery() {//恢复修改前
       //重新申请数据
       console.log('recovery');
-
     },
     submit() {//提交修改
       //提交修改
@@ -710,9 +713,6 @@ export default {
         }
         this.tree_count.push(item);
       }
-    },
-    handleChange(value) {
-      console.log(value);
     }
   }
 };
